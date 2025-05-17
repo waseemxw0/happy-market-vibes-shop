@@ -8,9 +8,10 @@ interface ProductCardProps {
   name: string;
   price: string;
   image: string;
+  specialBadge?: string;
 }
 
-const ProductCard = ({ name, price, image }: ProductCardProps) => {
+const ProductCard = ({ name, price, image, specialBadge }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const { toast } = useToast();
@@ -38,15 +39,15 @@ const ProductCard = ({ name, price, image }: ProductCardProps) => {
 
   return (
     <div 
-      className="product-card group cursor-pointer"
+      className="group cursor-pointer transition-all duration-300 hover:scale-[1.02]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="aspect-square relative overflow-hidden bg-gray-100 rounded-lg">
+      <div className="aspect-square relative overflow-hidden bg-gray-100 rounded-2xl shadow-sm group-hover:shadow-md transition-all duration-300">
         <img 
           src={image} 
           alt={name} 
-          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
         
@@ -55,10 +56,10 @@ const ProductCard = ({ name, price, image }: ProductCardProps) => {
           <Button 
             size="icon"
             variant="ghost" 
-            className={`h-8 w-8 rounded-full ${isLiked ? 'bg-red-50 text-red-500' : 'bg-white/80 backdrop-blur-sm text-softBlack/70'} hover:bg-white/90`}
+            className={`h-9 w-9 rounded-full ${isLiked ? 'bg-red-50 text-red-500' : 'bg-white/80 backdrop-blur-sm text-softBlack/70'} hover:bg-white/90 shadow-sm`}
             onClick={handleToggleLike}
           >
-            <Heart className={`h-4 w-4 ${isLiked ? 'fill-red-500' : ''}`} />
+            <Heart className={`h-5 w-5 ${isLiked ? 'fill-red-500' : ''}`} />
           </Button>
         </div>
         
@@ -66,7 +67,7 @@ const ProductCard = ({ name, price, image }: ProductCardProps) => {
           <Button 
             variant="secondary" 
             size="sm" 
-            className="flex-1 bg-white/90 backdrop-blur-sm hover:bg-white text-softBlack flex items-center gap-1"
+            className="flex-1 bg-white/90 backdrop-blur-sm hover:bg-white text-softBlack flex items-center gap-1 rounded-xl shadow-sm"
             onClick={handleAddToCart}
           >
             <ShoppingBag className="h-4 w-4" /> Add to Cart
@@ -75,11 +76,18 @@ const ProductCard = ({ name, price, image }: ProductCardProps) => {
           <Button 
             variant="secondary" 
             size="icon"
-            className="h-8 w-8 bg-white/90 backdrop-blur-sm hover:bg-white text-softBlack"
+            className="h-9 w-9 bg-white/90 backdrop-blur-sm hover:bg-white text-softBlack rounded-xl shadow-sm"
           >
             <Eye className="h-4 w-4" />
           </Button>
         </div>
+        
+        {/* Badge */}
+        {specialBadge && (
+          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-softBlack text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm border border-orange/20">
+            {specialBadge}
+          </div>
+        )}
       </div>
       
       <div className="p-4">
@@ -89,13 +97,6 @@ const ProductCard = ({ name, price, image }: ProductCardProps) => {
           <div className="text-xs text-orange/70">★★★★★</div>
         </div>
       </div>
-      
-      {/* Sale badge */}
-      {name.includes("LED") && (
-        <div className="absolute top-2 left-2 bg-orange text-white text-xs font-semibold px-2 py-1 rounded-full">
-          Sale
-        </div>
-      )}
     </div>
   );
 };

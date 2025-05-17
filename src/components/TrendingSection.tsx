@@ -34,23 +34,27 @@ const TrendingSection = () => {
   ];
 
   return (
-    <section className="py-12 md:py-16">
+    <section className="py-16 md:py-20 bg-gradient-to-br from-white to-orange/5">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="section-title mb-0">TikTok Trending Picks</h2>
+        <div className="flex items-center justify-between mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-softBlack mb-0">Trending Right Now</h2>
           <div className="hidden md:flex gap-2">
-            <Button size="icon" variant="outline" className="rounded-full h-10 w-10">
+            <Button size="icon" variant="outline" className="rounded-full h-12 w-12 bg-white shadow-sm hover:shadow">
               <ChevronLeft className="h-5 w-5" />
             </Button>
-            <Button size="icon" variant="outline" className="rounded-full h-10 w-10">
+            <Button size="icon" variant="outline" className="rounded-full h-12 w-12 bg-white shadow-sm hover:shadow">
               <ChevronRight className="h-5 w-5" />
             </Button>
           </div>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 overflow-x-auto pb-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-8 overflow-x-auto pb-6">
           {trendingProducts.map((product, index) => (
-            <ProductCard key={index} {...product} />
+            <ProductCard 
+              key={index} 
+              {...product} 
+              specialBadge={index % 2 === 0 ? "🔥 Selling Fast" : "TikTok Pick"}
+            />
           ))}
         </div>
       </div>

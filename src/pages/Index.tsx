@@ -18,6 +18,37 @@ const Index = () => {
       <main className="flex-grow">
         <HeroSection />
         
+        {/* Product categories */}
+        <div className="py-16 md:py-20">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-softBlack tracking-tight">Shop By Category</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
+              {Object.values(categoryData).map((category, index) => (
+                <a 
+                  key={index} 
+                  href="#" 
+                  className="bg-white rounded-2xl p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 text-center group"
+                  style={{ borderTop: `4px solid ${category.color}` }}
+                >
+                  <div 
+                    className="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center" 
+                    style={{ backgroundColor: `${category.color}20` }}
+                  >
+                    <div 
+                      className="w-6 h-6" 
+                      style={{ backgroundColor: category.color, borderRadius: "0.5rem" }}
+                    ></div>
+                  </div>
+                  <h3 className="font-semibold mb-1" style={{ color: category.color }}>{category.title}</h3>
+                  <p className="text-xs text-softBlack/60 line-clamp-2">{category.subtitle}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        <TrendingSection />
+        
         <CategorySection 
           title={categoryData.ecoGadgets.title} 
           subtitle={categoryData.ecoGadgets.subtitle} 
@@ -48,7 +79,7 @@ const Index = () => {
           products={categoryData.petStuff.products}
         />
         
-        <TrendingSection />
+        <ReviewsCarousel />
         
         <CategorySection 
           title={categoryData.roomVibes.title} 
@@ -64,7 +95,6 @@ const Index = () => {
           products={categoryData.fitKit.products}
         />
         
-        <ReviewsCarousel />
         <Newsletter />
         <FloatingCart />
       </main>

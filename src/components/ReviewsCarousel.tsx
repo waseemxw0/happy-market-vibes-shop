@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Star } from "lucide-react";
+import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Review {
   name: string;
@@ -44,18 +44,29 @@ const ReviewsCarousel = () => {
   ];
 
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-br from-mint/20 to-orange/10">
+    <section className="py-16 md:py-20 bg-gradient-to-br from-mint/20 to-orange/10">
       <div className="container mx-auto px-4">
-        <h2 className="section-title text-center mb-10">Real Reviews</h2>
+        <div className="flex items-center justify-between mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-softBlack">Real Social Proof</h2>
+          
+          <div className="hidden md:flex gap-2">
+            <Button size="icon" variant="outline" className="rounded-full h-12 w-12 bg-white shadow-sm hover:shadow">
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            <Button size="icon" variant="outline" className="rounded-full h-12 w-12 bg-white shadow-sm hover:shadow">
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {reviews.map((review, index) => (
-            <div key={index} className="bg-white rounded-2xl p-6 shadow-md">
+            <div key={index} className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group hover:scale-[1.02]">
               <div className="flex items-center gap-3 mb-4">
                 <img 
                   src={review.avatar} 
                   alt={review.name} 
-                  className="w-12 h-12 rounded-full object-cover"
+                  className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
                 />
                 <div>
                   <h4 className="font-medium text-softBlack">{review.name}</h4>
@@ -72,13 +83,16 @@ const ReviewsCarousel = () => {
                 </div>
               </div>
               <p className="text-softBlack/80 mb-3">"{review.text}"</p>
-              <p className="text-sm text-softBlack/60">On: {review.product}</p>
+              <p className="text-sm text-softBlack/60 bg-gray-50 px-3 py-1.5 rounded-full inline-block">On: {review.product}</p>
             </div>
           ))}
         </div>
         
         <div className="mt-10 text-center">
-          <Button variant="outline" className="bg-white">
+          <Button 
+            variant="outline" 
+            className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm hover:shadow px-6"
+          >
             See All Reviews
           </Button>
         </div>

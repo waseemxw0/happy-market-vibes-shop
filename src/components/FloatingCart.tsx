@@ -31,12 +31,12 @@ const FloatingCart = () => {
   return (
     <Button
       size="icon"
-      className="floating-cart h-14 w-14 shadow-orange/20"
+      className="fixed bottom-6 right-6 bg-gradient-to-r from-orange to-orange/90 text-white rounded-2xl shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110 h-16 w-16"
       onClick={handleClick}
     >
       <ShoppingBag className="h-6 w-6" />
       {cartCount > 0 && (
-        <span className="absolute -top-1 -right-1 bg-white text-orange text-xs rounded-full h-5 w-5 flex items-center justify-center border border-orange/20">
+        <span className="absolute -top-2 -right-2 bg-white text-orange text-xs font-medium rounded-full h-6 w-6 flex items-center justify-center border border-orange/20">
           {cartCount}
         </span>
       )}
