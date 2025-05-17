@@ -1,6 +1,6 @@
-
 import React from "react";
-import { Instagram, Twitter, TikTok, Facebook } from "lucide-react";
+import { Instagram, Twitter, Facebook } from "lucide-react";
+import TikTokIcon from "./icons/TikTokIcon";
 
 const Footer = () => {
   return (
@@ -20,7 +20,7 @@ const Footer = () => {
                 <Twitter className="h-5 w-5" />
               </a>
               <a href="#" className="text-softBlack hover:text-orange transition-colors">
-                <TikTok className="h-5 w-5" />
+                <TikTokIcon className="h-5 w-5" />
               </a>
               <a href="#" className="text-softBlack hover:text-orange transition-colors">
                 <Facebook className="h-5 w-5" />

@@ -1,9 +1,31 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 const Newsletter = () => {
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      toast({
+        title: "Successfully subscribed!",
+        description: "Thanks for joining our newsletter.",
+      });
+      setEmail("");
+      setIsSubmitting(false);
+    }, 800);
+  };
+
   return (
     <section className="py-12 md:py-16 bg-gradient-to-r from-orange/10 to-mint/10">
       <div className="container mx-auto px-4">
@@ -13,16 +35,23 @@ const Newsletter = () => {
             Subscribe to get special offers, free giveaways, and trending product alerts.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-3">
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
             <Input 
               type="email" 
               placeholder="Enter your email" 
               className="rounded-full bg-white border-gray-200 h-12"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
-            <Button className="btn-primary h-12 sm:w-auto">
-              Subscribe
+            <Button 
+              className="btn-primary h-12 sm:w-auto"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Subscribing..." : "Subscribe"}
             </Button>
-          </div>
+          </form>
         </div>
       </div>
     </section>
