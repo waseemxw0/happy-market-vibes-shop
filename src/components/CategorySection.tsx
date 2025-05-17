@@ -17,7 +17,13 @@ interface CategorySectionProps {
 
 const CategorySection = ({ title, subtitle, color, products }: CategorySectionProps) => {
   return (
-    <section className="py-12 md:py-16">
+    <section className="py-12 md:py-16 relative">
+      {/* Background decoration */}
+      <div 
+        className="absolute inset-0 opacity-10 -z-10 overflow-hidden"
+        style={{ background: `linear-gradient(45deg, ${color}20, transparent)` }}
+      ></div>
+      
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8">
           <div>
@@ -26,8 +32,13 @@ const CategorySection = ({ title, subtitle, color, products }: CategorySectionPr
             </h2>
             <p className="text-softBlack/70 max-w-xl">{subtitle}</p>
           </div>
-          <Button variant="ghost" className="hidden md:flex items-center gap-1 mt-4 md:mt-0" style={{ color }}>
-            View All <ChevronRight className="h-4 w-4" />
+          <Button 
+            variant="ghost" 
+            className="hidden md:flex items-center gap-1 mt-4 md:mt-0 group" 
+            style={{ color }}
+          >
+            View All 
+            <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
         
@@ -38,8 +49,13 @@ const CategorySection = ({ title, subtitle, color, products }: CategorySectionPr
         </div>
         
         <div className="mt-8 text-center md:hidden">
-          <Button variant="outline" className="w-full flex items-center justify-center gap-1" style={{ color }}>
-            View All {title} <ChevronRight className="h-4 w-4" />
+          <Button 
+            variant="outline" 
+            className="w-full flex items-center justify-center gap-1 group" 
+            style={{ color, borderColor: `${color}40` }}
+          >
+            View All {title} 
+            <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
       </div>

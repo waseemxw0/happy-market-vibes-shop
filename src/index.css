@@ -46,6 +46,11 @@
     @apply bg-background text-foreground font-inter;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @layer components {
@@ -58,7 +63,7 @@
   }
 
   .product-card {
-    @apply bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300;
+    @apply bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 relative;
   }
 
   .btn-primary {
@@ -72,8 +77,90 @@
   .section-title {
     @apply text-3xl md:text-4xl font-bold mb-4 text-softBlack;
   }
+  
+  /* Floating cart button */
+  .floating-cart {
+    @apply fixed bottom-6 right-6 bg-orange text-white rounded-full shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110;
+  }
 }
 
 .font-inter {
   font-family: 'Inter', sans-serif;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(6deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(10deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(6deg);
+  }
+}
+
+@keyframes float-delayed {
+  0% {
+    transform: translateY(0px) rotate(-12deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(-8deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(-12deg);
+  }
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 8s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 60s linear infinite;
+}
+
+/* Add a scale-in animation */
+@keyframes scale-in {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out forwards;
+}
+
+/* Add a shimmer effect for loading states */
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
+  background-size: 800px 104px;
+  animation: shimmer 1.5s infinite linear;
 }

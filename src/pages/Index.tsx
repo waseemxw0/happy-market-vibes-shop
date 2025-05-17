@@ -8,6 +8,7 @@ import TrendingSection from "@/components/TrendingSection";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
+import FloatingCart from "@/components/FloatingCart";
 import { categoryData } from "@/components/CategoryData";
 
 const Index = () => {
@@ -65,6 +66,7 @@ const Index = () => {
         
         <ReviewsCarousel />
         <Newsletter />
+        <FloatingCart />
       </main>
       <Footer />
     </div>
