@@ -1,6 +1,6 @@
 
 import React from "react";
-import ProductCard from "./ProductCard";
+import ProductCardEnhanced from "./ProductCardEnhanced";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 
@@ -16,6 +16,38 @@ interface CategorySectionProps {
 }
 
 const CategorySection = ({ title, subtitle, color, products }: CategorySectionProps) => {
+  // Generate some review quotes for the products
+  const reviewQuotes = [
+    "TikTok made me buy it!",
+    "Absolute game changer!",
+    "So worth the hype!",
+    "Can't live without this now!",
+    "Best purchase this year!",
+    "Everyone needs this!",
+  ];
+  
+  // Function to get a random review quote
+  const getRandomReviewQuote = () => {
+    return reviewQuotes[Math.floor(Math.random() * reviewQuotes.length)];
+  };
+  
+  // Generate some sample video URLs
+  const sampleVideoUrls = [
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+  ];
+  
+  // Random video URL for some products
+  const getRandomVideoUrl = (index: number) => {
+    // Only add videos to some products (e.g., products with even indices)
+    if (index % 2 === 0) {
+      return sampleVideoUrls[index % sampleVideoUrls.length];
+    }
+    return undefined;
+  };
+  
   return (
     <section className="py-14 md:py-20 relative">
       {/* Background decoration with gradient */}
@@ -27,24 +59,36 @@ const CategorySection = ({ title, subtitle, color, products }: CategorySectionPr
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10">
           <div>
-            <h2 className="category-title text-3xl md:text-4xl font-bold tracking-tight" style={{ color }}>
-              {title}
-            </h2>
-            <p className="text-softBlack/70 max-w-xl mt-2">{subtitle}</p>
+            <div className="flex items-center gap-2 mb-2">
+              <div 
+                className="w-6 h-6 rounded-md"
+                style={{ backgroundColor: color }}
+              ></div>
+              <h2 className="category-title text-3xl md:text-4xl font-bold tracking-tight" style={{ color }}>
+                {title}
+              </h2>
+            </div>
+            <p className="text-softBlack/70 max-w-xl">{subtitle}</p>
           </div>
           <Button 
             variant="ghost" 
-            className="hidden md:flex items-center gap-1 mt-4 md:mt-0 group rounded-2xl" 
-            style={{ color }}
+            className="hidden md:flex items-center gap-1 mt-4 md:mt-0 group rounded-2xl hover:bg-opacity-10" 
+            style={{ color, backgroundColor: `${color}10` }}
           >
             See All {title} Products 
             <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-8">
           {products.map((product, index) => (
-            <ProductCard key={index} {...product} />
+            <ProductCardEnhanced 
+              key={index} 
+              {...product} 
+              specialBadge={index === 0 ? "Most Popular" : undefined}
+              reviewQuote={getRandomReviewQuote()}
+              videoUrl={getRandomVideoUrl(index)}
+            />
           ))}
         </div>
         
