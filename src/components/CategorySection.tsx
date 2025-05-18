@@ -2,7 +2,7 @@
 import React from "react";
 import ProductCardEnhanced from "./ProductCardEnhanced";
 import { Button } from "@/components/ui/button";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface CategorySectionProps {
@@ -27,6 +27,10 @@ const CategorySection = ({ title, subtitle, color, categoryKey, products }: Cate
     "Can't live without this now!",
     "Best purchase this year!",
     "Everyone needs this!",
+    "Exactly as shown in videos!",
+    "Changed my daily routine!",
+    "Exceeded my expectations!",
+    "Worth every penny!"
   ];
   
   // Function to get a random review quote
@@ -60,14 +64,19 @@ const CategorySection = ({ title, subtitle, color, categoryKey, products }: Cate
       <div 
         className="absolute inset-0 opacity-10 -z-10 overflow-hidden"
         style={{ background: `linear-gradient(45deg, ${color}20, transparent)` }}
-      ></div>
+      >
+        <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-30" 
+             style={{ background: color, top: '10%', right: '-10%' }}></div>
+        <div className="absolute w-64 h-64 rounded-full blur-3xl opacity-20" 
+             style={{ background: color, bottom: '20%', left: '-5%' }}></div>
+      </div>
       
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <div 
-                className="w-6 h-6 rounded-md"
+                className="w-6 h-6 rounded-md shadow-sm"
                 style={{ backgroundColor: color }}
               ></div>
               <h2 className="category-title text-3xl md:text-4xl font-bold tracking-tight" style={{ color }}>
@@ -93,7 +102,7 @@ const CategorySection = ({ title, subtitle, color, categoryKey, products }: Cate
             <ProductCardEnhanced 
               key={index} 
               {...product} 
-              specialBadge={index === 0 ? "Most Popular" : undefined}
+              specialBadge={index === 0 ? "Most Popular" : (index === 1 ? "Trending" : undefined)}
               reviewQuote={getRandomReviewQuote()}
               videoUrl={getRandomVideoUrl(index)}
             />
@@ -108,7 +117,7 @@ const CategorySection = ({ title, subtitle, color, categoryKey, products }: Cate
               style={{ color, borderColor: `${color}40` }}
             >
               See All {title} Products 
-              <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
         </div>

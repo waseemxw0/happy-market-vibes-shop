@@ -22,6 +22,7 @@ import SocialProofBubble from "@/components/SocialProofBubble";
 import { Link } from "react-router-dom";
 import TikTokBrainAI from "@/components/TikTokBrainAI";
 import VoiceShoppingGenie from "@/components/VoiceShoppingGenie";
+import { Button } from "@/components/ui/button"; // Added missing Button import
 
 const Index = () => {
   const { toast } = useToast();
