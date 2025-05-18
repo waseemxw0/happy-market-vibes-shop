@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import MobileNav from "@/components/MobileNav";
 import { Button } from "@/components/ui/button";
 import { Heart, ShoppingBag } from "lucide-react";
-import TikTokIcon from "./icons/TikTokIcon";
+import TikTokIcon from "@/components/icons/TikTokIcon";
 import { useToast } from "@/hooks/use-toast";
 import AiAssistant from "@/components/AiAssistant";
 
@@ -111,6 +111,7 @@ const TikTokFeed = () => {
                     className="w-full h-full object-cover"
                     controls
                     poster="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=500&auto=format&fit=crop"
+                    preload="metadata"
                   />
                   
                   <div className="absolute top-4 left-4 flex items-center gap-2">
@@ -137,6 +138,7 @@ const TikTokFeed = () => {
                       src={video.productImage} 
                       alt={video.productName} 
                       className="w-14 h-14 object-cover rounded-lg"
+                      loading="lazy"
                     />
                     <div className="flex-1">
                       <h4 className="font-medium text-sm">{video.productName}</h4>
