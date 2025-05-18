@@ -1,8 +1,8 @@
 
 import React from "react";
-import { Home, Search, ShoppingBag, Heart } from "lucide-react";
+import { Home, Search, ShoppingBag, Heart, Calendar, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 const MobileNav = () => {
   const location = useLocation();
@@ -19,24 +19,31 @@ const MobileNav = () => {
         />
         
         <NavItem 
-          icon={<Search className="h-6 w-6" />} 
-          label="Search" 
-          href="/search"
-          isActive={path === "/search"}
+          icon={<TrendingUp className="h-6 w-6" />} 
+          label="Trending" 
+          href="/top10"
+          isActive={path.includes("/top10")}
+        />
+        
+        <NavItem 
+          icon={<Calendar className="h-6 w-6" />} 
+          label="Drops" 
+          href="#daily-drop"
+          isActive={false}
         />
         
         <NavItem 
           icon={<Heart className="h-6 w-6" />} 
           label="Wishlist" 
           href="/wishlist"
-          isActive={path === "/wishlist"}
+          isActive={path.includes("wishlist")}
         />
         
         <NavItem 
           icon={<ShoppingBag className="h-6 w-6" />} 
           label="Cart" 
-          href="/cart"
-          isActive={path === "/cart"}
+          href="#cart"
+          isActive={false}
           badge={3}
         />
       </div>
@@ -54,8 +61,8 @@ interface NavItemProps {
 
 const NavItem = ({ icon, label, href, isActive, badge }: NavItemProps) => {
   return (
-    <a 
-      href={href} 
+    <Link 
+      to={href} 
       className={cn(
         "flex flex-col items-center justify-center w-16",
         isActive ? "text-orange" : "text-softBlack/70"
@@ -70,7 +77,7 @@ const NavItem = ({ icon, label, href, isActive, badge }: NavItemProps) => {
         )}
       </div>
       <span className="text-xs mt-1">{label}</span>
-    </a>
+    </Link>
   );
 };
 

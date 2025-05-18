@@ -16,10 +16,23 @@ import CommunitySection from "@/components/CommunitySection";
 import MobileNav from "@/components/MobileNav";
 import GiftFinder from "@/components/GiftFinder";
 import { useToast } from "@/hooks/use-toast";
+import DailyDrop from "@/components/DailyDrop";
+import AiAssistant from "@/components/AiAssistant";
+import SocialProofBubble from "@/components/SocialProofBubble";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const { toast } = useToast();
   const [showDiscount, setShowDiscount] = useState(false);
+  
+  // Social proof messages
+  const socialProofMessages = [
+    "Michelle from New York just purchased Cloud LED Light",
+    "James from Chicago added 3D Moon Lamp to cart",
+    "Over 200 people viewing trending products now",
+    "Sarah from Miami just bought the Galaxy Projector",
+    "The Smart Plant Monitor is selling fast: 14 sold in last hour"
+  ];
   
   useEffect(() => {
     // Show discount popup after 5 seconds
@@ -51,16 +64,18 @@ const Index = () => {
         
         <FilterSection />
         
+        <DailyDrop />
+        
         {/* Product categories */}
         <div className="py-16 md:py-20">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-3 text-softBlack tracking-tight">Shop By Category</h2>
             <p className="text-softBlack/70 text-center mb-10 max-w-xl mx-auto">Find exactly what you're looking for with our curated collections</p>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
-              {Object.values(categoryData).map((category, index) => (
-                <a 
+              {Object.entries(categoryData).map(([key, category], index) => (
+                <Link 
                   key={index} 
-                  href="#" 
+                  to={`/collection/${key}`}
                   className="bg-white rounded-2xl p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 text-center group"
                   style={{ borderTop: `4px solid ${category.color}` }}
                 >
@@ -75,7 +90,7 @@ const Index = () => {
                   </div>
                   <h3 className="font-semibold mb-1" style={{ color: category.color }}>{category.title}</h3>
                   <p className="text-xs text-softBlack/60 line-clamp-2">{category.subtitle}</p>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -136,6 +151,8 @@ const Index = () => {
         <Newsletter />
         <FloatingCart />
         <GiftFinder />
+        <AiAssistant />
+        <SocialProofBubble messages={socialProofMessages} />
       </main>
       <Footer />
       <MobileNav />
