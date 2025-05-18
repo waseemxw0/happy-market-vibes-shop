@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import ProductCardEnhanced from "./ProductCardEnhanced";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
+import { Link } from "react-router-dom";
 
 const TrendingSection = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -17,6 +18,7 @@ const TrendingSection = () => {
   
   const trendingProducts = [
     {
+      id: "cloud-light",
       name: "LED Cloud Light",
       price: "$24.99",
       image: "https://images.unsplash.com/photo-1608155686393-8fdd966d784d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
@@ -27,6 +29,7 @@ const TrendingSection = () => {
       videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
     },
     {
+      id: "sunset-lamp",
       name: "Sunset Projection Lamp",
       price: "$29.99",
       image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
@@ -35,6 +38,7 @@ const TrendingSection = () => {
       endTime: getRandomEndTime()
     },
     {
+      id: "plant-monitor",
       name: "Smart Plant Monitor",
       price: "$19.99",
       image: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
@@ -44,6 +48,7 @@ const TrendingSection = () => {
       videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
     },
     {
+      id: "phone-mount",
       name: "Magnetic Phone Mount",
       price: "$14.99",
       image: "https://images.unsplash.com/photo-1606041011872-596597976b25?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
@@ -53,6 +58,7 @@ const TrendingSection = () => {
       endTime: getRandomEndTime()
     },
     {
+      id: "moon-lamp",
       name: "3D Moon Lamp",
       price: "$34.99",
       image: "https://images.unsplash.com/photo-1596394723269-b2cbca4e6313?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
@@ -65,7 +71,7 @@ const TrendingSection = () => {
   ];
 
   return (
-    <section className="py-16 md:py-20 bg-gradient-to-br from-white to-orange/5">
+    <section className="py-16 md:py-20 bg-gradient-to-br from-white to-orange/5" data-section="trending">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -121,22 +127,26 @@ const TrendingSection = () => {
           <CarouselContent className="-ml-4">
             {trendingProducts.map((product, index) => (
               <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
-                <ProductCardEnhanced 
-                  {...product}
-                />
+                <Link to={`/product/${product.id}`}>
+                  <ProductCardEnhanced 
+                    {...product}
+                  />
+                </Link>
               </CarouselItem>
             ))}
           </CarouselContent>
         </Carousel>
         
         <div className="mt-8 flex justify-center">
-          <Button 
-            className="bg-orange/10 text-orange hover:bg-orange/20 rounded-full shadow-sm"
-            size="lg"
-          >
-            View All Trending Products
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
+          <Link to="/collection/trending">
+            <Button 
+              className="bg-orange/10 text-orange hover:bg-orange/20 rounded-full shadow-sm"
+              size="lg"
+            >
+              View All Trending Products
+              <ChevronRight className="ml-1 h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

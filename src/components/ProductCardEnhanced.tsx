@@ -5,8 +5,10 @@ import { Eye, ShoppingBag, Heart } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import TrendingCountdown from "./TrendingCountdown";
 import { Card } from "@/components/ui/card";
+import { Link, useNavigate } from "react-router-dom";
 
 interface ProductCardEnhancedProps {
+  id?: string;
   name: string;
   price: string;
   image: string;
@@ -20,6 +22,7 @@ interface ProductCardEnhancedProps {
 }
 
 const ProductCardEnhanced = ({ 
+  id,
   name, 
   price, 
   image, 
@@ -34,6 +37,7 @@ const ProductCardEnhanced = ({
   const [isHovered, setIsHovered] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -61,6 +65,15 @@ const ProductCardEnhanced = ({
       description: `${name} has been ${isLiked ? "removed from" : "added to"} your wishlist.`,
     });
   };
+  
+  const handleViewDetails = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Generate a safe URL slug from the product name if no ID is provided
+    const productId = id || name.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/product/${productId}`);
+  };
 
   // Calculate a random percentage for "would buy again" between 85-98%
   const wouldBuyAgain = Math.floor(Math.random() * (98 - 85 + 1)) + 85;
@@ -70,6 +83,7 @@ const ProductCardEnhanced = ({
       className="group cursor-pointer transition-all duration-300 hover:scale-[1.02] overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={handleViewDetails}
     >
       <div className="aspect-square relative overflow-hidden">
         <img 
@@ -118,6 +132,7 @@ const ProductCardEnhanced = ({
             variant="secondary" 
             size="icon"
             className="h-9 w-9 bg-white/90 backdrop-blur-sm hover:bg-white text-softBlack rounded-xl shadow-sm"
+            onClick={handleViewDetails}
           >
             <Eye className="h-4 w-4" />
           </Button>

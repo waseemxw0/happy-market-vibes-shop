@@ -20,10 +20,13 @@ import DailyDrop from "@/components/DailyDrop";
 import AiAssistant from "@/components/AiAssistant";
 import SocialProofBubble from "@/components/SocialProofBubble";
 import { Link } from "react-router-dom";
+import TikTokBrainAI from "@/components/TikTokBrainAI";
+import VoiceShoppingGenie from "@/components/VoiceShoppingGenie";
 
 const Index = () => {
   const { toast } = useToast();
   const [showDiscount, setShowDiscount] = useState(false);
+  const [showVoiceGenie, setShowVoiceGenie] = useState(false);
   
   // Social proof messages
   const socialProofMessages = [
@@ -56,6 +59,18 @@ const Index = () => {
     });
   };
   
+  const handleShowVoiceGenie = () => {
+    setShowVoiceGenie(true);
+    
+    // Scroll to the voice genie component
+    setTimeout(() => {
+      const voiceGenieElement = document.getElementById('voice-genie');
+      if (voiceGenieElement) {
+        voiceGenieElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+  
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
@@ -66,8 +81,34 @@ const Index = () => {
         
         <DailyDrop />
         
+        {/* TikTok Brain AI */}
+        <div className="container mx-auto px-4 py-6">
+          <TikTokBrainAI />
+        </div>
+        
+        {/* Voice Shopping Genie */}
+        {showVoiceGenie && (
+          <div id="voice-genie" className="container mx-auto px-4 py-6">
+            <VoiceShoppingGenie />
+          </div>
+        )}
+        
+        {/* Voice Genie Prompt Button (if not showing) */}
+        {!showVoiceGenie && (
+          <div className="container mx-auto px-4 py-6 flex justify-center">
+            <button 
+              onClick={handleShowVoiceGenie}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange/20 to-mint/20 rounded-full text-sm text-softBlack font-medium hover:from-orange/30 hover:to-mint/30 transition-colors animate-pulse"
+            >
+              <span className="w-3 h-3 bg-orange rounded-full"></span>
+              <span>Ask our AI Shopping Genie what you're looking for</span>
+              <span className="w-3 h-3 bg-mint rounded-full"></span>
+            </button>
+          </div>
+        )}
+        
         {/* Product categories */}
-        <div className="py-16 md:py-20">
+        <div className="py-16 md:py-20" data-section="categories">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-3 text-softBlack tracking-tight">Shop By Category</h2>
             <p className="text-softBlack/70 text-center mb-10 max-w-xl mx-auto">Find exactly what you're looking for with our curated collections</p>
@@ -103,14 +144,16 @@ const Index = () => {
         <CategorySection 
           title={categoryData.ecoGadgets.title} 
           subtitle={categoryData.ecoGadgets.subtitle} 
-          color={categoryData.ecoGadgets.color} 
+          color={categoryData.ecoGadgets.color}
+          categoryKey="ecoGadgets" 
           products={categoryData.ecoGadgets.products}
         />
         
         <CategorySection 
           title={categoryData.techStyle.title} 
           subtitle={categoryData.techStyle.subtitle} 
-          color={categoryData.techStyle.color} 
+          color={categoryData.techStyle.color}
+          categoryKey="techStyle" 
           products={categoryData.techStyle.products}
         />
         
@@ -121,14 +164,16 @@ const Index = () => {
         <CategorySection 
           title={categoryData.glowUp.title} 
           subtitle={categoryData.glowUp.subtitle} 
-          color={categoryData.glowUp.color} 
+          color={categoryData.glowUp.color}
+          categoryKey="glowUp" 
           products={categoryData.glowUp.products}
         />
         
         <CategorySection 
           title={categoryData.petStuff.title} 
           subtitle={categoryData.petStuff.subtitle} 
-          color={categoryData.petStuff.color} 
+          color={categoryData.petStuff.color}
+          categoryKey="petStuff" 
           products={categoryData.petStuff.products}
         />
         
@@ -137,16 +182,72 @@ const Index = () => {
         <CategorySection 
           title={categoryData.roomVibes.title} 
           subtitle={categoryData.roomVibes.subtitle} 
-          color={categoryData.roomVibes.color} 
+          color={categoryData.roomVibes.color}
+          categoryKey="roomVibes" 
           products={categoryData.roomVibes.products}
         />
         
         <CategorySection 
           title={categoryData.fitKit.title} 
           subtitle={categoryData.fitKit.subtitle} 
-          color={categoryData.fitKit.color} 
+          color={categoryData.fitKit.color}
+          categoryKey="fitKit" 
           products={categoryData.fitKit.products}
         />
+        
+        {/* Mystery Box Generator */}
+        <div className="py-14 md:py-20 bg-gradient-to-br from-white to-orange/5">
+          <div className="container mx-auto px-4">
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-orange/10">
+              <div className="p-6 md:p-10 text-center">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">🎁 Mystery TikTok Box</h2>
+                <p className="text-softBlack/70 mb-8 max-w-2xl mx-auto">
+                  Let our AI curate a surprise box of viral TikTok products just for you! You'll only see what's inside after purchase.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto mb-10">
+                  <div className="bg-orange/5 rounded-xl p-6 text-center hover:shadow-md transition-shadow">
+                    <div className="text-3xl mb-2">💝</div>
+                    <h3 className="font-bold text-lg mb-1">Basic Box</h3>
+                    <p className="text-orange font-semibold text-xl mb-2">$25</p>
+                    <p className="text-sm text-softBlack/70 mb-4">3 surprise TikTok viral items</p>
+                    <Button className="w-full bg-orange hover:bg-orange/90 text-white rounded-xl">
+                      Get This Box
+                    </Button>
+                  </div>
+                  
+                  <div className="bg-gradient-to-b from-orange/10 to-mint/10 rounded-xl p-6 text-center shadow-md relative border border-orange/20">
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-orange text-white text-xs font-bold px-3 py-1 rounded-full">
+                      MOST POPULAR
+                    </div>
+                    <div className="text-3xl mb-2">🌟</div>
+                    <h3 className="font-bold text-lg mb-1">Premium Box</h3>
+                    <p className="text-orange font-semibold text-xl mb-2">$50</p>
+                    <p className="text-sm text-softBlack/70 mb-4">5 trending items + free shipping</p>
+                    <Button className="w-full bg-gradient-to-r from-orange to-mint text-white hover:opacity-90 rounded-xl">
+                      Get This Box
+                    </Button>
+                  </div>
+                  
+                  <div className="bg-orange/5 rounded-xl p-6 text-center hover:shadow-md transition-shadow">
+                    <div className="text-3xl mb-2">👑</div>
+                    <h3 className="font-bold text-lg mb-1">Luxury Box</h3>
+                    <p className="text-orange font-semibold text-xl mb-2">$100</p>
+                    <p className="text-sm text-softBlack/70 mb-4">7 premium viral products</p>
+                    <Button className="w-full bg-orange hover:bg-orange/90 text-white rounded-xl">
+                      Get This Box
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-center gap-2 text-sm text-softBlack/70">
+                  <span>⭐</span>
+                  <span>Over 10,000 mystery boxes sold with 95% satisfaction rate</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         
         <Newsletter />
         <FloatingCart />

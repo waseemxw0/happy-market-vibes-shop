@@ -3,19 +3,22 @@ import React from "react";
 import ProductCardEnhanced from "./ProductCardEnhanced";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface CategorySectionProps {
   title: string;
   subtitle: string;
   color: string;
+  categoryKey?: string;
   products: {
+    id?: string;
     name: string;
     price: string;
     image: string;
   }[];
 }
 
-const CategorySection = ({ title, subtitle, color, products }: CategorySectionProps) => {
+const CategorySection = ({ title, subtitle, color, categoryKey, products }: CategorySectionProps) => {
   // Generate some review quotes for the products
   const reviewQuotes = [
     "TikTok made me buy it!",
@@ -48,6 +51,9 @@ const CategorySection = ({ title, subtitle, color, products }: CategorySectionPr
     return undefined;
   };
   
+  // Derive category key from title if not provided
+  const derivedCategoryKey = categoryKey || title.toLowerCase().replace(/\s+/g, '-');
+  
   return (
     <section className="py-14 md:py-20 relative">
       {/* Background decoration with gradient */}
@@ -70,14 +76,16 @@ const CategorySection = ({ title, subtitle, color, products }: CategorySectionPr
             </div>
             <p className="text-softBlack/70 max-w-xl">{subtitle}</p>
           </div>
-          <Button 
-            variant="ghost" 
-            className="hidden md:flex items-center gap-1 mt-4 md:mt-0 group rounded-2xl hover:bg-opacity-10" 
-            style={{ color, backgroundColor: `${color}10` }}
-          >
-            See All {title} Products 
-            <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          <Link to={`/collection/${derivedCategoryKey}`}>
+            <Button 
+              variant="ghost" 
+              className="hidden md:flex items-center gap-1 mt-4 md:mt-0 group rounded-2xl hover:bg-opacity-10" 
+              style={{ color, backgroundColor: `${color}10` }}
+            >
+              See All {title} Products 
+              <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-8">
@@ -93,14 +101,16 @@ const CategorySection = ({ title, subtitle, color, products }: CategorySectionPr
         </div>
         
         <div className="mt-10 text-center md:hidden">
-          <Button 
-            variant="outline" 
-            className="w-full flex items-center justify-center gap-1 group rounded-2xl" 
-            style={{ color, borderColor: `${color}40` }}
-          >
-            See All {title} Products 
-            <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          <Link to={`/collection/${derivedCategoryKey}`}>
+            <Button 
+              variant="outline" 
+              className="w-full flex items-center justify-center gap-1 group rounded-2xl" 
+              style={{ color, borderColor: `${color}40` }}
+            >
+              See All {title} Products 
+              <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

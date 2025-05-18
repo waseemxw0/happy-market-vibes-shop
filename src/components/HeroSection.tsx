@@ -3,8 +3,27 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShoppingBag } from "lucide-react";
 import TikTokIcon from "./icons/TikTokIcon";
+import { Link, useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  
+  const handleShopTrending = () => {
+    // Scroll to the trending section on the current page
+    const trendingSection = document.querySelector('[data-section="trending"]');
+    if (trendingSection) {
+      trendingSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+  
+  const handleViewCategories = () => {
+    // Scroll to the categories section on the current page
+    const categoriesSection = document.querySelector('[data-section="categories"]');
+    if (categoriesSection) {
+      categoriesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+  
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-white to-mint/10 py-24 md:py-32">
       {/* Animated background */}
@@ -49,7 +68,8 @@ const HeroSection = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: "0.6s" }}>
             <Button 
-              className="bg-gradient-to-r from-orange to-orange/90 hover:from-orange/90 hover:to-orange text-white rounded-2xl text-lg group transition-all duration-300 hover:pr-12 shadow-lg hover:shadow-xl" 
+              className="bg-gradient-to-r from-orange to-orange/90 hover:from-orange/90 hover:to-orange text-white rounded-2xl text-lg group transition-all duration-300 hover:pr-12 shadow-lg hover:shadow-xl"
+              onClick={handleShopTrending}
             >
               Shop What's Trending
               <ArrowRight className="ml-2 group-hover:translate-x-4 transition-transform duration-300" />
@@ -58,6 +78,7 @@ const HeroSection = () => {
             <Button 
               variant="outline"
               className="border-orange/30 text-orange hover:bg-orange/5 rounded-2xl shadow-sm"
+              onClick={handleViewCategories}
             >
               <ShoppingBag className="mr-2 h-5 w-5" />
               View Categories
@@ -68,25 +89,29 @@ const HeroSection = () => {
       
       {/* Product floating cards with glassmorphism */}
       <div className="hidden lg:block absolute -right-16 top-1/4 w-32 h-40 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg transform rotate-6 animate-float opacity-90 border border-white/40">
-        <img 
-          src="https://images.unsplash.com/photo-1608155686393-8fdd966d784d" 
-          alt="Product" 
-          className="w-full h-full object-cover rounded-2xl"
-        />
-        <div className="absolute top-2 left-2 bg-orange/90 text-white text-xs font-semibold px-2 py-1 rounded-full">
-          🔥 Hot
-        </div>
+        <Link to="/product/cloud-light">
+          <img 
+            src="https://images.unsplash.com/photo-1608155686393-8fdd966d784d" 
+            alt="Product" 
+            className="w-full h-full object-cover rounded-2xl"
+          />
+          <div className="absolute top-2 left-2 bg-orange/90 text-white text-xs font-semibold px-2 py-1 rounded-full">
+            🔥 Hot
+          </div>
+        </Link>
       </div>
       
       <div className="hidden lg:block absolute -left-10 bottom-1/4 w-28 h-36 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg transform -rotate-12 animate-float-delayed opacity-90 border border-white/40">
-        <img 
-          src="https://images.unsplash.com/photo-1596394723269-b2cbca4e6313" 
-          alt="Product" 
-          className="w-full h-full object-cover rounded-2xl"
-        />
-        <div className="absolute top-2 left-2 bg-mint/90 text-softBlack text-xs font-semibold px-2 py-1 rounded-full">
-          Eco Fav
-        </div>
+        <Link to="/product/moon-lamp">
+          <img 
+            src="https://images.unsplash.com/photo-1596394723269-b2cbca4e6313" 
+            alt="Product" 
+            className="w-full h-full object-cover rounded-2xl"
+          />
+          <div className="absolute top-2 left-2 bg-mint/90 text-softBlack text-xs font-semibold px-2 py-1 rounded-full">
+            Eco Fav
+          </div>
+        </Link>
       </div>
       
       {/* Decorative Elements */}
