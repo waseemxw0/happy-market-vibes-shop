@@ -28,22 +28,22 @@ const MobileNav = () => {
         <NavItem 
           icon={<Calendar className="h-6 w-6" />} 
           label="Drops" 
-          href="#daily-drop"
-          isActive={false}
+          href="/drops"
+          isActive={path.includes("/drops")}
         />
         
         <NavItem 
           icon={<Heart className="h-6 w-6" />} 
           label="Wishlist" 
           href="/wishlist"
-          isActive={path.includes("wishlist")}
+          isActive={path.includes("/wishlist")}
         />
         
         <NavItem 
           icon={<ShoppingBag className="h-6 w-6" />} 
           label="Cart" 
-          href="#cart"
-          isActive={false}
+          href="/cart"
+          isActive={path.includes("/cart")}
           badge={3}
         />
       </div>

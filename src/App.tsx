@@ -23,6 +23,11 @@ const Trust = lazy(() => import("./pages/Trust"));
 const Reviews = lazy(() => import("./pages/Reviews"));
 const Contact = lazy(() => import("./pages/Contact"));
 const FAQ = lazy(() => import("./pages/FAQ"));
+const DropsPage = lazy(() => import("./pages/DropsPage"));
+const WishlistPage = lazy(() => import("./pages/WishlistPage"));
+const CartPage = lazy(() => import("./pages/CartPage"));
+const ShopAllPage = lazy(() => import("./pages/ShopAllPage"));
+const NewArrivalsPage = lazy(() => import("./pages/NewArrivalsPage"));
 
 // Create loading fallback
 const PageLoading = () => (
@@ -64,6 +69,11 @@ const App = () => (
             <Route path="/reviews" element={<Reviews />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/drops" element={<DropsPage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/shop" element={<ShopAllPage />} />
+            <Route path="/new-arrivals" element={<NewArrivalsPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

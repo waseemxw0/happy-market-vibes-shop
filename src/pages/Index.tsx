@@ -22,7 +22,7 @@ import SocialProofBubble from "@/components/SocialProofBubble";
 import { Link } from "react-router-dom";
 import TikTokBrainAI from "@/components/TikTokBrainAI";
 import VoiceShoppingGenie from "@/components/VoiceShoppingGenie";
-import { Button } from "@/components/ui/button"; // Added missing Button import
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const { toast } = useToast();
@@ -80,7 +80,9 @@ const Index = () => {
         
         <FilterSection />
         
-        <DailyDrop />
+        <div id="daily-drop">
+          <DailyDrop />
+        </div>
         
         {/* TikTok Brain AI */}
         <div className="container mx-auto px-4 py-6">
@@ -257,7 +259,6 @@ const Index = () => {
         <SocialProofBubble messages={socialProofMessages} />
       </main>
       <Footer />
-      <MobileNav />
       
       {/* Discount Popup */}
       {showDiscount && (

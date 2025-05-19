@@ -4,11 +4,13 @@ import { ShoppingBag, Menu, X, Heart, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+  const [cartCount, setCartCount] = useState(3);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,6 +20,11 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location]);
 
   // Sample function to add items to cart (would be replaced with actual cart functionality)
   const addToCart = () => {
@@ -32,27 +39,27 @@ const Navbar = () => {
         : "bg-white/80 backdrop-blur-sm py-4"
     )}>
       <div className="container mx-auto flex items-center justify-between px-4">
-        <a href="/" className="flex items-center z-10">
+        <Link to="/" className="flex items-center z-10">
           <Logo />
-        </a>
+        </Link>
         
         <div className="hidden md:flex items-center gap-8">
-          <a href="#" className="text-softBlack hover:text-orange transition-colors relative group">
+          <Link to="/shop" className="text-softBlack hover:text-orange transition-colors relative group">
             Shop All
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="#" className="text-softBlack hover:text-orange transition-colors relative group">
+          </Link>
+          <Link to="/top10" className="text-softBlack hover:text-orange transition-colors relative group">
             Trending
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="#" className="text-softBlack hover:text-orange transition-colors relative group">
+          </Link>
+          <Link to="/new-arrivals" className="text-softBlack hover:text-orange transition-colors relative group">
             New Arrivals
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="#" className="text-softBlack hover:text-orange transition-colors relative group">
+          </Link>
+          <Link to="/about" className="text-softBlack hover:text-orange transition-colors relative group">
             About Us
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange transition-all duration-300 group-hover:w-full"></span>
-          </a>
+          </Link>
         </div>
         
         <div className="flex items-center gap-3">
@@ -60,23 +67,27 @@ const Navbar = () => {
             <Search className="h-5 w-5 text-softBlack/70" />
           </Button>
           
-          <Button variant="ghost" size="icon" className="hidden md:flex rounded-full h-10 w-10">
-            <Heart className="h-5 w-5 text-softBlack/70" />
-          </Button>
+          <Link to="/wishlist">
+            <Button variant="ghost" size="icon" className="hidden md:flex rounded-full h-10 w-10">
+              <Heart className="h-5 w-5 text-softBlack/70" />
+            </Button>
+          </Link>
           
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="relative rounded-full h-10 w-10" 
-            onClick={addToCart}
-          >
-            <ShoppingBag className="h-5 w-5" />
-            {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-orange text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-scale-in">
-                {cartCount}
-              </span>
-            )}
-          </Button>
+          <Link to="/cart">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="relative rounded-full h-10 w-10" 
+              onClick={addToCart}
+            >
+              <ShoppingBag className="h-5 w-5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-orange text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-scale-in">
+                  {cartCount}
+                </span>
+              )}
+            </Button>
+          </Link>
           
           <Button 
             variant="ghost" 
@@ -106,38 +117,42 @@ const Navbar = () => {
             </div>
           </div>
           
-          <a href="#" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
+          <Link to="/shop" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
             Shop All
             <span className="text-orange">→</span>
-          </a>
-          <a href="#" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
+          </Link>
+          <Link to="/top10" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
             Trending
             <span className="text-orange">→</span>
-          </a>
-          <a href="#" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
+          </Link>
+          <Link to="/new-arrivals" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
             New Arrivals
             <span className="text-orange">→</span>
-          </a>
-          <a href="#" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
+          </Link>
+          <Link to="/about" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
             About Us
             <span className="text-orange">→</span>
-          </a>
+          </Link>
           
           <div className="mt-6 flex gap-4">
-            <Button 
-              variant="default" 
-              className="flex-1 bg-orange text-white rounded-2xl"
-            >
-              <Heart className="h-5 w-5 mr-2" />
-              Wishlist
-            </Button>
-            <Button 
-              variant="default" 
-              className="flex-1 bg-mint text-softBlack rounded-2xl"
-            >
-              <ShoppingBag className="h-5 w-5 mr-2" />
-              Cart
-            </Button>
+            <Link to="/wishlist" className="flex-1">
+              <Button 
+                variant="default" 
+                className="w-full bg-orange text-white rounded-2xl"
+              >
+                <Heart className="h-5 w-5 mr-2" />
+                Wishlist
+              </Button>
+            </Link>
+            <Link to="/cart" className="flex-1">
+              <Button 
+                variant="default" 
+                className="w-full bg-mint text-softBlack rounded-2xl"
+              >
+                <ShoppingBag className="h-5 w-5 mr-2" />
+                Cart
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
