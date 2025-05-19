@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 import { Link, useLocation } from "react-router-dom";
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from "@/components/ui/navigation-menu";
-import { Separator } from "@/components/ui/separator";
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/components/ui/navigation-menu";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,7 +34,7 @@ const Navbar = () => {
 
   return (
     <header className={cn(
-      "sticky top-0 z-50 transition-all duration-300",
+      "sticky top-0 z-50 w-full transition-all duration-300",
       isScrolled 
         ? "bg-white shadow-sm py-3" 
         : "bg-white py-4"
@@ -77,12 +76,12 @@ const Navbar = () => {
         </div>
         
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="hidden md:flex rounded-full h-10 w-10">
+          <Button variant="ghost" size="icon" className="hidden md:flex rounded-full h-10 w-10 hover:bg-gray-100">
             <Search className="h-5 w-5 text-softBlack/70" />
           </Button>
           
           <Link to="/wishlist">
-            <Button variant="ghost" size="icon" className="hidden md:flex rounded-full h-10 w-10">
+            <Button variant="ghost" size="icon" className="hidden md:flex rounded-full h-10 w-10 hover:bg-gray-100">
               <Heart className="h-5 w-5 text-softBlack/70" />
             </Button>
           </Link>
@@ -91,7 +90,7 @@ const Navbar = () => {
             <Button 
               variant="ghost" 
               size="icon" 
-              className="relative rounded-full h-10 w-10" 
+              className="relative rounded-full h-10 w-10 hover:bg-gray-100 hidden md:flex" 
               onClick={addToCart}
             >
               <ShoppingBag className="h-5 w-5" />
@@ -152,7 +151,7 @@ const Navbar = () => {
             <Link to="/wishlist" className="flex-1">
               <Button 
                 variant="default" 
-                className="w-full bg-orange text-white rounded-2xl"
+                className="w-full bg-orange text-white rounded-2xl hover:bg-orange/90 transition-all duration-300"
               >
                 <Heart className="h-5 w-5 mr-2" />
                 Wishlist
@@ -161,7 +160,7 @@ const Navbar = () => {
             <Link to="/cart" className="flex-1">
               <Button 
                 variant="default" 
-                className="w-full bg-mint text-softBlack rounded-2xl"
+                className="w-full bg-mint text-softBlack rounded-2xl hover:bg-mint/90 transition-all duration-300"
               >
                 <ShoppingBag className="h-5 w-5 mr-2" />
                 Cart

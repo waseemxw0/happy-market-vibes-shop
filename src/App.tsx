@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import MobileNav from "./components/MobileNav";
 import Navbar from "./components/Navbar";
@@ -52,25 +52,6 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
-  // Prevent double rendering issue
-  useEffect(() => {
-    // Set a global CSS variable to control main content padding
-    const root = document.documentElement;
-    const updateMainPadding = () => {
-      if (window.innerWidth < 768) {
-        root.style.setProperty('--main-bottom-padding', '64px');
-      } else {
-        root.style.setProperty('--main-bottom-padding', '0px');
-      }
-    };
-    
-    // Initialize and add resize listener
-    updateMainPadding();
-    window.addEventListener('resize', updateMainPadding);
-    
-    return () => window.removeEventListener('resize', updateMainPadding);
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -105,7 +86,6 @@ const App = () => {
                 </Routes>
               </main>
               <MobileNav />
-              <FloatingCart />
             </div>
           </Suspense>
         </BrowserRouter>

@@ -85,7 +85,7 @@
   
   /* Floating cart button */
   .floating-cart {
-    @apply fixed bottom-6 right-6 bg-orange text-white rounded-full shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110;
+    @apply fixed bottom-20 md:bottom-6 right-6 bg-orange text-white rounded-full shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110;
   }
   
   /* Glass effect */
@@ -230,6 +230,14 @@ button:focus, a:focus, input:focus, select:focus, textarea:focus {
 /* Fix for mobile navigation spacing */
 @media (max-width: 768px) {
   body {
-    padding-bottom: var(--main-bottom-padding);
+    padding-bottom: 64px;
+  }
+  
+  main {
+    padding-bottom: 64px !important;
+  }
+  
+  .floating-cart {
+    bottom: 80px;
   }
 }
