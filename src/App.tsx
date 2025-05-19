@@ -4,9 +4,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import MobileNav from "./components/MobileNav";
 import Navbar from "./components/Navbar";
+import FloatingCart from "./components/FloatingCart";
 
 // Eager load critical pages
 import Index from "./pages/Index";
@@ -50,45 +51,67 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Suspense fallback={<PageLoading />}>
-          <div className="flex flex-col min-h-screen">
-            <Navbar />
-            <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/collection/:category" element={<CollectionPage />} />
-                <Route path="/product/:id" element={<ProductPage />} />
-                <Route path="/tiktok-feed" element={<TikTokFeed />} />
-                <Route path="/rewards" element={<Rewards />} />
-                <Route path="/bundles" element={<Bundles />} />
-                <Route path="/top10" element={<Top10 />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/trust" element={<Trust />} />
-                <Route path="/reviews" element={<Reviews />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/drops" element={<DropsPage />} />
-                <Route path="/wishlist" element={<WishlistPage />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/shop" element={<ShopAllPage />} />
-                <Route path="/new-arrivals" element={<NewArrivalsPage />} />
-                
-                {/* Catch-all route for 404 */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <MobileNav />
-          </div>
-        </Suspense>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  // Prevent double rendering issue
+  useEffect(() => {
+    // Set a global CSS variable to control main content padding
+    const root = document.documentElement;
+    const updateMainPadding = () => {
+      if (window.innerWidth < 768) {
+        root.style.setProperty('--main-bottom-padding', '64px');
+      } else {
+        root.style.setProperty('--main-bottom-padding', '0px');
+      }
+    };
+    
+    // Initialize and add resize listener
+    updateMainPadding();
+    window.addEventListener('resize', updateMainPadding);
+    
+    return () => window.removeEventListener('resize', updateMainPadding);
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Suspense fallback={<PageLoading />}>
+            <div className="flex flex-col min-h-screen">
+              <Navbar />
+              <main className="flex-grow pb-[var(--main-bottom-padding)]">
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/collection/:category" element={<CollectionPage />} />
+                  <Route path="/product/:id" element={<ProductPage />} />
+                  <Route path="/tiktok-feed" element={<TikTokFeed />} />
+                  <Route path="/rewards" element={<Rewards />} />
+                  <Route path="/bundles" element={<Bundles />} />
+                  <Route path="/top10" element={<Top10 />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/trust" element={<Trust />} />
+                  <Route path="/reviews" element={<Reviews />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  <Route path="/drops" element={<DropsPage />} />
+                  <Route path="/wishlist" element={<WishlistPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/shop" element={<ShopAllPage />} />
+                  <Route path="/new-arrivals" element={<NewArrivalsPage />} />
+                  
+                  {/* Catch-all route for 404 */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+              <MobileNav />
+              <FloatingCart />
+            </div>
+          </Suspense>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

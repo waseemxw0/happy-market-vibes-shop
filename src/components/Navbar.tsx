@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 import { Link, useLocation } from "react-router-dom";
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from "@/components/ui/navigation-menu";
+import { Separator } from "@/components/ui/separator";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,27 +41,39 @@ const Navbar = () => {
         : "bg-white py-4"
     )}>
       <div className="container mx-auto flex items-center justify-between px-4">
-        <Link to="/" className="flex items-center z-10">
+        <Link to="/" className="flex items-center z-20">
           <Logo />
         </Link>
         
         <div className="hidden md:flex items-center gap-8">
-          <Link to="/shop" className="text-softBlack hover:text-orange transition-colors relative group">
-            Shop All
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-          <Link to="/top10" className="text-softBlack hover:text-orange transition-colors relative group">
-            Trending
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-          <Link to="/new-arrivals" className="text-softBlack hover:text-orange transition-colors relative group">
-            New Arrivals
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-          <Link to="/about" className="text-softBlack hover:text-orange transition-colors relative group">
-            About Us
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange transition-all duration-300 group-hover:w-full"></span>
-          </Link>
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <Link to="/shop" className="text-softBlack hover:text-orange transition-colors relative group">
+                  Shop All
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link to="/top10" className="text-softBlack hover:text-orange transition-colors relative group ml-8">
+                  Trending
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link to="/new-arrivals" className="text-softBlack hover:text-orange transition-colors relative group ml-8">
+                  New Arrivals
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link to="/about" className="text-softBlack hover:text-orange transition-colors relative group ml-8">
+                  About Us
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
         
         <div className="flex items-center gap-3">
@@ -92,7 +106,7 @@ const Navbar = () => {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="md:hidden rounded-full h-10 w-10"
+            className="md:hidden rounded-full h-10 w-10 z-20"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
