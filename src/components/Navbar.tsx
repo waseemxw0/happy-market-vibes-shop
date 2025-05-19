@@ -35,8 +35,8 @@ const Navbar = () => {
     <header className={cn(
       "sticky top-0 z-50 transition-all duration-300",
       isScrolled 
-        ? "bg-white/90 backdrop-blur-md shadow-sm py-3" 
-        : "bg-white/80 backdrop-blur-sm py-4"
+        ? "bg-white shadow-sm py-3" 
+        : "bg-white py-4"
     )}>
       <div className="container mx-auto flex items-center justify-between px-4">
         <Link to="/" className="flex items-center z-10">
@@ -100,12 +100,12 @@ const Navbar = () => {
         </div>
       </div>
       
-      {/* Mobile Menu with fixed background */}
+      {/* Mobile Menu with solid background */}
       <div className={cn(
         "md:hidden fixed inset-0 top-[57px] bg-white z-40 transform transition-transform duration-300 shadow-lg",
         isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
       )}>
-        <div className="py-8 px-6 flex flex-col gap-4">
+        <div className="py-8 px-6 flex flex-col gap-4 bg-white">
           <div className="mb-6">
             <div className="relative w-full mb-4">
               <input 

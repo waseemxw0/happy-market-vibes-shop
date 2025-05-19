@@ -63,17 +63,18 @@ const HeroSection = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: "0.6s" }}>
-            <Button 
-              className="bg-gradient-to-r from-orange to-orange/90 hover:from-orange/90 hover:to-orange text-white rounded-2xl text-lg group transition-all duration-300 hover:pr-12 shadow-lg hover:shadow-xl"
-              onClick={handleShopTrending}
-            >
-              Shop What's Trending
-              <ArrowRight className="ml-2 group-hover:translate-x-4 transition-transform duration-300" />
-            </Button>
+            <Link to="/top10">
+              <Button 
+                className="bg-gradient-to-r from-orange to-orange/90 hover:from-orange/90 hover:to-orange text-white rounded-2xl text-lg group transition-all duration-300 hover:pr-12 shadow-lg hover:shadow-xl w-full sm:w-auto"
+              >
+                Shop What's Trending
+                <ArrowRight className="ml-2 group-hover:translate-x-4 transition-transform duration-300" />
+              </Button>
+            </Link>
             
             <Button 
               variant="outline"
-              className="border-orange/30 text-orange hover:bg-orange/5 rounded-2xl shadow-sm"
+              className="border-orange/30 text-orange hover:bg-orange/5 rounded-2xl shadow-sm w-full sm:w-auto"
               onClick={handleViewCategories}
             >
               <ShoppingBag className="mr-2 h-5 w-5" />

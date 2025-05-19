@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Home, Search, ShoppingBag, Heart, Calendar, TrendingUp } from "lucide-react";
+import { Home, Search, ShoppingBag, Heart, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocation, Link } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const MobileNav = () => {
   const path = location.pathname;
   
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-gray-200 z-40 md:hidden">
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 md:hidden">
       <div className="flex items-center justify-around py-3">
         <NavItem 
           icon={<Home className="h-6 w-6" />} 
@@ -19,7 +19,7 @@ const MobileNav = () => {
         />
         
         <NavItem 
-          icon={<TrendingUp className="h-6 w-6" />} 
+          icon={<Search className="h-6 w-6" />} 
           label="Trending" 
           href="/top10"
           isActive={path.includes("/top10")}

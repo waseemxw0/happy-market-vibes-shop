@@ -4,10 +4,11 @@ import { ShoppingBag, Heart, Search, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 const FloatingCart = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+  const [cartCount, setCartCount] = useState(3);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const { toast } = useToast();
   
@@ -32,15 +33,6 @@ const FloatingCart = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   
-  const handleAddToCart = () => {
-    setCartCount(prev => prev + 1);
-    
-    toast({
-      title: "Quick add to cart",
-      description: "Choose a product to add to your cart",
-    });
-  };
-  
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -51,7 +43,7 @@ const FloatingCart = () => {
   if (!isVisible) return null;
   
   return (
-    <div className="fixed bottom-20 md:bottom-6 right-6 z-50 flex flex-col items-end gap-4">
+    <div className="fixed bottom-20 md:bottom-6 right-6 z-40 flex flex-col items-end gap-4">
       {/* Back to top button */}
       {showBackToTop && (
         <Button
@@ -75,13 +67,14 @@ const FloatingCart = () => {
       </Button>
       
       {/* Wishlist button */}
-      <Button
-        size="icon"
-        className="h-12 w-12 bg-mint text-softBlack rounded-full shadow-lg hover:scale-110 transition-all duration-300 hidden md:flex"
-        onClick={() => toast({ title: "Wishlist", description: "View your saved items" })}
-      >
-        <Heart className="h-5 w-5" />
-      </Button>
+      <Link to="/wishlist" className="hidden md:block">
+        <Button
+          size="icon"
+          className="h-12 w-12 bg-mint text-softBlack rounded-full shadow-lg hover:scale-110 transition-all duration-300"
+        >
+          <Heart className="h-5 w-5" />
+        </Button>
+      </Link>
       
       {/* Search button */}
       <Button
@@ -93,18 +86,19 @@ const FloatingCart = () => {
       </Button>
       
       {/* Cart button */}
-      <Button
-        size="icon"
-        className="h-16 w-16 bg-gradient-to-r from-orange to-orange/90 text-white rounded-2xl shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110"
-        onClick={handleAddToCart}
-      >
-        <ShoppingBag className="h-6 w-6" />
-        {cartCount > 0 && (
-          <Badge className="absolute -top-2 -right-2 bg-white text-orange text-xs font-medium h-6 w-6 p-0 flex items-center justify-center border border-orange/20 shadow-sm">
-            {cartCount}
-          </Badge>
-        )}
-      </Button>
+      <Link to="/cart">
+        <Button
+          size="icon"
+          className="h-16 w-16 bg-gradient-to-r from-orange to-orange/90 text-white rounded-2xl shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110"
+        >
+          <ShoppingBag className="h-6 w-6" />
+          {cartCount > 0 && (
+            <Badge className="absolute -top-2 -right-2 bg-white text-orange text-xs font-medium h-6 w-6 p-0 flex items-center justify-center border border-orange/20 shadow-sm">
+              {cartCount}
+            </Badge>
+          )}
+        </Button>
+      </Link>
     </div>
   );
 };
