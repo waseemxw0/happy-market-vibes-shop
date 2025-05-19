@@ -3,9 +3,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import MobileNav from "./components/MobileNav";
+import Navbar from "./components/Navbar";
 
 // Eager load critical pages
 import Index from "./pages/Index";
@@ -49,6 +50,22 @@ const queryClient = new QueryClient({
   },
 });
 
+// App layout wrapper to conditionally show MobileNav
+const AppLayout = ({ children }: { children: React.ReactNode }) => {
+  const location = useLocation();
+  
+  // Don't show MobileNav on 404 page
+  const showMobileNav = location.pathname !== "*";
+  
+  return (
+    <>
+      <Navbar />
+      {children}
+      {showMobileNav && <MobileNav />}
+    </>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -57,28 +74,114 @@ const App = () => (
       <BrowserRouter>
         <Suspense fallback={<PageLoading />}>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/collection/:category" element={<CollectionPage />} />
-            <Route path="/product/:id" element={<ProductPage />} />
-            <Route path="/tiktok-feed" element={<TikTokFeed />} />
-            <Route path="/rewards" element={<Rewards />} />
-            <Route path="/bundles" element={<Bundles />} />
-            <Route path="/top10" element={<Top10 />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/trust" element={<Trust />} />
-            <Route path="/reviews" element={<Reviews />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/drops" element={<DropsPage />} />
-            <Route path="/wishlist" element={<WishlistPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/shop" element={<ShopAllPage />} />
-            <Route path="/new-arrivals" element={<NewArrivalsPage />} />
+            <Route path="/" element={
+              <>
+                <Navbar />
+                <Index />
+                <MobileNav />
+              </>
+            } />
+            
+            <Route path="/collection/:category" element={
+              <AppLayout>
+                <CollectionPage />
+              </AppLayout>
+            } />
+            
+            <Route path="/product/:id" element={
+              <AppLayout>
+                <ProductPage />
+              </AppLayout>
+            } />
+            
+            <Route path="/tiktok-feed" element={
+              <AppLayout>
+                <TikTokFeed />
+              </AppLayout>
+            } />
+            
+            <Route path="/rewards" element={
+              <AppLayout>
+                <Rewards />
+              </AppLayout>
+            } />
+            
+            <Route path="/bundles" element={
+              <AppLayout>
+                <Bundles />
+              </AppLayout>
+            } />
+            
+            <Route path="/top10" element={
+              <AppLayout>
+                <Top10 />
+              </AppLayout>
+            } />
+            
+            <Route path="/about" element={
+              <AppLayout>
+                <About />
+              </AppLayout>
+            } />
+            
+            <Route path="/trust" element={
+              <AppLayout>
+                <Trust />
+              </AppLayout>
+            } />
+            
+            <Route path="/reviews" element={
+              <AppLayout>
+                <Reviews />
+              </AppLayout>
+            } />
+            
+            <Route path="/contact" element={
+              <AppLayout>
+                <Contact />
+              </AppLayout>
+            } />
+            
+            <Route path="/faq" element={
+              <AppLayout>
+                <FAQ />
+              </AppLayout>
+            } />
+            
+            <Route path="/drops" element={
+              <AppLayout>
+                <DropsPage />
+              </AppLayout>
+            } />
+            
+            <Route path="/wishlist" element={
+              <AppLayout>
+                <WishlistPage />
+              </AppLayout>
+            } />
+            
+            <Route path="/cart" element={
+              <AppLayout>
+                <CartPage />
+              </AppLayout>
+            } />
+            
+            <Route path="/shop" element={
+              <AppLayout>
+                <ShopAllPage />
+              </AppLayout>
+            } />
+            
+            <Route path="/new-arrivals" element={
+              <AppLayout>
+                <NewArrivalsPage />
+              </AppLayout>
+            } />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
-        <MobileNav />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

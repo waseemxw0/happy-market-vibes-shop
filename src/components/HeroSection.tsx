@@ -9,11 +9,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
   
   const handleShopTrending = () => {
-    // Scroll to the trending section on the current page
-    const trendingSection = document.querySelector('[data-section="trending"]');
-    if (trendingSection) {
-      trendingSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    navigate('/top10');
   };
   
   const handleViewCategories = () => {

@@ -100,9 +100,9 @@ const Navbar = () => {
         </div>
       </div>
       
-      {/* Mobile Menu with glassmorphism */}
+      {/* Mobile Menu with fixed background */}
       <div className={cn(
-        "md:hidden fixed inset-0 top-[57px] bg-white/95 backdrop-blur-md z-40 transform transition-transform duration-300 shadow-lg",
+        "md:hidden fixed inset-0 top-[57px] bg-white z-40 transform transition-transform duration-300 shadow-lg",
         isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
       )}>
         <div className="py-8 px-6 flex flex-col gap-4">
@@ -111,7 +111,7 @@ const Navbar = () => {
               <input 
                 type="search" 
                 placeholder="Search products..." 
-                className="w-full py-3 px-5 pr-10 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange/50 bg-white/70 shadow-sm"
+                className="w-full py-3 px-5 pr-10 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange/50 bg-white shadow-sm"
               />
               <Search className="absolute right-4 top-3.5 h-5 w-5 text-gray-400" />
             </div>
