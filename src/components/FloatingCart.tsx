@@ -14,7 +14,7 @@ const FloatingCart: React.FC<FloatingCartProps> = ({ className }) => {
   const cartCount = 3;
   
   return (
-    <div className={cn("hidden md:block", className)}>
+    <div className={cn("", className)}>
       <Link to="/cart">
         <Button 
           variant="default" 

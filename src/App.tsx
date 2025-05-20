@@ -81,6 +81,7 @@ const App = () => {
         <BrowserRouter>
           <Suspense fallback={<PageLoading />}>
             <div className="flex flex-col min-h-screen relative">
+              {/* Only display desktop navbar */}
               <Navbar />
               <main className="flex-grow pb-[var(--main-bottom-padding)]">
                 <Routes>
@@ -106,8 +107,9 @@ const App = () => {
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
-              <MobileNav />
-              <FloatingCart className="hidden md:flex fixed bottom-6 right-6 z-50" />
+              {/* Only use bottom MobileNav for mobile view */}
+              <MobileNav className="md:hidden" />
+              <FloatingCart className="hidden md:flex fixed bottom-6 right-6 z-40" />
             </div>
           </Suspense>
         </BrowserRouter>

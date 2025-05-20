@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 import { Link, useLocation } from "react-router-dom";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/components/ui/navigation-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -96,79 +97,67 @@ const Navbar = () => {
             </Button>
           </Link>
           
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="md:hidden rounded-full h-10 w-10 z-20"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
-        </div>
-      </div>
-      
-      {/* Mobile Menu overlay */}
-      <div 
-        className={cn(
-          "fixed inset-0 bg-black/50 z-10 md:hidden transition-opacity duration-300",
-          isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        )}
-        onClick={() => setIsMobileMenuOpen(false)}
-      />
-      
-      {/* Mobile Menu with solid background */}
-      <div className={cn(
-        "md:hidden fixed inset-0 top-[57px] bg-white z-20 transform transition-transform duration-300 shadow-lg",
-        isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-      )}>
-        <div className="py-8 px-6 flex flex-col gap-4 bg-white">
-          <div className="mb-6">
-            <div className="relative w-full mb-4">
-              <input 
-                type="search" 
-                placeholder="Search products..." 
-                className="w-full py-3 px-5 pr-10 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange/50 bg-white shadow-sm"
-              />
-              <Search className="absolute right-4 top-3.5 h-5 w-5 text-gray-400" />
-            </div>
-          </div>
-          
-          <Link to="/shop" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
-            Shop All
-            <span className="text-orange">→</span>
-          </Link>
-          <Link to="/top10" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
-            Trending
-            <span className="text-orange">→</span>
-          </Link>
-          <Link to="/new-arrivals" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
-            New Arrivals
-            <span className="text-orange">→</span>
-          </Link>
-          <Link to="/about" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
-            About Us
-            <span className="text-orange">→</span>
-          </Link>
-          
-          <div className="mt-6 flex gap-4">
-            <Link to="/wishlist" className="flex-1">
-              <Button 
-                variant="default" 
-                className="w-full bg-orange text-white rounded-2xl hover:bg-orange/90 transition-all duration-300"
-              >
-                <Heart className="h-5 w-5 mr-2" />
-                Wishlist
-              </Button>
-            </Link>
-            <Link to="/cart" className="flex-1">
-              <Button 
-                variant="default" 
-                className="w-full bg-mint text-softBlack rounded-2xl hover:bg-mint/90 transition-all duration-300"
-              >
-                <ShoppingBag className="h-5 w-5 mr-2" />
-                Cart
-              </Button>
-            </Link>
+          {/* Mobile menu trigger, but using Sheet from shadcn/ui */}
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full h-10 w-10">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="p-0 w-full max-w-full sm:max-w-md">
+                <div className="py-8 px-6 flex flex-col gap-4 bg-white h-full">
+                  <div className="mb-6">
+                    <div className="relative w-full mb-4">
+                      <input 
+                        type="search" 
+                        placeholder="Search products..." 
+                        className="w-full py-3 px-5 pr-10 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange/50 bg-white shadow-sm"
+                      />
+                      <Search className="absolute right-4 top-3.5 h-5 w-5 text-gray-400" />
+                    </div>
+                  </div>
+                  
+                  <Link to="/shop" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
+                    Shop All
+                    <span className="text-orange">→</span>
+                  </Link>
+                  <Link to="/top10" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
+                    Trending
+                    <span className="text-orange">→</span>
+                  </Link>
+                  <Link to="/new-arrivals" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
+                    New Arrivals
+                    <span className="text-orange">→</span>
+                  </Link>
+                  <Link to="/about" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
+                    About Us
+                    <span className="text-orange">→</span>
+                  </Link>
+                  
+                  <div className="mt-auto pt-6 flex gap-4">
+                    <Link to="/wishlist" className="flex-1">
+                      <Button 
+                        variant="default" 
+                        className="w-full bg-orange text-white rounded-2xl hover:bg-orange/90 transition-all duration-300"
+                      >
+                        <Heart className="h-5 w-5 mr-2" />
+                        Wishlist
+                      </Button>
+                    </Link>
+                    <Link to="/cart" className="flex-1">
+                      <Button 
+                        variant="default" 
+                        className="w-full bg-mint text-softBlack rounded-2xl hover:bg-mint/90 transition-all duration-300"
+                      >
+                        <ShoppingBag className="h-5 w-5 mr-2" />
+                        Cart
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
