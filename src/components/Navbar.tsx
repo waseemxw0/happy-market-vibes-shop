@@ -110,7 +110,7 @@ const Navbar = () => {
       {/* Mobile Menu overlay */}
       <div 
         className={cn(
-          "fixed inset-0 bg-black/50 z-30 md:hidden transition-opacity duration-300",
+          "fixed inset-0 bg-black/50 z-10 md:hidden transition-opacity duration-300",
           isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
         onClick={() => setIsMobileMenuOpen(false)}
@@ -118,7 +118,7 @@ const Navbar = () => {
       
       {/* Mobile Menu with solid background */}
       <div className={cn(
-        "md:hidden fixed inset-0 top-[57px] bg-white z-40 transform transition-transform duration-300 shadow-lg",
+        "md:hidden fixed inset-0 top-[57px] bg-white z-20 transform transition-transform duration-300 shadow-lg",
         isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
       )}>
         <div className="py-8 px-6 flex flex-col gap-4 bg-white">

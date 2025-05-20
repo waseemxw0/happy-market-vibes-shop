@@ -51,7 +51,6 @@ const queryClient = new QueryClient({
   },
 });
 
-// Calculate bottom padding for main content based on mobile nav presence
 const App = () => {
   useEffect(() => {
     // Set CSS Variable for mobile navigation height
@@ -81,7 +80,7 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Suspense fallback={<PageLoading />}>
-            <div className="flex flex-col min-h-screen">
+            <div className="flex flex-col min-h-screen relative">
               <Navbar />
               <main className="flex-grow pb-[var(--main-bottom-padding)]">
                 <Routes>
