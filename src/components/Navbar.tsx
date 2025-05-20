@@ -1,13 +1,13 @@
 
 import React, { useState, useEffect } from "react";
-import { ShoppingBag, Menu, Heart, Search } from "lucide-react";
+import { ShoppingBag, Heart, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 import { Link, useLocation } from "react-router-dom";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/components/ui/navigation-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
+// Desktop-only Navbar component
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [cartCount, setCartCount] = useState(3);
@@ -34,7 +34,7 @@ const Navbar = () => {
           <Logo />
         </Link>
         
-        <div className="flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-8">
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
@@ -65,7 +65,7 @@ const Navbar = () => {
           </NavigationMenu>
         </div>
         
-        <div className="flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3">
           <Button variant="ghost" size="icon" className="rounded-full h-10 w-10 hover:bg-gray-100">
             <Search className="h-5 w-5 text-softBlack/70" />
           </Button>

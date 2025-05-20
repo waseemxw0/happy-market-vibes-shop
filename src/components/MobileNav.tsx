@@ -13,7 +13,7 @@ const MobileNav = ({ className }: MobileNavProps) => {
   const path = location.pathname;
   
   return (
-    <div className={cn("fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg animate-fade-in", className)}>
+    <div className={cn("fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg md:hidden", className)}>
       <div className="flex items-center justify-around py-3">
         <NavItem 
           icon={<Home className="h-5 w-5" />} 
