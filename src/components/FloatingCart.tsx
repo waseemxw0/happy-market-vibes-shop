@@ -13,9 +13,8 @@ const FloatingCart: React.FC<FloatingCartProps> = ({ className }) => {
   // The count would typically come from a cart context or state
   const cartCount = 3;
   
-  // Don't show floating cart on mobile (we have mobile nav)
   return (
-    <div className={cn("floating-cart md:flex hidden", className)}>
+    <div className={cn("hidden md:block", className)}>
       <Link to="/cart">
         <Button 
           variant="default" 

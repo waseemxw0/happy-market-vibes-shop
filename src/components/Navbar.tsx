@@ -27,11 +27,6 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  // Sample function to add items to cart (would be replaced with actual cart functionality)
-  const addToCart = () => {
-    setCartCount(prev => prev + 1);
-  };
-
   return (
     <header className={cn(
       "sticky top-0 z-50 w-full transition-all duration-300",
@@ -80,18 +75,17 @@ const Navbar = () => {
             <Search className="h-5 w-5 text-softBlack/70" />
           </Button>
           
-          <Link to="/wishlist">
-            <Button variant="ghost" size="icon" className="hidden md:flex rounded-full h-10 w-10 hover:bg-gray-100">
+          <Link to="/wishlist" className="hidden md:block">
+            <Button variant="ghost" size="icon" className="rounded-full h-10 w-10 hover:bg-gray-100">
               <Heart className="h-5 w-5 text-softBlack/70" />
             </Button>
           </Link>
           
-          <Link to="/cart">
+          <Link to="/cart" className="hidden md:block">
             <Button 
               variant="ghost" 
               size="icon" 
-              className="relative rounded-full h-10 w-10 hover:bg-gray-100 hidden md:flex" 
-              onClick={addToCart}
+              className="relative rounded-full h-10 w-10 hover:bg-gray-100" 
             >
               <ShoppingBag className="h-5 w-5" />
               {cartCount > 0 && (
@@ -112,6 +106,15 @@ const Navbar = () => {
           </Button>
         </div>
       </div>
+      
+      {/* Mobile Menu overlay */}
+      <div 
+        className={cn(
+          "fixed inset-0 bg-black/50 z-30 md:hidden transition-opacity duration-300",
+          isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
       
       {/* Mobile Menu with solid background */}
       <div className={cn(

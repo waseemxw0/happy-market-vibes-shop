@@ -51,7 +51,29 @@ const queryClient = new QueryClient({
   },
 });
 
+// Calculate bottom padding for main content based on mobile nav presence
 const App = () => {
+  useEffect(() => {
+    // Set CSS Variable for mobile navigation height
+    const setMobileNavPadding = () => {
+      if (window.innerWidth < 768) {
+        document.documentElement.style.setProperty('--main-bottom-padding', '64px');
+      } else {
+        document.documentElement.style.setProperty('--main-bottom-padding', '0px');
+      }
+    };
+
+    // Initial set
+    setMobileNavPadding();
+    
+    // Update on resize
+    window.addEventListener('resize', setMobileNavPadding);
+    
+    return () => {
+      window.removeEventListener('resize', setMobileNavPadding);
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -86,6 +108,7 @@ const App = () => {
                 </Routes>
               </main>
               <MobileNav />
+              <FloatingCart className="hidden md:flex fixed bottom-6 right-6 z-50" />
             </div>
           </Suspense>
         </BrowserRouter>
