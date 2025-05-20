@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { ShoppingBag, Menu, X, Heart, Search } from "lucide-react";
+import { ShoppingBag, Menu, Heart, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
@@ -10,7 +10,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(3);
   const location = useLocation();
 
@@ -22,11 +21,6 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location]);
 
   return (
     <header className={cn(
@@ -40,7 +34,7 @@ const Navbar = () => {
           <Logo />
         </Link>
         
-        <div className="hidden md:flex items-center gap-8">
+        <div className="flex items-center gap-8">
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
@@ -72,17 +66,17 @@ const Navbar = () => {
         </div>
         
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="hidden md:flex rounded-full h-10 w-10 hover:bg-gray-100">
+          <Button variant="ghost" size="icon" className="rounded-full h-10 w-10 hover:bg-gray-100">
             <Search className="h-5 w-5 text-softBlack/70" />
           </Button>
           
-          <Link to="/wishlist" className="hidden md:block">
+          <Link to="/wishlist">
             <Button variant="ghost" size="icon" className="rounded-full h-10 w-10 hover:bg-gray-100">
               <Heart className="h-5 w-5 text-softBlack/70" />
             </Button>
           </Link>
           
-          <Link to="/cart" className="hidden md:block">
+          <Link to="/cart">
             <Button 
               variant="ghost" 
               size="icon" 
@@ -96,69 +90,6 @@ const Navbar = () => {
               )}
             </Button>
           </Link>
-          
-          {/* Mobile menu trigger, but using Sheet from shadcn/ui */}
-          <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full h-10 w-10">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="p-0 w-full max-w-full sm:max-w-md">
-                <div className="py-8 px-6 flex flex-col gap-4 bg-white h-full">
-                  <div className="mb-6">
-                    <div className="relative w-full mb-4">
-                      <input 
-                        type="search" 
-                        placeholder="Search products..." 
-                        className="w-full py-3 px-5 pr-10 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange/50 bg-white shadow-sm"
-                      />
-                      <Search className="absolute right-4 top-3.5 h-5 w-5 text-gray-400" />
-                    </div>
-                  </div>
-                  
-                  <Link to="/shop" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
-                    Shop All
-                    <span className="text-orange">→</span>
-                  </Link>
-                  <Link to="/top10" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
-                    Trending
-                    <span className="text-orange">→</span>
-                  </Link>
-                  <Link to="/new-arrivals" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
-                    New Arrivals
-                    <span className="text-orange">→</span>
-                  </Link>
-                  <Link to="/about" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
-                    About Us
-                    <span className="text-orange">→</span>
-                  </Link>
-                  
-                  <div className="mt-auto pt-6 flex gap-4">
-                    <Link to="/wishlist" className="flex-1">
-                      <Button 
-                        variant="default" 
-                        className="w-full bg-orange text-white rounded-2xl hover:bg-orange/90 transition-all duration-300"
-                      >
-                        <Heart className="h-5 w-5 mr-2" />
-                        Wishlist
-                      </Button>
-                    </Link>
-                    <Link to="/cart" className="flex-1">
-                      <Button 
-                        variant="default" 
-                        className="w-full bg-mint text-softBlack rounded-2xl hover:bg-mint/90 transition-all duration-300"
-                      >
-                        <ShoppingBag className="h-5 w-5 mr-2" />
-                        Cart
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
         </div>
       </div>
     </header>

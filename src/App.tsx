@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import MobileNav from "./components/MobileNav";
 import Navbar from "./components/Navbar";
 import FloatingCart from "./components/FloatingCart";
@@ -52,7 +52,13 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
     // Set CSS Variable for mobile navigation height
     const setMobileNavPadding = () => {
       if (window.innerWidth < 768) {
@@ -66,9 +72,11 @@ const App = () => {
     setMobileNavPadding();
     
     // Update on resize
+    window.addEventListener('resize', handleResize);
     window.addEventListener('resize', setMobileNavPadding);
     
     return () => {
+      window.removeEventListener('resize', handleResize);
       window.removeEventListener('resize', setMobileNavPadding);
     };
   }, []);
@@ -81,8 +89,9 @@ const App = () => {
         <BrowserRouter>
           <Suspense fallback={<PageLoading />}>
             <div className="flex flex-col min-h-screen relative">
-              {/* Only display desktop navbar */}
-              <Navbar />
+              {/* Only show Navbar on desktop */}
+              {!isMobile && <Navbar />}
+              
               <main className="flex-grow pb-[var(--main-bottom-padding)]">
                 <Routes>
                   <Route path="/" element={<Index />} />
@@ -107,9 +116,12 @@ const App = () => {
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
-              {/* Only use bottom MobileNav for mobile view */}
-              <MobileNav className="md:hidden" />
-              <FloatingCart className="hidden md:flex fixed bottom-6 right-6 z-40" />
+              
+              {/* Only show MobileNav on mobile devices */}
+              {isMobile && <MobileNav />}
+              
+              {/* Only show FloatingCart on desktop */}
+              {!isMobile && <FloatingCart className="fixed bottom-6 right-6 z-40" />}
             </div>
           </Suspense>
         </BrowserRouter>
