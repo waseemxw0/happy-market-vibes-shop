@@ -1,72 +1,62 @@
+
 import React from "react";
-import { Instagram, Twitter, Facebook } from "lucide-react";
-import TikTokIcon from "./icons/TikTokIcon";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-white">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-gray-50 py-10 border-t border-gray-200">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-lg font-bold mb-4">The Happy Market</h3>
-            <p className="text-softBlack/70 mb-4">
-              Your one-stop shop for trending products that spark joy.
-            </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-softBlack hover:text-orange transition-colors">
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-softBlack hover:text-orange transition-colors">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-softBlack hover:text-orange transition-colors">
-                <TikTokIcon className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-softBlack hover:text-orange transition-colors">
-                <Facebook className="h-5 w-5" />
-              </a>
-            </div>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-bold mb-4">Quick Links</h3>
+            <h3 className="font-bold mb-4">Shop</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-softBlack/70 hover:text-orange transition-colors">About Us</a></li>
-              <li><a href="#" className="text-softBlack/70 hover:text-orange transition-colors">Shop All</a></li>
-              <li><a href="#" className="text-softBlack/70 hover:text-orange transition-colors">Trending Now</a></li>
-              <li><a href="#" className="text-softBlack/70 hover:text-orange transition-colors">Gift Cards</a></li>
+              <li><Link to="/shop" className="text-sm text-softBlack/70 hover:text-orange">Shop All</Link></li>
+              <li><Link to="/new-arrivals" className="text-sm text-softBlack/70 hover:text-orange">New Arrivals</Link></li>
+              <li><Link to="/top10" className="text-sm text-softBlack/70 hover:text-orange">Top 10</Link></li>
+              <li><Link to="/bundles" className="text-sm text-softBlack/70 hover:text-orange">Bundles</Link></li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-lg font-bold mb-4">Help</h3>
+            <h3 className="font-bold mb-4">About</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-softBlack/70 hover:text-orange transition-colors">FAQ</a></li>
-              <li><a href="#" className="text-softBlack/70 hover:text-orange transition-colors">Shipping</a></li>
-              <li><a href="#" className="text-softBlack/70 hover:text-orange transition-colors">Returns</a></li>
-              <li><a href="#" className="text-softBlack/70 hover:text-orange transition-colors">Contact Us</a></li>
+              <li><Link to="/about" className="text-sm text-softBlack/70 hover:text-orange">Our Story</Link></li>
+              <li><Link to="/trust" className="text-sm text-softBlack/70 hover:text-orange">Trust & Safety</Link></li>
+              <li><Link to="/reviews" className="text-sm text-softBlack/70 hover:text-orange">Reviews</Link></li>
+              <li><Link to="/contact" className="text-sm text-softBlack/70 hover:text-orange">Contact Us</Link></li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-lg font-bold mb-4">Contact</h3>
-            <ul className="space-y-2 text-softBlack/70">
-              <li>hello@thehappymarket.com</li>
-              <li>1-800-HAPPY-SHOP</li>
-              <li>123 Happy Street</li>
-              <li>Viral City, TK 10001</li>
+            <h3 className="font-bold mb-4">Help</h3>
+            <ul className="space-y-2">
+              <li><Link to="/faq" className="text-sm text-softBlack/70 hover:text-orange">FAQ</Link></li>
+              <li><Link to="#" className="text-sm text-softBlack/70 hover:text-orange">Shipping</Link></li>
+              <li><Link to="#" className="text-sm text-softBlack/70 hover:text-orange">Returns</Link></li>
+              <li><Link to="#" className="text-sm text-softBlack/70 hover:text-orange">Track Order</Link></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 className="font-bold mb-4">Connect</h3>
+            <ul className="space-y-2">
+              <li><Link to="#" className="text-sm text-softBlack/70 hover:text-orange">TikTok</Link></li>
+              <li><Link to="#" className="text-sm text-softBlack/70 hover:text-orange">Instagram</Link></li>
+              <li><Link to="#" className="text-sm text-softBlack/70 hover:text-orange">Twitter</Link></li>
+              <li><Link to="#" className="text-sm text-softBlack/70 hover:text-orange">Facebook</Link></li>
             </ul>
           </div>
         </div>
         
-        <div className="border-t border-gray-200 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-softBlack/60 text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} The Happy Market. All rights reserved.
+        <div className="border-t border-gray-200 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-sm text-softBlack/60 mb-4 md:mb-0">
+            © {new Date().getFullYear()} Trendora. All rights reserved.
           </p>
-          <div className="flex flex-wrap gap-4 text-sm text-softBlack/60">
-            <a href="#" className="hover:text-orange transition-colors">Terms</a>
-            <a href="#" className="hover:text-orange transition-colors">Privacy</a>
-            <a href="#" className="hover:text-orange transition-colors">Cookies</a>
+          
+          <div className="flex gap-4">
+            <Link to="#" className="text-xs text-softBlack/60 hover:text-orange">Privacy Policy</Link>
+            <Link to="#" className="text-xs text-softBlack/60 hover:text-orange">Terms of Service</Link>
+            <Link to="#" className="text-xs text-softBlack/60 hover:text-orange">Cookies</Link>
           </div>
         </div>
       </div>

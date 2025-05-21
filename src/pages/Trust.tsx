@@ -1,17 +1,12 @@
-
 import React from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import MobileNav from "@/components/MobileNav";
+import LayoutWrapper from "@/components/LayoutWrapper";
 import { Shield, Truck, RotateCcw, CheckCircle, Star } from "lucide-react";
 import AiAssistant from "@/components/AiAssistant";
 
 const Trust = () => {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <Navbar />
-      <main className="flex-grow pb-20 md:pb-0">
-        <div className="bg-gradient-to-r from-white to-orange/10 py-16">
+    <LayoutWrapper>
+      <div className="bg-gradient-to-r from-white to-orange/10 py-16">
           <div className="container mx-auto px-4 text-center">
             <div className="inline-flex items-center gap-2 bg-white rounded-full px-4 py-1.5 mb-6 shadow-sm">
               <Shield className="h-4 w-4 text-orange" />
@@ -23,8 +18,8 @@ const Trust = () => {
             </p>
           </div>
         </div>
-        
-        <div className="container mx-auto px-4 py-16">
+      
+      <div className="container mx-auto px-4 py-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {[
               { 
@@ -88,8 +83,8 @@ const Trust = () => {
             </div>
           </div>
         </div>
-        
-        <div className="bg-gray-50 py-16">
+      
+      <div className="bg-gray-50 py-16">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">What Our Customers Say</h2>
             
@@ -124,11 +119,9 @@ const Trust = () => {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-      <MobileNav />
+      
       <AiAssistant />
-    </div>
+    </LayoutWrapper>
   );
 };
 

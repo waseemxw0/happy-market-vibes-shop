@@ -1,55 +1,53 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 interface TrendingCountdownProps {
   endTime: Date;
   label?: string;
 }
 
-const TrendingCountdown = ({ endTime, label = "Limited Time:" }: TrendingCountdownProps) => {
-  const calculateTimeLeft = () => {
-    const difference = +endTime - +new Date();
-    
-    if (difference <= 0) {
-      return { hours: 0, minutes: 0, seconds: 0 };
-    }
-    
-    return {
-      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((difference / 1000 / 60) % 60),
-      seconds: Math.floor((difference / 1000) % 60)
-    };
-  };
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-    
-    return () => clearTimeout(timer);
+const TrendingCountdown = ({ endTime, label = "Ends in:" }: TrendingCountdownProps) => {
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0
   });
   
-  const formatTime = (value: number) => {
-    return value < 10 ? `0${value}` : value;
-  };
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const difference = endTime.getTime() - new Date().getTime();
+      
+      if (difference <= 0) {
+        setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+      
+      setTimeLeft({
+        hours: Math.floor((difference / (1000 * 60 * 60))),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      });
+    };
+    
+    // Calculate immediately
+    calculateTimeLeft();
+    
+    // Then set up interval
+    const timer = setInterval(calculateTimeLeft, 1000);
+    
+    // Clear interval on unmount
+    return () => clearInterval(timer);
+  }, [endTime]);
   
   return (
-    <div className="flex items-center gap-2 text-sm font-medium">
-      <span className="text-softBlack/80">{label}</span>
-      <div className="flex items-center gap-1">
-        <div className="bg-softBlack text-white px-2 py-1 rounded">
-          {formatTime(timeLeft.hours)}
-        </div>
+    <div className="flex items-center gap-1 text-sm">
+      {label && <span className="text-xs text-softBlack/60">{label}</span>}
+      <div className="flex items-center gap-1 font-medium">
+        <span>{timeLeft.hours.toString().padStart(2, '0')}</span>
         <span>:</span>
-        <div className="bg-softBlack text-white px-2 py-1 rounded">
-          {formatTime(timeLeft.minutes)}
-        </div>
+        <span>{timeLeft.minutes.toString().padStart(2, '0')}</span>
         <span>:</span>
-        <div className="bg-softBlack text-white px-2 py-1 rounded">
-          {formatTime(timeLeft.seconds)}
-        </div>
+        <span>{timeLeft.seconds.toString().padStart(2, '0')}</span>
       </div>
     </div>
   );

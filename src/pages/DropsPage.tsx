@@ -1,7 +1,5 @@
-
 import React from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import LayoutWrapper from "@/components/LayoutWrapper";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, Clock, BellRing } from "lucide-react";
 import TrendingCountdown from "@/components/TrendingCountdown";
@@ -69,10 +67,8 @@ const DropsPage = () => {
   ];
   
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <Navbar />
-      <main className="flex-grow pb-20 md:pb-0">
-        <div className="container mx-auto px-4 py-10 md:py-16">
+    <LayoutWrapper>
+      <div className="container mx-auto px-4 py-10 md:py-16">
           <div className="text-center mb-12">
             <h1 className="text-3xl md:text-5xl font-bold mb-3">TikTok Viral Drops</h1>
             <p className="text-softBlack/70 max-w-2xl mx-auto">
@@ -148,9 +144,7 @@ const DropsPage = () => {
             ))}
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </LayoutWrapper>
   );
 };
 

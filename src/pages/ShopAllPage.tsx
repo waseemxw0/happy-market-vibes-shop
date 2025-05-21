@@ -1,15 +1,13 @@
-
 import React, { useState } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import LayoutWrapper from "@/components/LayoutWrapper";
 import ProductCardEnhanced from "@/components/ProductCardEnhanced";
 import { Button } from "@/components/ui/button";
 import { Filter, Grid3X3, List, ShoppingBag, Heart, SlidersHorizontal, ChevronDown } from "lucide-react";
 import { categoryData } from "@/components/CategoryData";
 
 const ShopAllPage = () => {
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [filtersVisible, setFiltersVisible] = useState(false);
+  const [viewMode, setViewMode<"grid" | "list">("grid");
+  const [filtersVisible, setFiltersVisible(false);
   
   // Combine all products from all categories
   const allProducts = Object.values(categoryData).flatMap(category => 
@@ -20,10 +18,8 @@ const ShopAllPage = () => {
   );
   
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <Navbar />
-      <main className="flex-grow pb-20 md:pb-0">
-        <div className="bg-gray-50 py-8 mb-6">
+    <LayoutWrapper>
+      <div className="bg-gray-50 py-8 mb-6">
           <div className="container mx-auto px-4">
             <h1 className="text-3xl md:text-4xl font-bold">Shop All Products</h1>
             <p className="text-softBlack/70 mt-2">Browse our complete collection of viral TikTok products</p>
@@ -211,9 +207,7 @@ const ShopAllPage = () => {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </LayoutWrapper>
   );
 };
 

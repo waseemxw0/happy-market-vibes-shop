@@ -1,11 +1,9 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { Heart, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Eye, ShoppingBag, Heart } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import TrendingCountdown from "./TrendingCountdown";
-import { Card } from "@/components/ui/card";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface ProductCardEnhancedProps {
   id?: string;
@@ -13,178 +11,136 @@ interface ProductCardEnhancedProps {
   price: string;
   image: string;
   specialBadge?: string;
-  rating?: number;
-  reviewCount?: number;
   reviewQuote?: string;
   videoUrl?: string;
-  isTrending?: boolean;
   endTime?: Date;
+  isTrending?: boolean;
+  category?: string;
 }
 
-const ProductCardEnhanced = ({ 
-  id,
-  name, 
-  price, 
-  image, 
-  specialBadge, 
-  rating = 4.5,
-  reviewCount = 120,
+const ProductCardEnhanced = ({
+  id = "1",
+  name,
+  price,
+  image,
+  specialBadge,
   reviewQuote,
   videoUrl,
-  isTrending,
-  endTime 
+  endTime,
+  isTrending = false,
+  category
 }: ProductCardEnhancedProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
-  const { toast } = useToast();
-  const navigate = useNavigate();
-
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // Add animation to the button
-    const button = e.currentTarget as HTMLButtonElement;
-    button.classList.add("animate-bounce");
-    setTimeout(() => button.classList.remove("animate-bounce"), 1000);
-    
-    toast({
-      title: `${name} added to cart!`,
-      description: "TikTok trend added to your cart",
-      className: "bg-gradient-to-r from-orange to-orange/90 text-white"
-    });
-  };
-
-  const handleToggleLike = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsLiked(!isLiked);
-    
-    toast({
-      title: isLiked ? "Removed from wishlist" : "Added to wishlist",
-      description: `${name} has been ${isLiked ? "removed from" : "added to"} your wishlist.`,
-    });
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  
+  // Handle mouse interaction for video playback
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (videoRef.current && videoUrl) {
+      videoRef.current.play().catch(e => console.error("Video play error:", e));
+      setIsPlaying(true);
+    }
   };
   
-  const handleViewDetails = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // Generate a safe URL slug from the product name if no ID is provided
-    const productId = id || name.toLowerCase().replace(/\s+/g, '-');
-    navigate(`/product/${productId}`);
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (videoRef.current && videoUrl) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
   };
-
-  // Calculate a random percentage for "would buy again" between 85-98%
-  const wouldBuyAgain = Math.floor(Math.random() * (98 - 85 + 1)) + 85;
-
+  
   return (
-    <Card 
-      className="group cursor-pointer transition-all duration-300 hover:scale-[1.02] overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={handleViewDetails}
+    <div 
+      className="group relative rounded-xl overflow-hidden shadow-sm border border-gray-100 transform transition-all duration-300 hover:shadow-md"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <div className="aspect-square relative overflow-hidden">
-        <img 
-          src={image} 
-          alt={name} 
-          className={`object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 ${videoUrl ? 'group-hover:opacity-0' : ''}`}
-        />
+      {/* Product image or video */}
+      <div className="aspect-square w-full relative overflow-hidden bg-gray-100">
+        {videoUrl && isHovered ? (
+          <video 
+            ref={videoRef}
+            src={videoUrl}
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <img 
+            src={image} 
+            alt={name}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        )}
         
-        {videoUrl && (
-          <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isHovered ? 'z-10' : 'z-0'}`}>
-            <video 
-              src={videoUrl} 
-              autoPlay 
-              muted 
-              loop 
-              className="w-full h-full object-cover"
-            />
+        {/* Special badges */}
+        {specialBadge && (
+          <div className="absolute top-2 left-2 bg-orange text-white text-xs rounded-full px-2 py-1 font-semibold">
+            {specialBadge}
           </div>
         )}
         
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+        {isTrending && (
+          <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-sm text-white text-xs rounded-full px-2 py-1 font-semibold flex items-center gap-1">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+            </span>
+            Trending
+          </div>
+        )}
         
-        {/* Quick actions */}
-        <div className="absolute top-3 right-3 z-20">
-          <Button 
-            size="icon"
-            variant="ghost" 
-            className={`h-9 w-9 rounded-full ${isLiked ? 'bg-red-50 text-red-500' : 'bg-white/80 backdrop-blur-sm text-softBlack/70'} hover:bg-white/90 shadow-sm`}
-            onClick={handleToggleLike}
-          >
-            <Heart className={`h-5 w-5 ${isLiked ? 'fill-red-500' : ''}`} />
-          </Button>
-        </div>
+        {/* Countdown timer */}
+        {endTime && (
+          <div className="absolute bottom-2 left-2 right-2 bg-black/70 backdrop-blur-sm text-white text-xs rounded-full px-3 py-1.5 font-medium">
+            <TrendingCountdown endTime={endTime} label="Limited offer: " />
+          </div>
+        )}
         
-        <div className="absolute bottom-0 left-0 right-0 p-4 flex gap-2 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
-          <Button 
-            variant="secondary" 
-            size="sm" 
-            className="flex-1 bg-white/90 backdrop-blur-sm hover:bg-white text-softBlack flex items-center gap-1 rounded-xl shadow-sm"
-            onClick={handleAddToCart}
-          >
-            <ShoppingBag className="h-4 w-4" /> Add to Cart
-          </Button>
-          
-          <Button 
-            variant="secondary" 
-            size="icon"
-            className="h-9 w-9 bg-white/90 backdrop-blur-sm hover:bg-white text-softBlack rounded-xl shadow-sm"
-            onClick={handleViewDetails}
-          >
-            <Eye className="h-4 w-4" />
-          </Button>
-        </div>
-        
-        {/* Top left badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-2 z-20">
-          {specialBadge && (
-            <div className="bg-white/90 backdrop-blur-sm text-softBlack text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm border border-orange/20">
-              {specialBadge}
-            </div>
-          )}
-          
-          {isTrending && (
-            <div className="bg-orange/90 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm flex items-center gap-1">
-              <span className="text-base">🔥</span> Trending
-            </div>
-          )}
+        {/* Quick action buttons - appear on hover */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="flex gap-2">
+            <Button 
+              size="icon"
+              className="h-10 w-10 rounded-full bg-white text-black hover:bg-orange hover:text-white"
+            >
+              <Heart className="h-5 w-5" />
+            </Button>
+            <Button 
+              size="icon"
+              className="h-10 w-10 rounded-full bg-orange text-white hover:bg-orange/90"
+            >
+              <ShoppingBag className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </div>
       
-      <div className="p-4">
-        <h3 className="font-medium text-softBlack truncate">{name}</h3>
-        
+      {/* Product info */}
+      <div className="p-3">
+        <Link to={`/product/${id}`}>
+          <h3 className="font-medium line-clamp-1 group-hover:text-orange transition-colors">{name}</h3>
+        </Link>
         <div className="flex justify-between items-center mt-1">
-          <p className="text-orange font-semibold">{price}</p>
-          <div className="text-xs text-softBlack/70 flex items-center gap-1">
-            <span className="text-orange">★★★★★</span>
-            <span>({reviewCount})</span>
-          </div>
+          <p className="font-bold text-orange">{price}</p>
+          {category && (
+            <span className="text-xs text-softBlack/60 bg-gray-100 px-2 py-0.5 rounded-full">
+              {category}
+            </span>
+          )}
         </div>
         
-        {/* Would buy again rating */}
-        <div className="mt-2 w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-gradient-to-r from-orange to-mint rounded-full" 
-            style={{ width: `${wouldBuyAgain}%` }}
-          ></div>
-        </div>
-        <div className="flex justify-between items-center mt-1 text-xs text-softBlack/70">
-          <span>🔥 {wouldBuyAgain}% would buy again</span>
-          {endTime && <TrendingCountdown endTime={endTime} label="" />}
-        </div>
-        
-        {/* Review quote */}
+        {/* Review quote - only show if provided */}
         {reviewQuote && (
-          <div className="mt-2 p-2 bg-gray-50 rounded-lg text-xs italic text-softBlack/80">
-            "{reviewQuote}"
+          <div className="mt-2 py-1 px-2 bg-gray-50 rounded-md">
+            <p className="text-xs italic text-softBlack/70 line-clamp-1">"{reviewQuote}"</p>
           </div>
         )}
       </div>
-    </Card>
+    </div>
   );
 };
 

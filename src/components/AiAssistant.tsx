@@ -1,195 +1,60 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { X, MessageCircle, Send, ShoppingBag } from "lucide-react";
-import { cn } from "@/lib/utils";
-
-interface Message {
-  id: number;
-  content: string;
-  sender: 'user' | 'ai';
-  includesProducts?: boolean;
-}
-
-// Demo products for the assistant to recommend
-const demoProducts = [
-  {
-    id: 1,
-    name: "Cloud Light",
-    price: "$24.99",
-    image: "https://images.unsplash.com/photo-1608155686393-8fdd966d784d?w=150&h=150&auto=format&fit=crop"
-  },
-  {
-    id: 2,
-    name: "Sunset Lamp",
-    price: "$29.99",
-    image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=150&h=150&auto=format&fit=crop"
-  },
-  {
-    id: 3,
-    name: "Portable Blender",
-    price: "$19.99",
-    image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=150&h=150&auto=format&fit=crop"
-  }
-];
-
-// Pre-defined assistant responses
-const assistantResponses: { [key: string]: Message } = {
-  gift: {
-    id: 2,
-    content: "Looking for a gift? I've got some viral picks that are super giftable right now! Here are the most popular gifts on TikTok this week:",
-    sender: 'ai',
-    includesProducts: true
-  },
-  under30: {
-    id: 3,
-    content: "Want something amazing under $30? These viral TikTok finds are all budget-friendly and trending right now:",
-    sender: 'ai',
-    includesProducts: true
-  },
-  trending: {
-    id: 4,
-    content: "Here's what's absolutely blowing up on TikTok today! These products are getting millions of views:",
-    sender: 'ai',
-    includesProducts: true
-  },
-  hello: {
-    id: 1,
-    content: "Hi there! I'm the Trendora AI assistant. I can help you find viral TikTok products! Ask me about gifts, trending items, or products under $30.",
-    sender: 'ai',
-    includesProducts: false
-  }
-};
+import { MessageSquare, X } from "lucide-react";
 
 const AiAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([
-    assistantResponses.hello
-  ]);
-
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
-    
-    // Add user message
-    const userMessage: Message = {
-      id: Date.now(),
-      content: input,
-      sender: 'user'
-    };
-    
-    setMessages(prev => [...prev, userMessage]);
-    setInput("");
-    
-    // Determine AI response based on keywords
-    setTimeout(() => {
-      let response: Message;
-      
-      if (input.toLowerCase().includes('gift')) {
-        response = assistantResponses.gift;
-      } else if (input.toLowerCase().includes('under') || input.toLowerCase().includes('$30')) {
-        response = assistantResponses.under30;
-      } else if (input.toLowerCase().includes('trend') || input.toLowerCase().includes('popular')) {
-        response = assistantResponses.trending;
-      } else {
-        response = {
-          id: Date.now(),
-          content: "I'm here to help you find the perfect TikTok viral products! Ask me about gifts, trending items, or products under $30.",
-          sender: 'ai',
-          includesProducts: true
-        };
-      }
-      
-      setMessages(prev => [...prev, {...response, id: Date.now()}]);
-    }, 500);
-  };
-
+  
   return (
     <>
-      {/* Chat bubble button */}
-      <button 
-        className={cn(
-          "fixed bottom-20 right-4 z-40 bg-orange text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110",
-          isOpen && "rotate-90 bg-softBlack"
-        )}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
-      </button>
+      {/* Floating button */}
+      {!isOpen && (
+        <div className="fixed bottom-20 md:bottom-8 right-4 z-40">
+          <Button 
+            onClick={() => setIsOpen(true)}
+            className="h-12 w-12 rounded-full bg-gradient-to-r from-orange to-mint shadow-lg flex items-center justify-center"
+          >
+            <MessageSquare className="h-5 w-5 text-white" />
+          </Button>
+        </div>
+      )}
       
       {/* Chat window */}
-      <div className={cn(
-        "fixed bottom-20 right-4 w-80 md:w-96 bg-white rounded-xl shadow-xl border border-gray-200 z-30 transition-all duration-300 overflow-hidden",
-        isOpen ? "opacity-100 transform translate-y-0" : "opacity-0 pointer-events-none transform translate-y-10"
-      )}>
-        {/* Header */}
-        <div className="bg-gradient-to-r from-orange to-orange/90 text-white p-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <MessageCircle className="h-5 w-5" />
-            <span className="font-medium">Trendora Assistant</span>
-          </div>
-          <button onClick={() => setIsOpen(false)}>
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-        
-        {/* Messages */}
-        <div className="h-96 overflow-y-auto p-4 flex flex-col gap-3">
-          {messages.map((message) => (
-            <div 
-              key={message.id} 
-              className={cn(
-                "max-w-[80%] p-3 rounded-lg",
-                message.sender === 'user' 
-                  ? "bg-orange/10 ml-auto rounded-tr-none" 
-                  : "bg-gray-100 mr-auto rounded-tl-none"
-              )}
+      {isOpen && (
+        <div className="fixed bottom-0 right-0 md:bottom-8 md:right-4 w-full md:w-80 h-64 bg-white rounded-t-xl md:rounded-xl shadow-xl z-40 flex flex-col border border-gray-200 overflow-hidden">
+          <div className="bg-gradient-to-r from-orange to-mint p-3 flex items-center justify-between">
+            <span className="text-white font-medium">Shopping Assistant</span>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => setIsOpen(false)}
+              className="h-8 w-8 text-white hover:bg-white/20 rounded-full"
             >
-              <p className="text-sm">{message.content}</p>
-              
-              {message.includesProducts && (
-                <div className="mt-2 grid grid-cols-1 gap-2">
-                  {demoProducts.map((product) => (
-                    <div key={product.id} className="flex items-center gap-2 bg-white p-2 rounded-lg shadow-sm">
-                      <img 
-                        src={product.image} 
-                        alt={product.name} 
-                        className="w-12 h-12 object-cover rounded-md"
-                      />
-                      <div className="flex-1">
-                        <h4 className="text-xs font-medium">{product.name}</h4>
-                        <p className="text-xs text-orange">{product.price}</p>
-                      </div>
-                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                        <ShoppingBag className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+          
+          <div className="flex-grow p-4 overflow-y-auto bg-gray-50">
+            <div className="bg-white p-3 rounded-xl mb-3 shadow-sm">
+              <p className="text-sm">Hi there! I'm your TikTok shopping assistant. How can I help you find the perfect viral product today?</p>
             </div>
-          ))}
+          </div>
+          
+          <div className="p-3 border-t border-gray-200">
+            <div className="flex gap-2">
+              <input 
+                type="text" 
+                placeholder="Ask about products..." 
+                className="flex-grow px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange/30" 
+              />
+              <Button size="sm" className="bg-orange hover:bg-orange/90 rounded-lg">
+                Send
+              </Button>
+            </div>
+          </div>
         </div>
-        
-        {/* Input */}
-        <form onSubmit={handleSendMessage} className="border-t p-3 flex gap-2">
-          <input 
-            type="text" 
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about trending products..."
-            className="flex-1 py-2 px-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange/50"
-          />
-          <Button 
-            type="submit" 
-            size="sm" 
-            className="bg-orange hover:bg-orange/90"
-          >
-            <Send className="h-4 w-4" />
-          </Button>
-        </form>
-      </div>
+      )}
     </>
   );
 };
