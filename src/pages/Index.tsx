@@ -9,13 +9,22 @@ import ReviewsCarousel from "@/components/ReviewsCarousel";
 import WhyShopWithUs from "@/components/WhyShopWithUs";
 import TrendingCountdownSection from "@/components/TrendingCountdownSection";
 import Newsletter from "@/components/Newsletter";
+import { categoryData } from "@/components/CategoryData";
 
 const Index = () => {
+  // Using the first category from categoryData (ecoGadgets)
+  const featuredCategory = categoryData.ecoGadgets;
+  
   return (
     <LayoutWrapper>
       <div className="flex flex-col gap-16 md:gap-24">
         <HeroSection />
-        <CategorySection />
+        <CategorySection 
+          title={featuredCategory.title}
+          subtitle={featuredCategory.subtitle}
+          color={featuredCategory.color}
+          products={featuredCategory.products}
+        />
         <TrendingSection />
         <TrendingCountdownSection />
         <ReviewsCarousel />
