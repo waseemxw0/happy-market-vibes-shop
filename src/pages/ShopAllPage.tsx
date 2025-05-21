@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import ProductCardEnhanced from "@/components/ProductCardEnhanced";
@@ -6,8 +7,8 @@ import { Filter, Grid3X3, List, ShoppingBag, Heart, SlidersHorizontal, ChevronDo
 import { categoryData } from "@/components/CategoryData";
 
 const ShopAllPage = () => {
-  const [viewMode, setViewMode<"grid" | "list">("grid");
-  const [filtersVisible, setFiltersVisible(false);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [filtersVisible, setFiltersVisible] = useState(false);
   
   // Combine all products from all categories
   const allProducts = Object.values(categoryData).flatMap(category => 
