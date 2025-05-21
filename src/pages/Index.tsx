@@ -3,72 +3,69 @@ import React from "react";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import { Button } from "@/components/ui/button";
 import HeroSection from "@/components/HeroSection";
-import CategorySection from "@/components/CategorySection";
-import TrendingSection from "@/components/TrendingSection";
-import ReviewsCarousel from "@/components/ReviewsCarousel";
-import WhyShopWithUs from "@/components/WhyShopWithUs";
-import TrendingCountdownSection from "@/components/TrendingCountdownSection";
+import CategoryBlocks from "@/components/CategoryBlocks";
+import TrendingProductsGrid from "@/components/TrendingProductsGrid";
+import BundleDealsSection from "@/components/BundleDealsSection";
+import TestimonialCarousel from "@/components/TestimonialCarousel";
+import InstagramSection from "@/components/InstagramSection";
 import Newsletter from "@/components/Newsletter";
-import { categoryData } from "@/components/CategoryData";
-import FilterSection from "@/components/FilterSection";
+import FloatingCartBar from "@/components/FloatingCartBar";
+import TrustBadges from "@/components/TrustBadges";
+import FlashSaleTimer from "@/components/FlashSaleTimer";
 
 const Index = () => {
-  // Using the Eco-Friendly Gadgets as the featured category on the homepage
-  const featuredCategory = categoryData.ecoGadgets;
-  
   return (
     <LayoutWrapper>
-      <div className="flex flex-col gap-16 md:gap-24">
-        <HeroSection />
-        
-        {/* First category section - Eco-Friendly */}
-        <CategorySection 
-          title={featuredCategory.title}
-          subtitle={featuredCategory.subtitle}
-          color={featuredCategory.color}
-          products={featuredCategory.products}
-          categoryKey="eco-friendly"
+      <div className="flex flex-col gap-14 md:gap-20">
+        {/* Hero Section */}
+        <HeroSection 
+          headline="Feel-Good Products That Spark Joy"
+          ctaText="Shop Best Sellers"
         />
         
-        <TrendingSection />
+        {/* Category Blocks */}
+        <CategoryBlocks />
         
-        <TrendingCountdownSection />
-        
-        {/* Second category section - Home Decor */}
-        <CategorySection 
-          title={categoryData.homeDecor.title}
-          subtitle={categoryData.homeDecor.subtitle}
-          color={categoryData.homeDecor.color}
-          products={categoryData.homeDecor.products}
-          categoryKey="home-decor"
+        {/* Flash Sale Timer */}
+        <FlashSaleTimer 
+          headline="Flash Sale Ends In:"
+          endTime={new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)} // 3 days from now
         />
         
-        <ReviewsCarousel />
-        
-        {/* Third category section - Beauty Tools */}
-        <CategorySection 
-          title={categoryData.beautyTools.title}
-          subtitle={categoryData.beautyTools.subtitle}
-          color={categoryData.beautyTools.color}
-          products={categoryData.beautyTools.products}
-          categoryKey="beauty-tools"
+        {/* Trending Products Grid */}
+        <TrendingProductsGrid 
+          title="Top Picks This Week"
+          subtitle="Curated with love, just for you"
         />
         
-        <WhyShopWithUs />
-        
-        {/* Fourth category section - Beach Essentials */}
-        <CategorySection 
-          title={categoryData.beachEssentials.title}
-          subtitle={categoryData.beachEssentials.subtitle}
-          color={categoryData.beachEssentials.color}
-          products={categoryData.beachEssentials.products}
-          categoryKey="beach-essentials"
+        {/* Bundle Deals Section */}
+        <BundleDealsSection 
+          title="Bundle & Save"
+          subtitle="Create your perfect wellness package"
         />
         
-        <FilterSection />
+        {/* Testimonial Carousel */}
+        <TestimonialCarousel 
+          title="What Our Customers Say"
+        />
         
-        <Newsletter />
+        {/* Trust Badges */}
+        <TrustBadges />
+        
+        {/* Instagram Section */}
+        <InstagramSection 
+          title="Follow the Vibe @HappyMarketVibes"
+        />
+        
+        {/* Newsletter */}
+        <Newsletter 
+          headline="Join & Get 15% Off"
+          description="Sign up for our newsletter and get 15% off your first order!"
+        />
       </div>
+      
+      {/* Floating Cart Bar */}
+      <FloatingCartBar />
     </LayoutWrapper>
   );
 };

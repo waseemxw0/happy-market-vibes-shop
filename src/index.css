@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -47,7 +47,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-inter;
+    @apply bg-background text-foreground font-nunito;
     font-feature-settings: "rlig" 1, "calt" 1;
     overflow-x: hidden;
   }
@@ -72,20 +72,20 @@
   }
 
   .btn-primary {
-    @apply bg-orange text-white font-medium py-3 px-6 rounded-full hover:bg-orange/90 transition-all duration-300;
+    @apply bg-[#FEC6A1] text-white font-medium py-3 px-6 rounded-full hover:bg-[#FEC6A1]/90 transition-all duration-300;
   }
 
   .btn-secondary {
-    @apply bg-mint text-softBlack font-medium py-3 px-6 rounded-full hover:bg-mint/90 transition-all duration-300;
+    @apply bg-[#E5DEFF] text-[#6C5DD3] font-medium py-3 px-6 rounded-full hover:bg-[#E5DEFF]/90 transition-all duration-300;
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl font-bold mb-4 text-softBlack;
+    @apply text-3xl md:text-4xl font-bold mb-4 text-[#1E1E1E];
   }
   
   /* Floating cart button */
   .floating-cart {
-    @apply fixed bottom-20 md:bottom-6 right-6 bg-orange text-white rounded-full shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110;
+    @apply fixed bottom-20 md:bottom-6 right-6 bg-[#FEC6A1] text-white rounded-full shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110;
   }
   
   /* Glass effect */
@@ -95,7 +95,7 @@
   
   /* Gradient buttons */
   .gradient-button {
-    @apply bg-gradient-to-r from-orange to-orange/80 text-white font-medium py-3 px-6 rounded-full hover:shadow-lg hover:shadow-orange/20 transition-all duration-300;
+    @apply bg-gradient-to-r from-[#FEC6A1] to-[#FEC6A1]/80 text-white font-medium py-3 px-6 rounded-full hover:shadow-lg hover:shadow-[#FEC6A1]/20 transition-all duration-300;
   }
   
   /* Pill badges */
@@ -104,8 +104,8 @@
   }
 }
 
-.font-inter {
-  font-family: 'Inter', sans-serif;
+.font-nunito {
+  font-family: 'Nunito', sans-serif;
 }
 
 @keyframes float {
@@ -187,7 +187,7 @@
 
 /* Remove the default focus outline and replace with custom styling */
 button:focus, a:focus, input:focus, select:focus, textarea:focus {
-  @apply outline-none ring-2 ring-orange/30 ring-offset-1;
+  @apply outline-none ring-2 ring-[#FEC6A1]/30 ring-offset-1;
 }
 
 /* Custom style for scrollbar */
@@ -201,7 +201,7 @@ button:focus, a:focus, input:focus, select:focus, textarea:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-orange/40 rounded-full hover:bg-orange/60 transition-colors;
+  @apply bg-[#FEC6A1]/40 rounded-full hover:bg-[#FEC6A1]/60 transition-colors;
 }
 
 /* Page transition */
