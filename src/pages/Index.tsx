@@ -12,7 +12,7 @@ import Newsletter from "@/components/Newsletter";
 import { categoryData } from "@/components/CategoryData";
 
 const Index = () => {
-  // Using the first category from categoryData (ecoGadgets)
+  // Using the Eco-Friendly Gadgets as the featured category on the homepage
   const featuredCategory = categoryData.ecoGadgets;
   
   return (
