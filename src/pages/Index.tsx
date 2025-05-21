@@ -2,13 +2,25 @@
 import React from "react";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import { Button } from "@/components/ui/button";
+import HeroSection from "@/components/HeroSection";
+import CategorySection from "@/components/CategorySection";
+import TrendingSection from "@/components/TrendingSection";
+import ReviewsCarousel from "@/components/ReviewsCarousel";
+import WhyShopWithUs from "@/components/WhyShopWithUs";
+import TrendingCountdownSection from "@/components/TrendingCountdownSection";
+import Newsletter from "@/components/Newsletter";
 
 const Index = () => {
   return (
     <LayoutWrapper>
-      <div className="container mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold">Welcome to Trendora</h1>
-        <p className="mt-2 text-gray-600">Your destination for viral TikTok products</p>
+      <div className="flex flex-col gap-16 md:gap-24">
+        <HeroSection />
+        <CategorySection />
+        <TrendingSection />
+        <TrendingCountdownSection />
+        <ReviewsCarousel />
+        <WhyShopWithUs />
+        <Newsletter />
       </div>
     </LayoutWrapper>
   );
