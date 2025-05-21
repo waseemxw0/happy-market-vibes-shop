@@ -1,3 +1,4 @@
+
 import React from "react";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,9 @@ const About = () => {
       <div className="bg-gradient-to-r from-white to-orange/10 py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center">
-            <Logo className="mx-auto mb-6" />
+            <div className="mx-auto mb-6">
+              <Logo />
+            </div>
             <h1 className="text-3xl md:text-5xl font-bold mb-6 text-softBlack">The Story Behind Trendora</h1>
             <p className="text-softBlack/70 text-lg mb-8">
               We curate the most viral TikTok products so you don't have to scroll endlessly to find what's worth buying.
