@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import MobileNav from "./components/MobileNav";
 import Navbar from "./components/Navbar";
 import FloatingCart from "./components/FloatingCart";
@@ -52,10 +52,30 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
-  // Set CSS Variable for mobile navigation padding
-  if (typeof window !== 'undefined') {
-    document.documentElement.style.setProperty('--main-bottom-padding', '64px');
-  }
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    // Detect if we're on mobile
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Initial check
+    checkIfMobile();
+    
+    // Add listener for window resize
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Set CSS Variable for mobile navigation padding only on mobile
+    if (typeof window !== 'undefined') {
+      document.documentElement.style.setProperty(
+        '--main-bottom-padding', 
+        window.innerWidth < 768 ? '64px' : '0'
+      );
+    }
+    
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -65,10 +85,10 @@ const App = () => {
         <BrowserRouter>
           <Suspense fallback={<PageLoading />}>
             <div className="flex flex-col min-h-screen relative">
-              {/* Desktop Navbar (hidden on mobile) */}
-              <Navbar />
+              {/* Only render Navbar on desktop */}
+              {!isMobile && <Navbar />}
               
-              <main className="flex-grow pb-[var(--main-bottom-padding)] md:pb-0">
+              <main className="flex-grow pb-[var(--main-bottom-padding)]">
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/collection/:category" element={<CollectionPage />} />
@@ -93,11 +113,11 @@ const App = () => {
                 </Routes>
               </main>
               
-              {/* Mobile Navigation (hidden on desktop) */}
-              <MobileNav />
+              {/* Only render MobileNav on mobile */}
+              {isMobile && <MobileNav />}
               
-              {/* Floating Cart (hidden on mobile) */}
-              <FloatingCart className="fixed bottom-6 right-6 z-40" />
+              {/* Only render FloatingCart on desktop */}
+              {!isMobile && <FloatingCart className="fixed bottom-6 right-6 z-40" />}
             </div>
           </Suspense>
         </BrowserRouter>

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ShoppingBag, Heart, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -9,32 +9,17 @@ import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/compon
 
 // Desktop-only Navbar component
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [cartCount, setCartCount] = useState(3);
   const location = useLocation();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const cartCount = 3; // This would come from a cart context in a real app
 
   return (
-    <header className={cn(
-      "sticky top-0 z-50 w-full transition-all duration-300",
-      isScrolled 
-        ? "bg-white shadow-sm py-3" 
-        : "bg-white py-4"
-    )}>
+    <header className="sticky top-0 z-50 w-full bg-white shadow-sm py-3">
       <div className="container mx-auto flex items-center justify-between px-4">
         <Link to="/" className="flex items-center z-20">
           <Logo />
         </Link>
         
-        <div className="hidden md:flex items-center gap-8">
+        <div className="flex items-center gap-8">
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
@@ -65,7 +50,7 @@ const Navbar = () => {
           </NavigationMenu>
         </div>
         
-        <div className="hidden md:flex items-center gap-3">
+        <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" className="rounded-full h-10 w-10 hover:bg-gray-100">
             <Search className="h-5 w-5 text-softBlack/70" />
           </Button>
