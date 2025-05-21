@@ -24,6 +24,7 @@ const Index = () => {
           subtitle={featuredCategory.subtitle}
           color={featuredCategory.color}
           products={featuredCategory.products}
+          categoryKey="eco-friendly"
         />
         <TrendingSection />
         <TrendingCountdownSection />
