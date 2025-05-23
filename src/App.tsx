@@ -28,6 +28,9 @@ const WishlistPage = lazy(() => import("./pages/WishlistPage"));
 const CartPage = lazy(() => import("./pages/CartPage"));
 const ShopAllPage = lazy(() => import("./pages/ShopAllPage"));
 const NewArrivalsPage = lazy(() => import("./pages/NewArrivalsPage"));
+const AccountPage = lazy(() => import("./pages/AccountPage"));
+const OrdersPage = lazy(() => import("./pages/OrdersPage"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
 
 // Create loading fallback
 const PageLoading = () => (
@@ -74,6 +77,9 @@ const App = () => (
             <Route path="/cart" element={<CartPage />} />
             <Route path="/shop" element={<ShopAllPage />} />
             <Route path="/new-arrivals" element={<NewArrivalsPage />} />
+            <Route path="/account" element={<AccountPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/search" element={<SearchPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

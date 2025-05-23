@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Home, Search, ShoppingBag, Heart, Calendar, TrendingUp, User, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -16,7 +15,7 @@ const MobileNav = () => {
       {/* More menu overlay */}
       {showMoreMenu && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={() => setShowMoreMenu(false)}>
-          <div className="absolute bottom-16 left-4 right-4 bg-white rounded-2xl shadow-xl p-4 animate-slide-in-up" onClick={e => e.stopPropagation()}>
+          <div className="absolute bottom-16 left-4 right-4 bg-white rounded-2xl shadow-xl p-4 animate-slide-in-up border border-gray-100" onClick={e => e.stopPropagation()}>
             <div className="grid grid-cols-3 gap-4 mb-4">
               <MenuButton icon={<Search className="h-6 w-6" />} label="Search" href="/search" />
               <MenuButton icon={<User className="h-6 w-6" />} label="Account" href="/account" />
@@ -134,7 +133,7 @@ interface MenuButtonProps {
 }
 
 const MenuButton = ({ icon, label, href }: MenuButtonProps) => (
-  <Link to={href} className="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl hover:bg-gray-100">
+  <Link to={href} className="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
     <div className="text-softBlack">{icon}</div>
     <span className="text-xs mt-1 text-softBlack/80">{label}</span>
   </Link>
