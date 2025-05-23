@@ -63,9 +63,11 @@ const Navbar = () => {
         </div>
         
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="hidden md:flex rounded-full h-10 w-10">
-            <Search className="h-5 w-5 text-softBlack/70" />
-          </Button>
+          <Link to="/search">
+            <Button variant="ghost" size="icon" className="hidden md:flex rounded-full h-10 w-10">
+              <Search className="h-5 w-5 text-softBlack/70" />
+            </Button>
+          </Link>
           
           <Link to="/wishlist">
             <Button variant="ghost" size="icon" className="hidden md:flex rounded-full h-10 w-10">
@@ -78,7 +80,6 @@ const Navbar = () => {
               variant="ghost" 
               size="icon" 
               className="relative rounded-full h-10 w-10" 
-              onClick={addToCart}
             >
               <ShoppingBag className="h-5 w-5" />
               {cartCount > 0 && (
@@ -100,18 +101,18 @@ const Navbar = () => {
         </div>
       </div>
       
-      {/* Mobile Menu with glassmorphism */}
+      {/* Mobile Menu with solid background */}
       <div className={cn(
-        "md:hidden fixed inset-0 top-[57px] bg-white/95 backdrop-blur-md z-40 transform transition-transform duration-300 shadow-lg",
+        "md:hidden fixed inset-0 top-[57px] bottom-20 bg-white z-40 transform transition-transform duration-300 shadow-lg",
         isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
       )}>
-        <div className="py-8 px-6 flex flex-col gap-4">
+        <div className="py-8 px-6 flex flex-col gap-4 h-full overflow-y-auto">
           <div className="mb-6">
             <div className="relative w-full mb-4">
               <input 
                 type="search" 
                 placeholder="Search products..." 
-                className="w-full py-3 px-5 pr-10 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange/50 bg-white/70 shadow-sm"
+                className="w-full py-3 px-5 pr-10 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange/50 bg-white shadow-sm"
               />
               <Search className="absolute right-4 top-3.5 h-5 w-5 text-gray-400" />
             </div>
@@ -138,7 +139,7 @@ const Navbar = () => {
             <Link to="/wishlist" className="flex-1">
               <Button 
                 variant="default" 
-                className="w-full bg-orange text-white rounded-2xl"
+                className="w-full bg-orange text-white rounded-2xl hover:bg-orange/90 transition-colors"
               >
                 <Heart className="h-5 w-5 mr-2" />
                 Wishlist
@@ -147,7 +148,7 @@ const Navbar = () => {
             <Link to="/cart" className="flex-1">
               <Button 
                 variant="default" 
-                className="w-full bg-mint text-softBlack rounded-2xl"
+                className="w-full bg-mint text-softBlack rounded-2xl hover:bg-mint/90 transition-colors"
               >
                 <ShoppingBag className="h-5 w-5 mr-2" />
                 Cart

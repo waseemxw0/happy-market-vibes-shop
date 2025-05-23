@@ -12,10 +12,10 @@ const MobileNav = () => {
   
   return (
     <>
-      {/* More menu overlay */}
+      {/* More menu overlay with solid background */}
       {showMoreMenu && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={() => setShowMoreMenu(false)}>
-          <div className="absolute bottom-16 left-4 right-4 bg-white rounded-2xl shadow-xl p-4 animate-slide-in-up border border-gray-100" onClick={e => e.stopPropagation()}>
+          <div className="absolute bottom-20 left-4 right-4 bg-white rounded-2xl shadow-xl p-4 animate-slide-in-up border border-gray-100" onClick={e => e.stopPropagation()}>
             <div className="grid grid-cols-3 gap-4 mb-4">
               <MenuButton icon={<Search className="h-6 w-6" />} label="Search" href="/search" />
               <MenuButton icon={<User className="h-6 w-6" />} label="Account" href="/account" />
@@ -32,7 +32,7 @@ const MobileNav = () => {
         </div>
       )}
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-gray-200 z-40 md:hidden">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 md:hidden">
         <div className="flex items-center justify-around py-3">
           <NavItem 
             icon={<Home className="h-6 w-6" />} 
