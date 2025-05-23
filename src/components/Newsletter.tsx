@@ -5,12 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, ArrowRight, CheckCircle } from "lucide-react";
 
-interface NewsletterProps {
-  headline: string;
-  description: string;
-}
-
-const Newsletter = ({ headline, description }: NewsletterProps) => {
+const Newsletter = () => {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -41,7 +36,7 @@ const Newsletter = ({ headline, description }: NewsletterProps) => {
     setTimeout(() => {
       toast({
         title: "Successfully subscribed!",
-        description: "Your 15% discount code has been sent to your email.",
+        description: "Thanks for joining our newsletter.",
       });
       setEmail("");
       setIsSubmitting(false);
@@ -55,26 +50,30 @@ const Newsletter = ({ headline, description }: NewsletterProps) => {
   };
 
   return (
-    <section className="py-14 bg-[#FFDEE2]/30 rounded-3xl">
-      <div className="container mx-auto px-4">
+    <section className="py-12 md:py-16 bg-gradient-to-r from-orange/10 to-mint/10 relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute -top-16 -right-16 w-48 h-48 bg-mint/30 rounded-full blur-3xl"></div>
+      <div className="absolute -bottom-20 -left-16 w-48 h-48 bg-orange/20 rounded-full blur-3xl"></div>
+      
+      <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="mb-4 flex justify-center">
-            <div className="bg-[#FFDEE2] w-14 h-14 rounded-full flex items-center justify-center">
-              <Mail className="h-6 w-6 text-[#E06C9F]" />
+          <div className="mb-2 flex justify-center">
+            <div className="bg-orange/20 w-12 h-12 rounded-full flex items-center justify-center">
+              <Mail className="h-6 w-6 text-orange" />
             </div>
           </div>
           
-          <h2 className="text-3xl font-bold mb-3">{headline}</h2>
-          <p className="text-gray-700 mb-6 max-w-lg mx-auto">
-            {description}
+          <h2 className="text-2xl md:text-3xl font-bold mb-3">Stay In The Loop</h2>
+          <p className="text-softBlack/70 mb-6">
+            Subscribe to get special offers, free giveaways, and trending product alerts.
           </p>
           
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 relative z-10">
             <div className="flex-1 relative">
               <Input 
                 type="email" 
                 placeholder="Enter your email" 
-                className={`rounded-full border-gray-200 h-12 pr-10 ${error ? 'border-red-300 focus:ring-red-500' : ''}`}
+                className={`rounded-full bg-white border-gray-200 h-12 pr-10 ${error ? 'border-red-300 focus:ring-red-500' : ''}`}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isSubmitting || isSuccess}
@@ -85,12 +84,12 @@ const Newsletter = ({ headline, description }: NewsletterProps) => {
             </div>
             
             <Button 
-              className={`h-12 rounded-full bg-[#E06C9F] hover:bg-[#E06C9F]/90 text-white sm:w-auto ${isSuccess ? 'bg-green-500 hover:bg-green-600' : ''}`}
+              className={`btn-primary h-12 sm:w-auto ${isSuccess ? 'bg-green-500 hover:bg-green-600' : ''}`}
               type="submit"
               disabled={isSubmitting || isSuccess}
             >
-              {isSubmitting ? "Subscribing..." : isSuccess ? "Subscribed!" : "Get 15% Off"}
-              {!isSubmitting && !isSuccess && <ArrowRight className="ml-2 h-4 w-4" />}
+              {isSubmitting ? "Subscribing..." : isSuccess ? "Subscribed!" : "Subscribe"}
+              {!isSubmitting && !isSuccess && <ArrowRight className="ml-2" />}
             </Button>
           </form>
           
@@ -98,8 +97,8 @@ const Newsletter = ({ headline, description }: NewsletterProps) => {
             <p className="text-red-500 text-sm mt-2">{error}</p>
           )}
           
-          <p className="text-xs text-gray-500 mt-4">
-            By subscribing, you agree to receive marketing emails. Unsubscribe anytime.
+          <p className="text-xs text-softBlack/50 mt-4">
+            We respect your privacy. Unsubscribe at any time.
           </p>
         </div>
       </div>

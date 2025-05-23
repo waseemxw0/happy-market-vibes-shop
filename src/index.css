@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -36,10 +36,6 @@
     --ring: 32 100% 65%;
 
     --radius: 1rem;
-    
-    /* Custom variables */
-    --main-bottom-padding: 0px; /* For mobile nav spacing */
-    --header-height: 60px;
   }
 
   * {
@@ -47,9 +43,8 @@
   }
 
   body {
-    @apply bg-background text-foreground font-nunito;
+    @apply bg-background text-foreground font-inter;
     font-feature-settings: "rlig" 1, "calt" 1;
-    overflow-x: hidden;
   }
   
   /* Smooth scrolling */
@@ -72,40 +67,25 @@
   }
 
   .btn-primary {
-    @apply bg-[#FEC6A1] text-white font-medium py-3 px-6 rounded-full hover:bg-[#FEC6A1]/90 transition-all duration-300;
+    @apply bg-orange text-white font-medium py-3 px-6 rounded-full hover:bg-orange/90 transition-all duration-300;
   }
 
   .btn-secondary {
-    @apply bg-[#E5DEFF] text-[#6C5DD3] font-medium py-3 px-6 rounded-full hover:bg-[#E5DEFF]/90 transition-all duration-300;
+    @apply bg-mint text-softBlack font-medium py-3 px-6 rounded-full hover:bg-mint/90 transition-all duration-300;
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl font-bold mb-4 text-[#1E1E1E];
+    @apply text-3xl md:text-4xl font-bold mb-4 text-softBlack;
   }
   
   /* Floating cart button */
   .floating-cart {
-    @apply fixed bottom-20 md:bottom-6 right-6 bg-[#FEC6A1] text-white rounded-full shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110;
-  }
-  
-  /* Glass effect */
-  .glass-effect {
-    @apply bg-white/70 backdrop-filter backdrop-blur-md;
-  }
-  
-  /* Gradient buttons */
-  .gradient-button {
-    @apply bg-gradient-to-r from-[#FEC6A1] to-[#FEC6A1]/80 text-white font-medium py-3 px-6 rounded-full hover:shadow-lg hover:shadow-[#FEC6A1]/20 transition-all duration-300;
-  }
-  
-  /* Pill badges */
-  .pill-badge {
-    @apply px-3 py-1 rounded-full text-xs font-medium;
+    @apply fixed bottom-6 right-6 bg-orange text-white rounded-full shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110;
   }
 }
 
-.font-nunito {
-  font-family: 'Nunito', sans-serif;
+.font-inter {
+  font-family: 'Inter', sans-serif;
 }
 
 @keyframes float {
@@ -183,61 +163,4 @@
   background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
   background-size: 800px 104px;
   animation: shimmer 1.5s infinite linear;
-}
-
-/* Remove the default focus outline and replace with custom styling */
-button:focus, a:focus, input:focus, select:focus, textarea:focus {
-  @apply outline-none ring-2 ring-[#FEC6A1]/30 ring-offset-1;
-}
-
-/* Custom style for scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-gray-100 rounded-full;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-[#FEC6A1]/40 rounded-full hover:bg-[#FEC6A1]/60 transition-colors;
-}
-
-/* Page transition */
-.page-transition-enter {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.page-transition-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
-}
-
-.page-transition-exit {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.page-transition-exit-active {
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 300ms, transform 300ms;
-}
-
-/* Fix for mobile navigation spacing */
-@media (max-width: 768px) {
-  body {
-    padding-bottom: 64px;
-  }
-  
-  main {
-    padding-bottom: 64px !important;
-  }
-  
-  .floating-cart {
-    bottom: 80px;
-  }
 }

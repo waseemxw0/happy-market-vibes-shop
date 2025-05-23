@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
-import LayoutWrapper from "@/components/LayoutWrapper";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import ProductCardEnhanced from "@/components/ProductCardEnhanced";
 import { Button } from "@/components/ui/button";
 import { Filter, Grid3X3, List, ShoppingBag, Heart, SlidersHorizontal, ChevronDown } from "lucide-react";
@@ -19,8 +20,10 @@ const ShopAllPage = () => {
   );
   
   return (
-    <LayoutWrapper>
-      <div className="bg-gray-50 py-8 mb-6">
+    <div className="min-h-screen bg-white flex flex-col">
+      <Navbar />
+      <main className="flex-grow pb-20 md:pb-0">
+        <div className="bg-gray-50 py-8 mb-6">
           <div className="container mx-auto px-4">
             <h1 className="text-3xl md:text-4xl font-bold">Shop All Products</h1>
             <p className="text-softBlack/70 mt-2">Browse our complete collection of viral TikTok products</p>
@@ -208,7 +211,9 @@ const ShopAllPage = () => {
             </div>
           </div>
         </div>
-    </LayoutWrapper>
+      </main>
+      <Footer />
+    </div>
   );
 };
 

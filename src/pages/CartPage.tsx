@@ -1,5 +1,7 @@
+
 import React, { useState } from "react";
-import LayoutWrapper from "@/components/LayoutWrapper";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, Trash, Plus, Minus, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -43,8 +45,10 @@ const CartPage = () => {
   const total = subtotal + shipping;
 
   return (
-    <LayoutWrapper>
-      <div className="container mx-auto px-4 py-10 md:py-16">
+    <div className="min-h-screen bg-white flex flex-col">
+      <Navbar />
+      <main className="flex-grow pb-20 md:pb-0">
+        <div className="container mx-auto px-4 py-10 md:py-16">
           <h1 className="text-3xl md:text-4xl font-bold mb-8 flex items-center gap-2">
             <ShoppingBag className="text-orange h-8 w-8" />
             Shopping Cart
@@ -152,7 +156,9 @@ const CartPage = () => {
             </div>
           )}
         </div>
-    </LayoutWrapper>
+      </main>
+      <Footer />
+    </div>
   );
 };
 

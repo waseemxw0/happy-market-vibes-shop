@@ -1,5 +1,8 @@
+
 import React from "react";
-import LayoutWrapper from "@/components/LayoutWrapper";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import MobileNav from "@/components/MobileNav";
 import { Button } from "@/components/ui/button";
 import { Package, ShoppingBag, Heart, Check } from "lucide-react";
 import TrendingCountdown from "@/components/TrendingCountdown";
@@ -74,103 +77,107 @@ const Bundles = () => {
   };
   
   return (
-    <LayoutWrapper>
-      <div className="bg-gradient-to-r from-orange/10 to-mint/10 py-16">
-        <div className="container mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 bg-black/10 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6">
-            <Package className="h-4 w-4" />
-            <span className="text-sm font-medium">Save with Bundles</span>
-          </div>
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">TikTok Viral Bundles</h1>
-          <p className="text-softBlack/70 max-w-xl mx-auto mb-8">
-            Save up to 40% when you buy our carefully curated bundles of the most viral TikTok products
-          </p>
-          
-          <div className="inline-flex items-center gap-2 bg-white rounded-full pl-3 pr-4 py-2 shadow-md">
-            <div className="bg-orange/20 p-1 rounded-full">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L4 7V17L12 22L20 17V7L12 2Z" stroke="#FFA94D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+    <div className="min-h-screen bg-white flex flex-col">
+      <Navbar />
+      <main className="flex-grow pb-20 md:pb-0">
+        <div className="bg-gradient-to-r from-orange/10 to-mint/10 py-16">
+          <div className="container mx-auto px-4 text-center">
+            <div className="inline-flex items-center gap-2 bg-black/10 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6">
+              <Package className="h-4 w-4" />
+              <span className="text-sm font-medium">Save with Bundles</span>
             </div>
-            <span className="text-sm font-medium">Limited Time Bundle Offer</span>
-            <TrendingCountdown endTime={endTime} label="" />
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">TikTok Viral Bundles</h1>
+            <p className="text-softBlack/70 max-w-xl mx-auto mb-8">
+              Save up to 40% when you buy our carefully curated bundles of the most viral TikTok products
+            </p>
+            
+            <div className="inline-flex items-center gap-2 bg-white rounded-full pl-3 pr-4 py-2 shadow-md">
+              <div className="bg-orange/20 p-1 rounded-full">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2L4 7V17L12 22L20 17V7L12 2Z" stroke="#FFA94D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <span className="text-sm font-medium">Limited Time Bundle Offer</span>
+              <TrendingCountdown endTime={endTime} label="" />
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div className="container mx-auto px-4 py-16">
-        <div className="space-y-16">
-          {bundles.map((bundle) => (
-            <div key={bundle.id} className="flex flex-col lg:flex-row gap-8 bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="lg:w-1/3">
-                <img 
-                  src={bundle.image} 
-                  alt={bundle.name} 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              
-              <div className="lg:w-2/3 p-6 md:p-8 flex flex-col">
-                <div className="mb-6">
-                  <div className="inline-flex items-center gap-2 bg-orange/20 text-orange px-3 py-1 rounded-full text-sm font-semibold mb-3">
-                    {bundle.savings}
-                  </div>
-                  <h2 className="text-2xl md:text-3xl font-bold mb-2">{bundle.name}</h2>
-                  <p className="text-softBlack/70 mb-4">{bundle.description}</p>
-                  
-                  <div className="flex items-center gap-3 mb-6">
-                    <span className="text-3xl font-bold text-orange">{bundle.price}</span>
-                    <span className="text-lg line-through text-softBlack/50">{bundle.originalPrice}</span>
-                  </div>
-                  
-                  <div className="bg-gray-50 p-4 rounded-xl mb-6">
-                    <h3 className="font-medium mb-3">Bundle Includes:</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {bundle.products.map((product, index) => (
-                        <div key={index} className="flex items-center gap-3 bg-white p-2 rounded-lg">
-                          <img 
-                            src={product.image} 
-                            alt={product.name} 
-                            className="w-12 h-12 object-cover rounded-md"
-                          />
-                          <div>
-                            <p className="font-medium text-sm">{product.name}</p>
-                            <p className="text-xs text-softBlack/60">{product.price}</p>
-                          </div>
-                          <div className="ml-auto">
-                            <div className="h-6 w-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
-                              <Check className="h-3 w-3" />
+        
+        <div className="container mx-auto px-4 py-16">
+          <div className="space-y-16">
+            {bundles.map((bundle) => (
+              <div key={bundle.id} className="flex flex-col lg:flex-row gap-8 bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div className="lg:w-1/3">
+                  <img 
+                    src={bundle.image} 
+                    alt={bundle.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                <div className="lg:w-2/3 p-6 md:p-8 flex flex-col">
+                  <div className="mb-6">
+                    <div className="inline-flex items-center gap-2 bg-orange/20 text-orange px-3 py-1 rounded-full text-sm font-semibold mb-3">
+                      {bundle.savings}
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-bold mb-2">{bundle.name}</h2>
+                    <p className="text-softBlack/70 mb-4">{bundle.description}</p>
+                    
+                    <div className="flex items-center gap-3 mb-6">
+                      <span className="text-3xl font-bold text-orange">{bundle.price}</span>
+                      <span className="text-lg line-through text-softBlack/50">{bundle.originalPrice}</span>
+                    </div>
+                    
+                    <div className="bg-gray-50 p-4 rounded-xl mb-6">
+                      <h3 className="font-medium mb-3">Bundle Includes:</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {bundle.products.map((product, index) => (
+                          <div key={index} className="flex items-center gap-3 bg-white p-2 rounded-lg">
+                            <img 
+                              src={product.image} 
+                              alt={product.name} 
+                              className="w-12 h-12 object-cover rounded-md"
+                            />
+                            <div>
+                              <p className="font-medium text-sm">{product.name}</p>
+                              <p className="text-xs text-softBlack/60">{product.price}</p>
+                            </div>
+                            <div className="ml-auto">
+                              <div className="h-6 w-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
+                                <Check className="h-3 w-3" />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="mt-auto flex flex-col sm:flex-row gap-3">
-                    <Button 
-                      className="bg-orange hover:bg-orange/90 text-white rounded-xl py-6 flex-1 flex items-center gap-2"
-                      onClick={() => handleAddToCart(bundle)}
-                    >
-                      <ShoppingBag className="h-5 w-5" />
-                      Add Bundle to Cart
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      className="border-orange/30 text-orange hover:bg-orange/5 rounded-xl py-6"
-                    >
-                      <Heart className="h-5 w-5" />
-                    </Button>
+                    
+                    <div className="mt-auto flex flex-col sm:flex-row gap-3">
+                      <Button 
+                        className="bg-orange hover:bg-orange/90 text-white rounded-xl py-6 flex-1 flex items-center gap-2"
+                        onClick={() => handleAddToCart(bundle)}
+                      >
+                        <ShoppingBag className="h-5 w-5" />
+                        Add Bundle to Cart
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="border-orange/30 text-orange hover:bg-orange/5 rounded-xl py-6"
+                      >
+                        <Heart className="h-5 w-5" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-      
+      </main>
+      <Footer />
+      <MobileNav />
       <AiAssistant />
-    </LayoutWrapper>
+    </div>
   );
 };
 

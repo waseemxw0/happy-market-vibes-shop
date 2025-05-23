@@ -1,5 +1,8 @@
+
 import React from "react";
-import LayoutWrapper from "@/components/LayoutWrapper";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import MobileNav from "@/components/MobileNav";
 import { Button } from "@/components/ui/button";
 import { Heart, ShoppingBag } from "lucide-react";
 import TikTokIcon from "@/components/icons/TikTokIcon";
@@ -82,86 +85,90 @@ const TikTokFeed = () => {
   };
   
   return (
-    <LayoutWrapper>
-      <div className="bg-gradient-to-r from-black to-gray-900 text-white py-12">
-        <div className="container mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-sm mb-6">
-            <TikTokIcon size={16} className="text-white" />
-            <span>As Seen on TikTok</span>
-          </div>
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">TikTok Viral Products</h1>
-          <p className="text-white/70 max-w-xl mx-auto mb-6">
-            Watch real TikTok creators using our viral products and shop directly from their videos.
-          </p>
-        </div>
-      </div>
-      
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tiktokVideos.map((video) => (
-            <div key={video.id} className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
-              <div className="aspect-[9/16] w-full relative">
-                <video 
-                  src={video.videoUrl} 
-                  className="w-full h-full object-cover"
-                  controls
-                  poster="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=500&auto=format&fit=crop"
-                  preload="metadata"
-                />
-                
-                <div className="absolute top-4 left-4 flex items-center gap-2">
-                  <div className="bg-black/70 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1">
-                    <TikTokIcon size={14} className="text-white" />
-                    <span>{video.views} views</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="p-4">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className="font-medium text-softBlack">{video.creator}</h3>
-                    <p className="text-sm text-softBlack/70 line-clamp-1">{video.title}</p>
-                  </div>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                    <Heart className="h-4 w-4" />
-                  </Button>
-                </div>
-                
-                <div className="bg-gray-50 rounded-xl p-3 flex items-center gap-3">
-                  <img 
-                    src={video.productImage} 
-                    alt={video.productName} 
-                    className="w-14 h-14 object-cover rounded-lg"
-                    loading="lazy"
-                  />
-                  <div className="flex-1">
-                    <h4 className="font-medium text-sm">{video.productName}</h4>
-                    <p className="text-orange text-xs font-semibold">{video.productPrice}</p>
-                  </div>
-                  <Button 
-                    size="sm" 
-                    variant="ghost" 
-                    className="h-8 w-8 p-0 rounded-full bg-orange/10 text-orange"
-                    onClick={() => handleAddToCart(video.productName)}
-                  >
-                    <ShoppingBag className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
+    <div className="min-h-screen bg-white flex flex-col">
+      <Navbar />
+      <main className="flex-grow pb-20 md:pb-0">
+        <div className="bg-gradient-to-r from-black to-gray-900 text-white py-12">
+          <div className="container mx-auto px-4 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-sm mb-6">
+              <TikTokIcon size={16} className="text-white" />
+              <span>As Seen on TikTok</span>
             </div>
-          ))}
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">TikTok Viral Products</h1>
+            <p className="text-white/70 max-w-xl mx-auto mb-6">
+              Watch real TikTok creators using our viral products and shop directly from their videos.
+            </p>
+          </div>
         </div>
         
-        <div className="mt-12 text-center">
-          <Button className="bg-black hover:bg-black/90 text-white rounded-xl">
-            Load More TikTok Videos
-          </Button>
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {tiktokVideos.map((video) => (
+              <div key={video.id} className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+                <div className="aspect-[9/16] w-full relative">
+                  <video 
+                    src={video.videoUrl} 
+                    className="w-full h-full object-cover"
+                    controls
+                    poster="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=500&auto=format&fit=crop"
+                    preload="metadata"
+                  />
+                  
+                  <div className="absolute top-4 left-4 flex items-center gap-2">
+                    <div className="bg-black/70 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1">
+                      <TikTokIcon size={14} className="text-white" />
+                      <span>{video.views} views</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <h3 className="font-medium text-softBlack">{video.creator}</h3>
+                      <p className="text-sm text-softBlack/70 line-clamp-1">{video.title}</p>
+                    </div>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                      <Heart className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  
+                  <div className="bg-gray-50 rounded-xl p-3 flex items-center gap-3">
+                    <img 
+                      src={video.productImage} 
+                      alt={video.productName} 
+                      className="w-14 h-14 object-cover rounded-lg"
+                      loading="lazy"
+                    />
+                    <div className="flex-1">
+                      <h4 className="font-medium text-sm">{video.productName}</h4>
+                      <p className="text-orange text-xs font-semibold">{video.productPrice}</p>
+                    </div>
+                    <Button 
+                      size="sm" 
+                      variant="ghost" 
+                      className="h-8 w-8 p-0 rounded-full bg-orange/10 text-orange"
+                      onClick={() => handleAddToCart(video.productName)}
+                    >
+                      <ShoppingBag className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-12 text-center">
+            <Button className="bg-black hover:bg-black/90 text-white rounded-xl">
+              Load More TikTok Videos
+            </Button>
+          </div>
         </div>
-      </div>
-      
+      </main>
+      <Footer />
+      <MobileNav />
       <AiAssistant />
-    </LayoutWrapper>
+    </div>
   );
 };
 

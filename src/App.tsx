@@ -4,7 +4,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense } from "react";
+import MobileNav from "./components/MobileNav";
 
 // Eager load critical pages
 import Index from "./pages/Index";
@@ -48,61 +49,39 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => {
-  useEffect(() => {
-    // Set CSS Variable for main content padding
-    if (typeof window !== 'undefined') {
-      document.documentElement.style.setProperty(
-        '--main-bottom-padding', 
-        window.innerWidth < 768 ? '64px' : '0'
-      );
-      
-      const updatePadding = () => {
-        document.documentElement.style.setProperty(
-          '--main-bottom-padding', 
-          window.innerWidth < 768 ? '64px' : '0'
-        );
-      };
-      
-      window.addEventListener('resize', updatePadding);
-      return () => window.removeEventListener('resize', updatePadding);
-    }
-  }, []);
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Suspense fallback={<PageLoading />}>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/collection/:category" element={<CollectionPage />} />
-              <Route path="/product/:id" element={<ProductPage />} />
-              <Route path="/tiktok-feed" element={<TikTokFeed />} />
-              <Route path="/rewards" element={<Rewards />} />
-              <Route path="/bundles" element={<Bundles />} />
-              <Route path="/top10" element={<Top10 />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/trust" element={<Trust />} />
-              <Route path="/reviews" element={<Reviews />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/drops" element={<DropsPage />} />
-              <Route path="/wishlist" element={<WishlistPage />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/shop" element={<ShopAllPage />} />
-              <Route path="/new-arrivals" element={<NewArrivalsPage />} />
-              
-              {/* Catch-all route for 404 */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  );
-};
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Suspense fallback={<PageLoading />}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/collection/:category" element={<CollectionPage />} />
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/tiktok-feed" element={<TikTokFeed />} />
+            <Route path="/rewards" element={<Rewards />} />
+            <Route path="/bundles" element={<Bundles />} />
+            <Route path="/top10" element={<Top10 />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/trust" element={<Trust />} />
+            <Route path="/reviews" element={<Reviews />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/drops" element={<DropsPage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/shop" element={<ShopAllPage />} />
+            <Route path="/new-arrivals" element={<NewArrivalsPage />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+        <MobileNav />
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
 export default App;
