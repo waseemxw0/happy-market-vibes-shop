@@ -1,7 +1,6 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Cube, X, Camera, Smartphone, ArrowRight } from "lucide-react";
+import { Box, X, Camera, Smartphone, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
@@ -53,7 +52,7 @@ const AugmentedRealityPreview = ({
         {step === 'intro' && (
           <div className="p-6 text-center">
             <div className="w-16 h-16 bg-orange/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Cube className="h-8 w-8 text-orange" />
+              <Box className="h-8 w-8 text-orange" />
             </div>
             <h3 className="text-xl font-bold mb-2">See {productName} in your space</h3>
             <p className="text-softBlack/70 mb-6">
