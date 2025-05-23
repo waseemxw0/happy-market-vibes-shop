@@ -4,9 +4,10 @@ import React, { useState, useEffect } from "react";
 interface TrendingCountdownProps {
   endTime: Date;
   label?: string;
+  stock?: number;
 }
 
-const TrendingCountdown = ({ endTime, label = "Limited Time:" }: TrendingCountdownProps) => {
+const TrendingCountdown = ({ endTime, label = "Limited Time:", stock }: TrendingCountdownProps) => {
   const calculateTimeLeft = () => {
     const difference = +endTime - +new Date();
     
@@ -51,6 +52,12 @@ const TrendingCountdown = ({ endTime, label = "Limited Time:" }: TrendingCountdo
           {formatTime(timeLeft.seconds)}
         </div>
       </div>
+      
+      {stock && stock < 10 && (
+        <div className="ml-2 bg-red-50 text-red-500 text-xs px-2 py-1 rounded-full font-medium animate-pulse">
+          Only {stock} left!
+        </div>
+      )}
     </div>
   );
 };
