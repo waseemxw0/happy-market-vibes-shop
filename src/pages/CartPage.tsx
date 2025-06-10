@@ -123,12 +123,14 @@ const CartPage = () => {
                   </div>
                 </div>
                 
-                <Button 
-                  className="bg-orange hover:bg-orange/90 text-white rounded-xl w-full py-6 mb-3 flex items-center justify-center gap-2"
-                >
-                  Proceed to Checkout
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
+                <Link to="/checkout">
+                  <Button 
+                    className="bg-orange hover:bg-orange/90 text-white rounded-xl w-full py-6 mb-3 flex items-center justify-center gap-2"
+                  >
+                    Proceed to Checkout
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
                 
                 <Link to="/">
                   <Button variant="outline" className="rounded-xl w-full">

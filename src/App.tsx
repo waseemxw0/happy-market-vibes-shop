@@ -26,6 +26,7 @@ const FAQ = lazy(() => import("./pages/FAQ"));
 const DropsPage = lazy(() => import("./pages/DropsPage"));
 const WishlistPage = lazy(() => import("./pages/WishlistPage"));
 const CartPage = lazy(() => import("./pages/CartPage"));
+const CheckoutPage = lazy(() => import("./pages/CheckoutPage"));
 const ShopAllPage = lazy(() => import("./pages/ShopAllPage"));
 const NewArrivalsPage = lazy(() => import("./pages/NewArrivalsPage"));
 const AccountPage = lazy(() => import("./pages/AccountPage"));
@@ -75,6 +76,7 @@ const App = () => (
             <Route path="/drops" element={<DropsPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/shop" element={<ShopAllPage />} />
             <Route path="/new-arrivals" element={<NewArrivalsPage />} />
             <Route path="/account" element={<AccountPage />} />
