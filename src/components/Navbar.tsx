@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 import { Link, useLocation } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(3);
   const location = useLocation();
+  const { getTotalItems } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,17 +27,12 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  // Sample function to add items to cart (would be replaced with actual cart functionality)
-  const addToCart = () => {
-    setCartCount(prev => prev + 1);
-  };
-
   return (
     <header className={cn(
       "sticky top-0 z-50 transition-all duration-300",
       isScrolled 
-        ? "bg-white/90 backdrop-blur-md shadow-sm py-3" 
-        : "bg-white/80 backdrop-blur-sm py-4"
+        ? "bg-white/95 backdrop-blur-md shadow-sm py-3" 
+        : "bg-white/90 backdrop-blur-sm py-4"
     )}>
       <div className="container mx-auto flex items-center justify-between px-4">
         <Link to="/" className="flex items-center z-10">
@@ -82,9 +78,9 @@ const Navbar = () => {
               className="relative rounded-full h-10 w-10" 
             >
               <ShoppingBag className="h-5 w-5" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-orange text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-scale-in">
-                  {cartCount}
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-1 -right-1 bg-orange text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-scale-in font-medium">
+                  {getTotalItems()}
                 </span>
               )}
             </Button>
@@ -101,59 +97,100 @@ const Navbar = () => {
         </div>
       </div>
       
-      {/* Mobile Menu with solid background */}
+      {/* Enhanced Mobile Menu */}
       <div className={cn(
-        "md:hidden fixed inset-0 top-[57px] bottom-20 bg-white z-40 transform transition-transform duration-300 shadow-lg",
+        "md:hidden fixed inset-0 top-[73px] z-40 transform transition-transform duration-300",
         isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
       )}>
-        <div className="py-8 px-6 flex flex-col gap-4 h-full overflow-y-auto">
-          <div className="mb-6">
-            <div className="relative w-full mb-4">
-              <input 
-                type="search" 
-                placeholder="Search products..." 
-                className="w-full py-3 px-5 pr-10 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange/50 bg-white shadow-sm"
-              />
-              <Search className="absolute right-4 top-3.5 h-5 w-5 text-gray-400" />
+        {/* Backdrop */}
+        <div 
+          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          onClick={() => setIsMobileMenuOpen(false)}
+        ></div>
+        
+        {/* Menu Content */}
+        <div className="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-2xl">
+          <div className="py-6 px-6 flex flex-col gap-4 h-full overflow-y-auto">
+            {/* Search Bar */}
+            <div className="mb-4">
+              <div className="relative w-full">
+                <input 
+                  type="search" 
+                  placeholder="Search products..." 
+                  className="w-full py-3 px-4 pr-10 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange/50 bg-white shadow-sm"
+                />
+                <Search className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
+              </div>
             </div>
-          </div>
-          
-          <Link to="/shop" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
-            Shop All
-            <span className="text-orange">→</span>
-          </Link>
-          <Link to="/top10" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
-            Trending
-            <span className="text-orange">→</span>
-          </Link>
-          <Link to="/new-arrivals" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
-            New Arrivals
-            <span className="text-orange">→</span>
-          </Link>
-          <Link to="/about" className="text-softBlack hover:text-orange transition-colors py-4 border-b flex items-center justify-between">
-            About Us
-            <span className="text-orange">→</span>
-          </Link>
-          
-          <div className="mt-6 flex gap-4">
-            <Link to="/wishlist" className="flex-1">
-              <Button 
-                variant="default" 
-                className="w-full bg-orange text-white rounded-2xl hover:bg-orange/90 transition-colors"
+            
+            {/* Navigation Links */}
+            <div className="space-y-2">
+              <Link 
+                to="/shop" 
+                className="flex items-center justify-between py-4 px-4 rounded-xl hover:bg-gray-50 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
               >
-                <Heart className="h-5 w-5 mr-2" />
-                Wishlist
-              </Button>
-            </Link>
-            <Link to="/cart" className="flex-1">
-              <Button 
-                variant="default" 
-                className="w-full bg-mint text-softBlack rounded-2xl hover:bg-mint/90 transition-colors"
+                <span className="text-softBlack font-medium">Shop All</span>
+                <span className="text-orange">→</span>
+              </Link>
+              
+              <Link 
+                to="/top10" 
+                className="flex items-center justify-between py-4 px-4 rounded-xl hover:bg-gray-50 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
               >
-                <ShoppingBag className="h-5 w-5 mr-2" />
-                Cart
-              </Button>
-            </Link>
+                <span className="text-softBlack font-medium">Trending</span>
+                <span className="text-orange">→</span>
+              </Link>
+              
+              <Link 
+                to="/new-arrivals" 
+                className="flex items-center justify-between py-4 px-4 rounded-xl hover:bg-gray-50 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span className="text-softBlack font-medium">New Arrivals</span>
+                <span className="text-orange">→</span>
+              </Link>
+              
+              <Link 
+                to="/about" 
+                className="flex items-center justify-between py-4 px-4 rounded-xl hover:bg-gray-50 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span className="text-softBlack font-medium">About Us</span>
+                <span className="text-orange">→</span>
+              </Link>
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="mt-6 space-y-3">
+              <Link to="/wishlist" className="block" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-center rounded-xl py-3 border-orange/20 text-orange hover:bg-orange/5"
+                >
+                  <Heart className="h-5 w-5 mr-2" />
+                  Wishlist
+                </Button>
+              </Link>
+              
+              <Link to="/cart" className="block" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button 
+                  className="w-full justify-center bg-orange text-white rounded-xl py-3 hover:bg-orange/90 transition-colors relative"
+                >
+                  <ShoppingBag className="h-5 w-5 mr-2" />
+                  Cart
+                  {getTotalItems() > 0 && (
+                    <span className="ml-2 bg-white text-orange text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                      {getTotalItems()}
+                    </span>
+                  )}
+                </Button>
+              </Link>
+            </div>
+            
+            {/* Bottom spacing for mobile nav */}
+            <div className="pb-20"></div>
           </div>
         </div>
       </div>
