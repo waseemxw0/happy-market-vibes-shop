@@ -4,11 +4,31 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import TrendingCountdown from "./TrendingCountdown";
 import TikTokIcon from "./icons/TikTokIcon";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
 
 const TrendingCountdownSection = () => {
   // Set end time to 24 hours from now
   const endTime = new Date();
   endTime.setHours(endTime.getHours() + 24);
+  
+  const { addToCart } = useCart();
+  const { toast } = useToast();
+  
+  const handleShopTheDeal = () => {
+    addToCart({
+      id: "sunset-projection-lamp",
+      name: "Sunset Projection Lamp",
+      price: 24.99,
+      image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9"
+    });
+    
+    toast({
+      title: "Flash Deal Added!",
+      description: "Sunset Projection Lamp added to cart with 38% discount",
+      className: "bg-gradient-to-r from-orange to-orange/90 text-white"
+    });
+  };
   
   return (
     <section className="py-8">
@@ -31,6 +51,7 @@ const TrendingCountdownSection = () => {
                 
                 <Button 
                   className="bg-black hover:bg-black/90 text-white w-full md:w-auto rounded-xl"
+                  onClick={handleShopTheDeal}
                 >
                   Shop the Deal
                 </Button>

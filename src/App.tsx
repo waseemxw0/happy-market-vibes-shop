@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import MobileNav from "./components/MobileNav";
+import { CartProvider } from "./contexts/CartContext";
 
 // Eager load critical pages
 import Index from "./pages/Index";
@@ -55,40 +55,42 @@ const queryClient = new QueryClient({
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Suspense fallback={<PageLoading />}>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/collection/:category" element={<CollectionPage />} />
-            <Route path="/product/:id" element={<ProductPage />} />
-            <Route path="/tiktok-feed" element={<TikTokFeed />} />
-            <Route path="/rewards" element={<Rewards />} />
-            <Route path="/bundles" element={<Bundles />} />
-            <Route path="/top10" element={<Top10 />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/trust" element={<Trust />} />
-            <Route path="/reviews" element={<Reviews />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/drops" element={<DropsPage />} />
-            <Route path="/wishlist" element={<WishlistPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/shop" element={<ShopAllPage />} />
-            <Route path="/new-arrivals" element={<NewArrivalsPage />} />
-            <Route path="/account" element={<AccountPage />} />
-            <Route path="/orders" element={<OrdersPage />} />
-            <Route path="/search" element={<SearchPage />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-        <MobileNav />
-      </BrowserRouter>
-    </TooltipProvider>
+    <CartProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Suspense fallback={<PageLoading />}>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/collection/:category" element={<CollectionPage />} />
+              <Route path="/product/:id" element={<ProductPage />} />
+              <Route path="/tiktok-feed" element={<TikTokFeed />} />
+              <Route path="/rewards" element={<Rewards />} />
+              <Route path="/bundles" element={<Bundles />} />
+              <Route path="/top10" element={<Top10 />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/trust" element={<Trust />} />
+              <Route path="/reviews" element={<Reviews />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/drops" element={<DropsPage />} />
+              <Route path="/wishlist" element={<WishlistPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/shop" element={<ShopAllPage />} />
+              <Route path="/new-arrivals" element={<NewArrivalsPage />} />
+              <Route path="/account" element={<AccountPage />} />
+              <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/search" element={<SearchPage />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+          <MobileNav />
+        </BrowserRouter>
+      </TooltipProvider>
+    </CartProvider>
   </QueryClientProvider>
 );
 

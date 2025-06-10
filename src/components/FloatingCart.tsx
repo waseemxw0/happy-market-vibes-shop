@@ -1,15 +1,16 @@
-
 import React, { useState, useEffect } from "react";
 import { ShoppingBag, Heart, Search, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/contexts/CartContext";
+import { Link } from "react-router-dom";
 
 const FloatingCart = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const { toast } = useToast();
+  const { getTotalItems } = useCart();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -31,15 +32,6 @@ const FloatingCart = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  
-  const handleAddToCart = () => {
-    setCartCount(prev => prev + 1);
-    
-    toast({
-      title: "Quick add to cart",
-      description: "Choose a product to add to your cart",
-    });
-  };
   
   const scrollToTop = () => {
     window.scrollTo({
@@ -93,18 +85,19 @@ const FloatingCart = () => {
       </Button>
       
       {/* Cart button */}
-      <Button
-        size="icon"
-        className="h-16 w-16 bg-gradient-to-r from-orange to-orange/90 text-white rounded-2xl shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110"
-        onClick={handleAddToCart}
-      >
-        <ShoppingBag className="h-6 w-6" />
-        {cartCount > 0 && (
-          <Badge className="absolute -top-2 -right-2 bg-white text-orange text-xs font-medium h-6 w-6 p-0 flex items-center justify-center border border-orange/20 shadow-sm">
-            {cartCount}
-          </Badge>
-        )}
-      </Button>
+      <Link to="/cart">
+        <Button
+          size="icon"
+          className="h-16 w-16 bg-gradient-to-r from-orange to-orange/90 text-white rounded-2xl shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110"
+        >
+          <ShoppingBag className="h-6 w-6" />
+          {getTotalItems() > 0 && (
+            <Badge className="absolute -top-2 -right-2 bg-white text-orange text-xs font-medium h-6 w-6 p-0 flex items-center justify-center border border-orange/20 shadow-sm">
+              {getTotalItems()}
+            </Badge>
+          )}
+        </Button>
+      </Link>
     </div>
   );
 };

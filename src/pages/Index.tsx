@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
@@ -24,11 +23,13 @@ import TikTokBrainAI from "@/components/TikTokBrainAI";
 import VoiceShoppingGenie from "@/components/VoiceShoppingGenie";
 import { Button } from "@/components/ui/button";
 import LoyaltyProgram from "@/components/LoyaltyProgram";
+import { useCart } from "@/contexts/CartContext";
 
 const Index = () => {
   const { toast } = useToast();
   const [showDiscount, setShowDiscount] = useState(false);
   const [showVoiceGenie, setShowVoiceGenie] = useState(false);
+  const { addToCart } = useCart();
   
   // Social proof messages
   const socialProofMessages = [
@@ -73,6 +74,21 @@ const Index = () => {
         voiceGenieElement.scrollIntoView({ behavior: 'smooth' });
       }
     }, 100);
+  };
+  
+  const handleMysteryBoxPurchase = (boxType: string, price: number) => {
+    addToCart({
+      id: `mystery-box-${boxType.toLowerCase()}`,
+      name: `Mystery TikTok Box - ${boxType}`,
+      price: price,
+      image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&auto=format&fit=crop"
+    });
+    
+    toast({
+      title: "Mystery Box Added!",
+      description: `${boxType} Mystery Box added to cart - surprise awaits!`,
+      className: "bg-gradient-to-r from-orange to-orange/90 text-white"
+    });
   };
   
   return (
@@ -217,7 +233,10 @@ const Index = () => {
                     <h3 className="font-bold text-lg mb-1">Basic Box</h3>
                     <p className="text-orange font-semibold text-xl mb-2">$25</p>
                     <p className="text-sm text-softBlack/70 mb-4">3 surprise TikTok viral items</p>
-                    <Button className="w-full bg-orange hover:bg-orange/90 text-white rounded-xl">
+                    <Button 
+                      className="w-full bg-orange hover:bg-orange/90 text-white rounded-xl"
+                      onClick={() => handleMysteryBoxPurchase("Basic", 25)}
+                    >
                       Get This Box
                     </Button>
                   </div>
@@ -230,7 +249,10 @@ const Index = () => {
                     <h3 className="font-bold text-lg mb-1">Premium Box</h3>
                     <p className="text-orange font-semibold text-xl mb-2">$50</p>
                     <p className="text-sm text-softBlack/70 mb-4">5 trending items + free shipping</p>
-                    <Button className="w-full bg-gradient-to-r from-orange to-mint text-white hover:opacity-90 rounded-xl">
+                    <Button 
+                      className="w-full bg-gradient-to-r from-orange to-mint text-white hover:opacity-90 rounded-xl"
+                      onClick={() => handleMysteryBoxPurchase("Premium", 50)}
+                    >
                       Get This Box
                     </Button>
                   </div>
@@ -240,7 +262,10 @@ const Index = () => {
                     <h3 className="font-bold text-lg mb-1">Luxury Box</h3>
                     <p className="text-orange font-semibold text-xl mb-2">$100</p>
                     <p className="text-sm text-softBlack/70 mb-4">7 premium viral products</p>
-                    <Button className="w-full bg-orange hover:bg-orange/90 text-white rounded-xl">
+                    <Button 
+                      className="w-full bg-orange hover:bg-orange/90 text-white rounded-xl"
+                      onClick={() => handleMysteryBoxPurchase("Luxury", 100)}
+                    >
                       Get This Box
                     </Button>
                   </div>

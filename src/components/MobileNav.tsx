@@ -1,19 +1,19 @@
-
 import React from "react";
 import { Home, Search, ShoppingBag, Heart, Calendar, TrendingUp, User, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
 import TikTokIcon from "./icons/TikTokIcon";
+import { useCart } from "@/contexts/CartContext";
 
 const MobileNav = () => {
   const location = useLocation();
   const path = location.pathname;
   const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const { getTotalItems } = useCart();
   
   return (
     <>
-      {/* More menu overlay with improved design */}
       {showMoreMenu && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50" onClick={() => setShowMoreMenu(false)}>
           <div className="absolute bottom-20 left-4 right-4 bg-white rounded-3xl shadow-2xl p-8 animate-slide-in-up border border-gray-100" onClick={e => e.stopPropagation()}>
@@ -78,7 +78,7 @@ const MobileNav = () => {
             isActive={showMoreMenu}
           />
           
-          {/* Enhanced Cart Icon with better separation */}
+          {/* Enhanced Cart Icon with real cart count */}
           <div className="relative">
             <div className="absolute left-0 top-2 bottom-2 w-px bg-gradient-to-b from-transparent via-gray-200 to-transparent"></div>
             <NavItem 
@@ -86,7 +86,7 @@ const MobileNav = () => {
               label="Cart" 
               href="/cart"
               isActive={path.includes("/cart")}
-              badge={3}
+              badge={getTotalItems()}
               isCart={true}
             />
           </div>

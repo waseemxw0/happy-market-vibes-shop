@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Brain, Sparkles, ChevronRight, Settings } from "lucide-react";
+import { Brain, Sparkles, ChevronRight, Settings, ShoppingBag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/contexts/CartContext";
 
 interface TikTokBrainAIProps {
   userId?: string;
@@ -15,6 +15,23 @@ const TikTokBrainAI = ({ userId, onToggleAI }: TikTokBrainAIProps) => {
   const [insights, setInsights] = useState<string[]>([]);
   const [isExpanded, setIsExpanded] = useState(true);
   const { toast } = useToast();
+  const { addToCart } = useCart();
+  
+  // AI recommended products
+  const aiRecommendedProducts = [
+    {
+      id: "ai-rec-1",
+      name: "Smart RGB LED Strip",
+      price: 19.99,
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=150&h=150&auto=format&fit=crop"
+    },
+    {
+      id: "ai-rec-2", 
+      name: "Aesthetic Room Light",
+      price: 24.99,
+      image: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=150&h=150&auto=format&fit=crop"
+    }
+  ];
   
   // Simulate AI insights
   useEffect(() => {
@@ -102,6 +119,15 @@ const TikTokBrainAI = ({ userId, onToggleAI }: TikTokBrainAIProps) => {
     }, 600);
   };
   
+  const handleAddRecommendedProduct = (product: typeof aiRecommendedProducts[0]) => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image
+    });
+  };
+  
   return (
     <Card className="overflow-hidden border-orange/20 shadow-md hover:shadow-lg transition-all duration-300">
       <div className="bg-gradient-to-r from-orange/10 to-mint/10 p-4 flex items-center justify-between">
@@ -138,6 +164,7 @@ const TikTokBrainAI = ({ userId, onToggleAI }: TikTokBrainAIProps) => {
             <span>Our AI is personalizing your shopping experience based on your browsing habits</span>
           </div>
           
+          {/* AI Insights */}
           <div className="space-y-2 mb-4">
             {insights.map((insight, index) => (
               <div 
@@ -151,6 +178,37 @@ const TikTokBrainAI = ({ userId, onToggleAI }: TikTokBrainAIProps) => {
                 <div className="flex-1">{insight}</div>
               </div>
             ))}
+          </div>
+          
+          {/* AI Recommended Products */}
+          <div className="mb-4">
+            <h4 className="text-sm font-medium mb-2 flex items-center gap-1">
+              <Brain className="h-4 w-4 text-orange" />
+              AI Recommendations
+            </h4>
+            <div className="grid grid-cols-2 gap-2">
+              {aiRecommendedProducts.map((product) => (
+                <div key={product.id} className="bg-white p-2 rounded-lg border border-orange/10 shadow-sm">
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    className="w-full h-16 object-cover rounded mb-2"
+                  />
+                  <h5 className="text-xs font-medium mb-1">{product.name}</h5>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-orange font-semibold">${product.price}</span>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="h-6 w-6 p-0 hover:bg-orange/10"
+                      onClick={() => handleAddRecommendedProduct(product)}
+                    >
+                      <ShoppingBag className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
           
           <div className="flex justify-between items-center">

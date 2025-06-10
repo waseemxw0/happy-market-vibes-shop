@@ -1,46 +1,15 @@
-
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, Trash, Plus, Minus, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: "1",
-      name: "Smart LED Ceiling Lamp",
-      price: 79.99,
-      image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&auto=format&fit=crop",
-      quantity: 1,
-    },
-    {
-      id: "2",
-      name: "Self-Cleaning Water Bottle",
-      price: 34.99,
-      image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop",
-      quantity: 2,
-    }
-  ]);
+  const { cartItems, updateQuantity, removeFromCart, getTotalPrice, getTotalItems } = useCart();
 
-  const updateQuantity = (id: string, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    
-    setCartItems(cartItems.map(item => 
-      item.id === id ? { ...item, quantity: newQuantity } : item
-    ));
-  };
-
-  const removeItem = (id: string) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
-  };
-
-  const calculateSubtotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-  };
-
-  const subtotal = calculateSubtotal();
+  const subtotal = getTotalPrice();
   const shipping = 4.99;
   const total = subtotal + shipping;
 
@@ -52,7 +21,7 @@ const CartPage = () => {
           <h1 className="text-3xl md:text-4xl font-bold mb-8 flex items-center gap-2">
             <ShoppingBag className="text-orange h-8 w-8" />
             Shopping Cart
-            <span className="text-softBlack/50 text-lg ml-2">({cartItems.reduce((acc, item) => acc + item.quantity, 0)} items)</span>
+            <span className="text-softBlack/50 text-lg ml-2">({getTotalItems()} items)</span>
           </h1>
 
           {cartItems.length > 0 ? (
@@ -94,7 +63,7 @@ const CartPage = () => {
                         <Button 
                           variant="outline" 
                           className="border-red-300 text-red-500 hover:bg-red-50 rounded-xl flex items-center gap-2 w-full"
-                          onClick={() => removeItem(item.id)}
+                          onClick={() => removeFromCart(item.id)}
                         >
                           <Trash className="h-4 w-4" />
                           Remove

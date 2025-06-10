@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import TrendingCountdown from "./TrendingCountdown";
 import { Card } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
 
 interface ProductCardEnhancedProps {
   id?: string;
@@ -38,6 +39,7 @@ const ProductCardEnhanced = ({
   const [isLiked, setIsLiked] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -48,10 +50,14 @@ const ProductCardEnhanced = ({
     button.classList.add("animate-bounce");
     setTimeout(() => button.classList.remove("animate-bounce"), 1000);
     
-    toast({
-      title: `${name} added to cart!`,
-      description: "TikTok trend added to your cart",
-      className: "bg-gradient-to-r from-orange to-orange/90 text-white"
+    const productId = id || name.toLowerCase().replace(/\s+/g, '-');
+    const priceNumber = parseFloat(price.replace('$', ''));
+    
+    addToCart({
+      id: productId,
+      name,
+      price: priceNumber,
+      image
     });
   };
 
