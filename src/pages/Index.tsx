@@ -24,13 +24,11 @@ import TikTokBrainAI from "@/components/TikTokBrainAI";
 import VoiceShoppingGenie from "@/components/VoiceShoppingGenie";
 import { Button } from "@/components/ui/button";
 import LoyaltyProgram from "@/components/LoyaltyProgram";
-import AugmentedRealityPreview from "@/components/AugmentedRealityPreview";
 
 const Index = () => {
   const { toast } = useToast();
   const [showDiscount, setShowDiscount] = useState(false);
   const [showVoiceGenie, setShowVoiceGenie] = useState(false);
-  const [showARPreview, setShowARPreview] = useState(false);
   
   // Social proof messages
   const socialProofMessages = [
@@ -47,14 +45,8 @@ const Index = () => {
       setShowDiscount(true);
     }, 5000);
     
-    // Show AR preview option after 15 seconds
-    const arTimer = setTimeout(() => {
-      setShowARPreview(true);
-    }, 15000);
-    
     return () => {
       clearTimeout(timer);
-      clearTimeout(arTimer);
     };
   }, []);
   
@@ -314,16 +306,6 @@ const Index = () => {
             </div>
           </div>
         </div>
-      )}
-      
-      {/* AR Preview Demo */}
-      {showARPreview && (
-        <AugmentedRealityPreview
-          productName="Cloud LED Light"
-          productImage="https://images.unsplash.com/photo-1608155686393-8fdd966d784d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-          isOpen={showARPreview}
-          onClose={() => setShowARPreview(false)}
-        />
       )}
     </div>
   );
