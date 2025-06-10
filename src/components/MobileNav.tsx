@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Home, Search, ShoppingBag, Heart, Calendar, TrendingUp, User, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -16,33 +17,41 @@ const MobileNav = () => {
     <>
       {showMoreMenu && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50" onClick={() => setShowMoreMenu(false)}>
-          <div className="absolute bottom-20 left-4 right-4 bg-white rounded-3xl shadow-2xl p-8 animate-slide-in-up border border-gray-100" onClick={e => e.stopPropagation()}>
-            <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-6"></div>
+          <div className="absolute bottom-20 left-4 right-4 bg-white rounded-3xl shadow-2xl p-6 animate-slide-in-up border border-gray-100" onClick={e => e.stopPropagation()}>
+            <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
             <h3 className="text-lg font-bold text-center mb-6 text-softBlack">More Options</h3>
             
-            <div className="grid grid-cols-3 gap-6 mb-8">
-              <MenuButton icon={<Search className="h-6 w-6" />} label="Search" href="/search" />
-              <MenuButton icon={<User className="h-6 w-6" />} label="Account" href="/account" />
-              <MenuButton icon={<TikTokIcon size={24} />} label="Feed" href="/tiktok-feed" />
-              <MenuButton icon={<Calendar className="h-6 w-6" />} label="New" href="/new-arrivals" />
-              <MenuButton icon={<Heart className="h-6 w-6" />} label="Saved" href="/wishlist" />
-              <MenuButton icon={<ShoppingBag className="h-6 w-6" />} label="Orders" href="/orders" />
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <MenuButton icon={<Search className="h-6 w-6" />} label="Search" href="/search" onClick={() => setShowMoreMenu(false)} />
+              <MenuButton icon={<User className="h-6 w-6" />} label="Account" href="/account" onClick={() => setShowMoreMenu(false)} />
+              <MenuButton icon={<TikTokIcon size={24} />} label="Feed" href="/tiktok-feed" onClick={() => setShowMoreMenu(false)} />
+              <MenuButton icon={<Calendar className="h-6 w-6" />} label="New" href="/new-arrivals" onClick={() => setShowMoreMenu(false)} />
+              <MenuButton icon={<Heart className="h-6 w-6" />} label="Saved" href="/wishlist" onClick={() => setShowMoreMenu(false)} />
+              <MenuButton icon={<ShoppingBag className="h-6 w-6" />} label="Orders" href="/orders" onClick={() => setShowMoreMenu(false)} />
             </div>
             
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <Link to="/rewards" className="py-4 px-6 text-center rounded-2xl bg-gradient-to-r from-orange/10 to-orange/5 text-orange font-semibold border border-orange/20 hover:from-orange/20 hover:to-orange/10 transition-all">
-                🎉 Loyalty Rewards
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <Link 
+                to="/rewards" 
+                className="py-3 px-4 text-center rounded-xl bg-gradient-to-r from-orange/10 to-orange/5 text-orange font-semibold border border-orange/20 hover:from-orange/20 hover:to-orange/10 transition-all"
+                onClick={() => setShowMoreMenu(false)}
+              >
+                🎉 Rewards
               </Link>
-              <Link to="/contact" className="py-4 px-6 text-center rounded-2xl bg-gray-50 font-semibold text-softBlack hover:bg-gray-100 transition-colors">
-                💬 Help Center
+              <Link 
+                to="/contact" 
+                className="py-3 px-4 text-center rounded-xl bg-gray-50 font-semibold text-softBlack hover:bg-gray-100 transition-colors"
+                onClick={() => setShowMoreMenu(false)}
+              >
+                💬 Help
               </Link>
             </div>
           </div>
         </div>
       )}
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200/80 z-40 md:hidden shadow-2xl">
-        <div className="grid grid-cols-6 py-1">
+      <div className="fixed bottom-0 left-0 right-0 bg-white backdrop-blur-md border-t border-gray-200 z-40 md:hidden shadow-lg">
+        <div className="grid grid-cols-6 py-2">
           <NavItem 
             icon={<Home className="h-5 w-5" />} 
             label="Home" 
@@ -78,18 +87,14 @@ const MobileNav = () => {
             isActive={showMoreMenu}
           />
           
-          {/* Enhanced Cart Icon with real cart count */}
-          <div className="relative">
-            <div className="absolute left-0 top-2 bottom-2 w-px bg-gradient-to-b from-transparent via-gray-200 to-transparent"></div>
-            <NavItem 
-              icon={<ShoppingBag className="h-5 w-5" />} 
-              label="Cart" 
-              href="/cart"
-              isActive={path.includes("/cart")}
-              badge={getTotalItems()}
-              isCart={true}
-            />
-          </div>
+          <NavItem 
+            icon={<ShoppingBag className="h-5 w-5" />} 
+            label="Cart" 
+            href="/cart"
+            isActive={path.includes("/cart")}
+            badge={getTotalItems()}
+            isCart={true}
+          />
         </div>
       </div>
     </>
@@ -132,11 +137,11 @@ const NavItem = ({ icon, label, href, isActive, badge, onClick, isCart }: NavIte
   );
   
   const classes = cn(
-    "flex flex-col items-center justify-center py-3 px-2 transition-all duration-200 relative",
+    "flex flex-col items-center justify-center py-2 px-2 transition-all duration-200 relative",
     isActive 
       ? "text-orange" 
       : "text-softBlack/60 hover:text-softBlack/80",
-    isCart && "bg-orange/5 ml-1 rounded-t-2xl",
+    isCart && "bg-orange/5 rounded-t-xl",
     !isCart && isActive && "after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-orange after:rounded-full"
   );
   
@@ -159,12 +164,17 @@ interface MenuButtonProps {
   icon: React.ReactNode;
   label: string;
   href: string;
+  onClick: () => void;
 }
 
-const MenuButton = ({ icon, label, href }: MenuButtonProps) => (
-  <Link to={href} className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-2xl hover:bg-gray-100 hover:scale-105 transition-all duration-200 group">
+const MenuButton = ({ icon, label, href, onClick }: MenuButtonProps) => (
+  <Link 
+    to={href} 
+    className="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl hover:bg-gray-100 hover:scale-105 transition-all duration-200 group"
+    onClick={onClick}
+  >
     <div className="text-softBlack group-hover:text-orange transition-colors">{icon}</div>
-    <span className="text-xs mt-2 text-softBlack/80 font-medium group-hover:text-softBlack transition-colors">{label}</span>
+    <span className="text-xs mt-1 text-softBlack/80 font-medium group-hover:text-softBlack transition-colors">{label}</span>
   </Link>
 );
 

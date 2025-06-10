@@ -23,22 +23,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: "1",
-      name: "Smart LED Ceiling Lamp",
-      price: 79.99,
-      image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&auto=format&fit=crop",
-      quantity: 1,
-    },
-    {
-      id: "2",
-      name: "Self-Cleaning Water Bottle",
-      price: 34.99,
-      image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop",
-      quantity: 2,
-    }
-  ]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const { toast } = useToast();
 
   const addToCart = (item: Omit<CartItem, 'quantity'>) => {
