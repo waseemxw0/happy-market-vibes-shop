@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ShoppingBag, Heart, Search, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -5,40 +6,33 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
 import { Link } from "react-router-dom";
+import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 
 const FloatingCart = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const { toast } = useToast();
   const { getTotalItems } = useCart();
+  const { scrollToTop } = useSmoothScroll();
   
   useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      // Show floating cart once user has scrolled down a bit
-      if (window.scrollY > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-      
-      // Show back to top when scrolled down significantly
-      if (window.scrollY > 1000) {
-        setShowBackToTop(true);
-      } else {
-        setShowBackToTop(false);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          setIsVisible(scrollY > 300);
+          setShowBackToTop(scrollY > 1000);
+          ticking = false;
+        });
+        ticking = true;
       }
     };
     
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  };
   
   if (!isVisible) return null;
   
@@ -48,7 +42,7 @@ const FloatingCart = () => {
       {showBackToTop && (
         <Button
           size="icon"
-          className="h-10 w-10 bg-white text-softBlack rounded-full shadow-lg hover:scale-110 transition-all duration-300"
+          className="h-10 w-10 bg-white text-softBlack rounded-full shadow-lg hover:scale-110 transition-all duration-300 will-change-transform"
           onClick={scrollToTop}
         >
           <ArrowUp className="h-5 w-5" />
@@ -58,7 +52,7 @@ const FloatingCart = () => {
       {/* TikTok button */}
       <Button
         size="icon"
-        className="h-12 w-12 bg-black text-white rounded-full shadow-lg hover:scale-110 transition-all duration-300 hidden md:flex"
+        className="h-12 w-12 bg-black text-white rounded-full shadow-lg hover:scale-110 transition-all duration-300 hidden md:flex will-change-transform"
         onClick={() => window.open("https://tiktok.com", "_blank")}
       >
         <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
@@ -69,7 +63,7 @@ const FloatingCart = () => {
       {/* Wishlist button */}
       <Button
         size="icon"
-        className="h-12 w-12 bg-mint text-softBlack rounded-full shadow-lg hover:scale-110 transition-all duration-300 hidden md:flex"
+        className="h-12 w-12 bg-mint text-softBlack rounded-full shadow-lg hover:scale-110 transition-all duration-300 hidden md:flex will-change-transform"
         onClick={() => toast({ title: "Wishlist", description: "View your saved items" })}
       >
         <Heart className="h-5 w-5" />
@@ -78,7 +72,7 @@ const FloatingCart = () => {
       {/* Search button */}
       <Button
         size="icon"
-        className="h-12 w-12 bg-white text-softBlack rounded-full shadow-lg hover:scale-110 transition-all duration-300 hidden md:flex"
+        className="h-12 w-12 bg-white text-softBlack rounded-full shadow-lg hover:scale-110 transition-all duration-300 hidden md:flex will-change-transform"
         onClick={() => toast({ title: "Search", description: "Find your favorite products" })}
       >
         <Search className="h-5 w-5" />
@@ -88,7 +82,7 @@ const FloatingCart = () => {
       <Link to="/cart">
         <Button
           size="icon"
-          className="h-16 w-16 bg-gradient-to-r from-orange to-orange/90 text-white rounded-2xl shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110"
+          className="h-16 w-16 bg-gradient-to-r from-orange to-orange/90 text-white rounded-2xl shadow-lg z-50 flex items-center justify-center transition-all duration-300 hover:scale-110 will-change-transform"
         >
           <ShoppingBag className="h-6 w-6" />
           {getTotalItems() > 0 && (

@@ -109,6 +109,22 @@ export default {
 						opacity: '1',
 						transform: 'scale(1)'
 					}
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0px)'
+					},
+					'50%': {
+						transform: 'translateY(-10px)'
+					}
+				},
+				'spin-slow': {
+					'0%': {
+						transform: 'rotate(0deg)'
+					},
+					'100%': {
+						transform: 'rotate(360deg)'
+					}
 				}
 			},
 			animation: {
@@ -116,7 +132,12 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'scroll': 'scroll 40s linear infinite',
 				'fade-in': 'fade-in 0.5s ease-out',
-				'zoom-in': 'zoom-in 0.5s ease-out'
+				'zoom-in': 'zoom-in 0.5s ease-out',
+				'float': 'float 6s ease-in-out infinite',
+				'spin-slow': 'spin-slow 30s linear infinite'
+			},
+			transitionTimingFunction: {
+				'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
 			}
 		}
 	},
