@@ -3,13 +3,14 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShoppingBag, Sparkles, Star } from "lucide-react";
 import TikTokIcon from "./icons/TikTokIcon";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import OptimizedImage from "./OptimizedImage";
+import { useInView } from "@/hooks/useInView";
 
-const HeroSection = () => {
-  const navigate = useNavigate();
+const HeroSection = React.memo(() => {
+  const [heroRef, isHeroInView] = useInView({ threshold: 0.2 });
   
   const handleShopTrending = () => {
-    // Scroll to the trending section on the current page
     const trendingSection = document.querySelector('[data-section="trending"]');
     if (trendingSection) {
       trendingSection.scrollIntoView({ behavior: 'smooth' });
@@ -17,7 +18,6 @@ const HeroSection = () => {
   };
   
   const handleViewCategories = () => {
-    // Scroll to the categories section on the current page
     const categoriesSection = document.querySelector('[data-section="categories"]');
     if (categoriesSection) {
       categoriesSection.scrollIntoView({ behavior: 'smooth' });
@@ -25,7 +25,10 @@ const HeroSection = () => {
   };
   
   return (
-    <div className="relative overflow-hidden hero-gradient py-32 md:py-40 matrix-bg">
+    <div 
+      ref={heroRef}
+      className="relative overflow-hidden hero-gradient py-32 md:py-40 matrix-bg"
+    >
       {/* Premium background effects */}
       <div className="absolute inset-0 w-full h-full">
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] rounded-full bg-gradient-to-tr from-orange/5 via-mint/5 to-transparent opacity-80 animate-spin-slow"></div>
@@ -60,7 +63,11 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Premium badge */}
-          <div className="inline-flex items-center gap-3 px-6 py-3 glass-effect rounded-full text-orange font-semibold text-sm mb-8 animate-bounce-in shadow-xl cyber-border data-stream">
+          <div 
+            className={`inline-flex items-center gap-3 px-6 py-3 glass-effect rounded-full text-orange font-semibold text-sm mb-8 shadow-xl cyber-border data-stream transition-all duration-1000 ${
+              isHeroInView ? 'animate-bounce-in' : 'opacity-0 translate-y-4'
+            }`}
+          >
             <div className="flex items-center gap-2">
               <TikTokIcon size={18} />
               <span className="font-bold font-exo">5M+ PRODUCTS SOLD</span>
@@ -69,21 +76,36 @@ const HeroSection = () => {
             <span className="text-softBlack/80 font-rajdhani">TRUSTED BY CREATORS</span>
           </div>
           
-          <h1 className="hero-text text-5xl md:text-7xl lg:text-8xl font-black text-softBlack mb-8 animate-fade-in leading-none" style={{ animationDelay: "0.2s" }}>
+          <h1 
+            className={`hero-text text-5xl md:text-7xl lg:text-8xl font-black text-softBlack mb-8 leading-none transition-all duration-1000 ${
+              isHeroInView ? 'animate-fade-in' : 'opacity-0 translate-y-8'
+            }`}
+            style={{ animationDelay: "0.2s" }}
+          >
             <span className="font-orbitron hero-title neon-glow">SHOP WHAT'S</span>
             <span className="block holographic-text animate-hologram font-audiowide text-6xl md:text-8xl lg:text-9xl">
               TRENDING NOW
             </span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-softBlack/70 mb-12 animate-fade-in max-w-3xl mx-auto font-medium leading-relaxed font-exo" style={{ animationDelay: "0.4s" }}>
+          <p 
+            className={`text-xl md:text-2xl text-softBlack/70 mb-12 max-w-3xl mx-auto font-medium leading-relaxed font-exo transition-all duration-1000 ${
+              isHeroInView ? 'animate-fade-in' : 'opacity-0 translate-y-8'
+            }`}
+            style={{ animationDelay: "0.4s" }}
+          >
             Curated viral products from TikTok's biggest creators.
             <span className="block mt-2 text-lg font-rajdhani font-bold">
               🔥 <span className="futuristic-text">TRENDING</span> • ✨ <span className="futuristic-text">VERIFIED</span> • 🚀 <span className="futuristic-text">FAST SHIPPING</span>
             </span>
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center animate-fade-in mb-16" style={{ animationDelay: "0.6s" }}>
+          <div 
+            className={`flex flex-col sm:flex-row gap-6 justify-center mb-16 transition-all duration-1000 ${
+              isHeroInView ? 'animate-fade-in' : 'opacity-0 translate-y-8'
+            }`}
+            style={{ animationDelay: "0.6s" }}
+          >
             <Button 
               className="btn-primary px-12 py-4 text-lg font-bold rounded-full shadow-2xl group transform hover:scale-105 transition-all duration-300 font-orbitron cyber-border"
               onClick={handleShopTrending}
@@ -105,7 +127,12 @@ const HeroSection = () => {
           </div>
 
           {/* Trust indicators */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto animate-fade-in" style={{ animationDelay: "0.8s" }}>
+          <div 
+            className={`grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto transition-all duration-1000 ${
+              isHeroInView ? 'animate-fade-in' : 'opacity-0 translate-y-8'
+            }`}
+            style={{ animationDelay: "0.8s" }}
+          >
             <div className="glass-effect p-6 rounded-2xl text-center shadow-xl cyber-border">
               <div className="text-3xl font-black text-orange mb-2 font-orbitron">2M+</div>
               <div className="text-softBlack/70 font-medium font-exo">HAPPY CUSTOMERS</div>
@@ -125,10 +152,10 @@ const HeroSection = () => {
       {/* Premium floating product cards */}
       <div className="hidden lg:block absolute -right-20 top-1/4 w-40 h-48 glass-effect rounded-3xl shadow-2xl transform rotate-6 animate-float opacity-90 overflow-hidden group cyber-border">
         <Link to="/product/cloud-light" className="block h-full">
-          <img 
+          <OptimizedImage 
             src="https://images.unsplash.com/photo-1608155686393-8fdd966d784d" 
             alt="Premium Product" 
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="w-full h-full transition-transform duration-500 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
           <div className="absolute top-4 left-4 glass-effect text-white text-xs font-bold px-3 py-1.5 rounded-full font-rajdhani">
@@ -143,10 +170,10 @@ const HeroSection = () => {
       
       <div className="hidden lg:block absolute -left-16 bottom-1/4 w-36 h-44 glass-effect rounded-3xl shadow-2xl transform -rotate-12 animate-float opacity-90 overflow-hidden group cyber-border" style={{ animationDelay: "-2s" }}>
         <Link to="/product/moon-lamp" className="block h-full">
-          <img 
+          <OptimizedImage 
             src="https://images.unsplash.com/photo-1596394723269-b2cbca4e6313" 
             alt="Premium Product" 
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="w-full h-full transition-transform duration-500 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
           <div className="absolute top-4 left-4 glass-effect text-white text-xs font-bold px-3 py-1.5 rounded-full font-rajdhani">
@@ -164,6 +191,8 @@ const HeroSection = () => {
       <div className="absolute -bottom-32 -left-24 w-64 h-64 bg-gradient-to-tr from-mint/20 to-orange/20 rounded-full blur-3xl animate-cyber-pulse"></div>
     </div>
   );
-};
+});
+
+HeroSection.displayName = 'HeroSection';
 
 export default HeroSection;
