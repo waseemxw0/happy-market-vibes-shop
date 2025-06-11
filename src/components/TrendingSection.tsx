@@ -1,7 +1,7 @@
 
 import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, ChevronLeft, Play, TrendingUp, Fire } from "lucide-react";
+import { ChevronRight, ChevronLeft, Play, TrendingUp, Flame } from "lucide-react";
 import ProductCardEnhanced from "./ProductCardEnhanced";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { Link } from "react-router-dom";
@@ -92,7 +92,7 @@ const TrendingSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-3 px-6 py-3 glass-effect rounded-full text-orange font-bold text-sm mb-6 shadow-xl animate-bounce-in">
-            <Fire className="w-5 h-5 animate-pulse" />
+            <Flame className="w-5 h-5 animate-pulse" />
             <span>Live Trending Now</span>
             <div className="w-2 h-2 bg-orange rounded-full animate-pulse"></div>
           </div>
