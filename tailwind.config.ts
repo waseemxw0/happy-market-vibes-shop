@@ -19,6 +19,14 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'inter': ['Inter', 'sans-serif'],
+				'playfair': ['Playfair Display', 'serif'],
+				'orbitron': ['Orbitron', 'monospace'],
+				'exo': ['Exo 2', 'sans-serif'],
+				'rajdhani': ['Rajdhani', 'sans-serif'],
+				'audiowide': ['Audiowide', 'cursive'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -187,6 +195,40 @@ export default {
 						transform: 'scale(1)',
 						opacity: '1'
 					}
+				},
+				'data-flow': {
+					'0%': {
+						left: '-100%'
+					},
+					'100%': {
+						left: '100%'
+					}
+				},
+				'cyber-pulse': {
+					'0%, 100%': {
+						boxShadow: '0 0 20px rgba(255,169,77,0.3), inset 0 0 20px rgba(194,245,211,0.1)'
+					},
+					'50%': {
+						boxShadow: '0 0 40px rgba(255,169,77,0.6), inset 0 0 40px rgba(194,245,211,0.2)'
+					}
+				},
+				'hologram': {
+					'0%, 100%': {
+						transform: 'rotateY(0deg) rotateX(0deg)',
+						filter: 'hue-rotate(0deg)'
+					},
+					'25%': {
+						transform: 'rotateY(1deg) rotateX(1deg)',
+						filter: 'hue-rotate(90deg)'
+					},
+					'50%': {
+						transform: 'rotateY(0deg) rotateX(2deg)',
+						filter: 'hue-rotate(180deg)'
+					},
+					'75%': {
+						transform: 'rotateY(-1deg) rotateX(1deg)',
+						filter: 'hue-rotate(270deg)'
+					}
 				}
 			},
 			animation: {
@@ -199,7 +241,10 @@ export default {
 				'float': 'float 3s ease-in-out infinite',
 				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
 				'gradient-shift': 'gradient-shift 3s ease infinite',
-				'bounce-in': 'bounce-in 0.6s ease-out'
+				'bounce-in': 'bounce-in 0.6s ease-out',
+				'data-flow': 'data-flow 2s linear infinite',
+				'cyber-pulse': 'cyber-pulse 2s ease-in-out infinite',
+				'hologram': 'hologram 4s ease-in-out infinite'
 			},
 			backdropBlur: {
 				xs: '2px'
@@ -207,7 +252,13 @@ export default {
 			backgroundImage: {
 				'shimmer': 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
+				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+				'cyber-grid': 'linear-gradient(rgba(255,169,77,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,169,77,0.1) 1px, transparent 1px)',
+				'holographic': 'linear-gradient(45deg, #FFA94D, #C2F5D3, #FFA94D, #C2F5D3)'
+			},
+			backgroundSize: {
+				'cyber-grid': '20px 20px',
+				'holographic': '400% 400%'
 			}
 		}
 	},

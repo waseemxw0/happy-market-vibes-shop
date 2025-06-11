@@ -5,7 +5,7 @@ const Logo = ({ className = "" }: { className?: string }) => {
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <div className="relative w-9 h-9 flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange to-mint rounded-xl opacity-90 shadow-sm"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-orange to-mint rounded-xl opacity-90 shadow-sm cyber-border animate-cyber-pulse"></div>
         <div className="absolute inset-1 bg-white backdrop-blur-sm rounded-lg flex items-center justify-center">
           <div className="flex items-center justify-center">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -29,8 +29,12 @@ const Logo = ({ className = "" }: { className?: string }) => {
         </div>
       </div>
       <div className="flex flex-col justify-center">
-        <span className="font-bold text-lg md:text-xl text-softBlack tracking-tight leading-none">Trendora</span>
-        <span className="text-orange text-xs tracking-wide">TikTok's Finest</span>
+        <span className="font-orbitron font-black text-lg md:text-xl text-softBlack tracking-tight leading-none holographic-text">
+          TRENDORA
+        </span>
+        <span className="font-exo text-orange text-xs tracking-widest font-semibold uppercase">
+          TikTok's Finest
+        </span>
       </div>
     </div>
   );

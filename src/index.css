@@ -1,6 +1,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -120,9 +124,31 @@
   }
 
   .section-title {
-    @apply text-3xl md:text-5xl font-bold mb-6 text-transparent bg-gradient-to-r from-softBlack via-softBlack/90 to-softBlack bg-clip-text;
-    font-family: 'Playfair Display', serif;
+    @apply text-3xl md:text-5xl font-bold mb-6 text-transparent bg-gradient-to-r from-softBlack via-softBlack/90 to-softBlack bg-clip-text font-orbitron;
     letter-spacing: -0.02em;
+  }
+
+  .hero-title {
+    @apply font-orbitron font-black text-transparent bg-gradient-to-r from-softBlack via-orange to-mint bg-clip-text;
+    letter-spacing: -0.05em;
+    text-shadow: 0 0 40px rgba(255,169,77,0.3);
+  }
+
+  .futuristic-text {
+    @apply font-audiowide text-transparent bg-gradient-to-r from-orange via-mint to-orange bg-clip-text;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .tech-heading {
+    @apply font-exo font-bold text-transparent bg-gradient-to-r from-softBlack to-orange bg-clip-text;
+    letter-spacing: -0.03em;
+  }
+
+  .modern-title {
+    @apply font-rajdhani font-bold text-transparent bg-gradient-to-r from-orange to-mint bg-clip-text;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
   
   .floating-cart {
@@ -171,6 +197,46 @@
     background-size: 400% 400%;
     animation: gradient-shift 8s ease infinite;
   }
+
+  /* Futuristic glow effects */
+  .neon-glow {
+    text-shadow: 
+      0 0 5px rgba(255,169,77,0.5),
+      0 0 10px rgba(255,169,77,0.3),
+      0 0 15px rgba(255,169,77,0.2),
+      0 0 20px rgba(255,169,77,0.1);
+  }
+
+  .cyber-border {
+    position: relative;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, rgba(255,169,77,0.1), rgba(194,245,211,0.1));
+    background-clip: padding-box;
+  }
+
+  .cyber-border::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #FFA94D, #C2F5D3, #FFA94D);
+    border-radius: inherit;
+    z-index: -1;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  .holographic-text {
+    @apply font-orbitron font-black;
+    background: linear-gradient(45deg, #FFA94D, #C2F5D3, #FFA94D, #C2F5D3);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 4s ease infinite;
+    filter: drop-shadow(0 0 10px rgba(255,169,77,0.3));
+  }
 }
 
 .font-inter {
@@ -179,6 +245,22 @@
 
 .font-playfair {
   font-family: 'Playfair Display', serif;
+}
+
+.font-orbitron {
+  font-family: 'Orbitron', monospace;
+}
+
+.font-exo {
+  font-family: 'Exo 2', sans-serif;
+}
+
+.font-rajdhani {
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.font-audiowide {
+  font-family: 'Audiowide', cursive;
 }
 
 /* Premium animations */
@@ -281,8 +363,8 @@
 
 /* Typography enhancements */
 .hero-text {
-  font-family: 'Playfair Display', serif;
-  font-weight: 800;
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
@@ -290,4 +372,45 @@
 .premium-text {
   font-weight: 600;
   letter-spacing: -0.01em;
+}
+
+/* Cyberpunk effects */
+.data-stream {
+  position: relative;
+  overflow: hidden;
+}
+
+.data-stream::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #FFA94D, transparent);
+  animation: data-flow 2s linear infinite;
+}
+
+@keyframes data-flow {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.matrix-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.matrix-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255,169,77,0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(194,245,211,0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(255,169,77,0.03) 0%, transparent 50%);
+  z-index: -1;
 }
