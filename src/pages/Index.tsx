@@ -24,6 +24,7 @@ import VoiceShoppingGenie from "@/components/VoiceShoppingGenie";
 import { Button } from "@/components/ui/button";
 import LoyaltyProgram from "@/components/LoyaltyProgram";
 import { useCart } from "@/contexts/CartContext";
+import { ArrowRight, Sparkles, Star } from "lucide-react";
 
 const Index = () => {
   const { toast } = useToast();
@@ -92,7 +93,7 @@ const Index = () => {
   };
   
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col luxury-gradient">
       <Navbar />
       <main className="flex-grow pb-20 md:pb-0">
         <HeroSection />
@@ -115,44 +116,60 @@ const Index = () => {
           </div>
         )}
         
-        {/* Voice Genie Prompt Button (if not showing) */}
+        {/* Enhanced Voice Genie Prompt Button */}
         {!showVoiceGenie && (
-          <div className="container mx-auto px-4 py-6 flex justify-center">
+          <div className="container mx-auto px-4 py-8 flex justify-center">
             <button 
               onClick={handleShowVoiceGenie}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange/20 to-mint/20 rounded-full text-sm text-softBlack font-medium hover:from-orange/30 hover:to-mint/30 transition-colors animate-pulse"
+              className="group flex items-center gap-3 px-8 py-4 glass-effect rounded-full text-softBlack font-semibold hover:bg-white/40 transition-all duration-300 transform hover:scale-105 shadow-xl animate-pulse-glow"
             >
-              <span className="w-3 h-3 bg-orange rounded-full"></span>
-              <span>Ask our AI Shopping Genie what you're looking for</span>
-              <span className="w-3 h-3 bg-mint rounded-full"></span>
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 bg-gradient-to-r from-orange to-mint rounded-full animate-pulse"></span>
+                <span className="text-lg">Ask our AI Shopping Genie</span>
+                <span className="w-3 h-3 bg-gradient-to-r from-mint to-orange rounded-full animate-pulse"></span>
+              </div>
+              <ArrowRight className="group-hover:translate-x-1 transition-transform duration-300" size={20} />
             </button>
           </div>
         )}
         
-        {/* Product categories */}
-        <div className="py-16 md:py-20" data-section="categories">
+        {/* Enhanced Product categories */}
+        <div className="py-20 md:py-24 luxury-gradient" data-section="categories">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-3 text-softBlack tracking-tight">Shop By Category</h2>
-            <p className="text-softBlack/70 text-center mb-10 max-w-xl mx-auto">Find exactly what you're looking for with our curated collections</p>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
+            <div className="text-center mb-16">
+              <h2 className="section-title">Shop By Category</h2>
+              <p className="text-xl text-softBlack/70 max-w-2xl mx-auto font-medium">
+                Discover curated collections of viral TikTok products, handpicked by our experts
+              </p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
               {Object.entries(categoryData).map(([key, category], index) => (
                 <Link 
                   key={index} 
                   to={`/collection/${key}`}
-                  className="bg-white rounded-2xl p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 text-center group"
-                  style={{ borderTop: `4px solid ${category.color}` }}
+                  className="category-card text-center group hover-lift"
+                  style={{ 
+                    borderTop: `4px solid ${category.color}`,
+                    animationDelay: `${index * 0.1}s`
+                  }}
                 >
                   <div 
-                    className="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center" 
-                    style={{ backgroundColor: `${category.color}20` }}
+                    className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300" 
+                    style={{ 
+                      background: `linear-gradient(135deg, ${category.color}20, ${category.color}10)`
+                    }}
                   >
                     <div 
-                      className="w-6 h-6" 
-                      style={{ backgroundColor: category.color, borderRadius: "0.5rem" }}
+                      className="w-8 h-8 rounded-xl shadow-md" 
+                      style={{ backgroundColor: category.color }}
                     ></div>
                   </div>
-                  <h3 className="font-semibold mb-1" style={{ color: category.color }}>{category.title}</h3>
-                  <p className="text-xs text-softBlack/60 line-clamp-2">{category.subtitle}</p>
+                  <h3 className="font-bold text-lg mb-2 group-hover:scale-105 transition-transform duration-300" style={{ color: category.color }}>
+                    {category.title}
+                  </h3>
+                  <p className="text-sm text-softBlack/60 line-clamp-2 group-hover:text-softBlack/80 transition-colors duration-300">
+                    {category.subtitle}
+                  </p>
                 </Link>
               ))}
             </div>
@@ -217,53 +234,59 @@ const Index = () => {
           products={categoryData.fitKit.products}
         />
         
-        {/* Mystery Box Generator */}
-        <div className="py-14 md:py-20 bg-gradient-to-br from-white to-orange/5">
+        {/* Enhanced Mystery Box Generator */}
+        <div className="py-20 md:py-24 bg-gradient-to-br from-white via-orange/5 to-mint/5">
           <div className="container mx-auto px-4">
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-orange/10">
-              <div className="p-6 md:p-10 text-center">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">🎁 Mystery TikTok Box</h2>
-                <p className="text-softBlack/70 mb-8 max-w-2xl mx-auto">
-                  Let our AI curate a surprise box of viral TikTok products just for you! You'll only see what's inside after purchase.
+            <div className="glass-effect rounded-3xl shadow-2xl overflow-hidden border border-white/30">
+              <div className="p-8 md:p-16 text-center">
+                <div className="inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-orange/20 to-mint/20 rounded-full text-sm font-semibold text-softBlack mb-6">
+                  ✨ Limited Time Offer
+                </div>
+                <h2 className="section-title mb-6">🎁 Mystery TikTok Box</h2>
+                <p className="text-xl text-softBlack/70 mb-12 max-w-3xl mx-auto font-medium leading-relaxed">
+                  Let our AI curate a surprise box of viral TikTok products just for you! 
+                  <span className="block mt-2 text-orange font-semibold">
+                    You'll only see what's inside after purchase - it's a surprise! 🎉
+                  </span>
                 </p>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto mb-10">
-                  <div className="bg-orange/5 rounded-xl p-6 text-center hover:shadow-md transition-shadow">
-                    <div className="text-3xl mb-2">💝</div>
-                    <h3 className="font-bold text-lg mb-1">Basic Box</h3>
-                    <p className="text-orange font-semibold text-xl mb-2">$25</p>
-                    <p className="text-sm text-softBlack/70 mb-4">3 surprise TikTok viral items</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-12">
+                  <div className="glass-effect rounded-2xl p-8 text-center hover-lift group shadow-xl">
+                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">💝</div>
+                    <h3 className="font-bold text-xl mb-2 font-playfair">Basic Box</h3>
+                    <p className="text-orange font-bold text-3xl mb-3">$25</p>
+                    <p className="text-sm text-softBlack/70 mb-6">3 surprise viral items</p>
                     <Button 
-                      className="w-full bg-orange hover:bg-orange/90 text-white rounded-xl"
+                      className="btn-primary w-full"
                       onClick={() => handleMysteryBoxPurchase("Basic", 25)}
                     >
                       Get This Box
                     </Button>
                   </div>
                   
-                  <div className="bg-gradient-to-b from-orange/10 to-mint/10 rounded-xl p-6 text-center shadow-md relative border border-orange/20">
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-orange text-white text-xs font-bold px-3 py-1 rounded-full">
+                  <div className="glass-effect rounded-2xl p-8 text-center hover-lift group shadow-2xl relative border-2 border-orange/30">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-orange to-mint text-white text-sm font-bold px-4 py-2 rounded-full shadow-lg">
                       MOST POPULAR
                     </div>
-                    <div className="text-3xl mb-2">🌟</div>
-                    <h3 className="font-bold text-lg mb-1">Premium Box</h3>
-                    <p className="text-orange font-semibold text-xl mb-2">$50</p>
-                    <p className="text-sm text-softBlack/70 mb-4">5 trending items + free shipping</p>
+                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🌟</div>
+                    <h3 className="font-bold text-xl mb-2 font-playfair">Premium Box</h3>
+                    <p className="text-orange font-bold text-3xl mb-3">$50</p>
+                    <p className="text-sm text-softBlack/70 mb-6">5 trending items + free shipping</p>
                     <Button 
-                      className="w-full bg-gradient-to-r from-orange to-mint text-white hover:opacity-90 rounded-xl"
+                      className="w-full bg-gradient-to-r from-orange via-orange-500 to-mint text-white hover:opacity-90 rounded-full font-bold shadow-xl transform hover:scale-105 transition-all duration-300"
                       onClick={() => handleMysteryBoxPurchase("Premium", 50)}
                     >
                       Get This Box
                     </Button>
                   </div>
                   
-                  <div className="bg-orange/5 rounded-xl p-6 text-center hover:shadow-md transition-shadow">
-                    <div className="text-3xl mb-2">👑</div>
-                    <h3 className="font-bold text-lg mb-1">Luxury Box</h3>
-                    <p className="text-orange font-semibold text-xl mb-2">$100</p>
-                    <p className="text-sm text-softBlack/70 mb-4">7 premium viral products</p>
+                  <div className="glass-effect rounded-2xl p-8 text-center hover-lift group shadow-xl">
+                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">👑</div>
+                    <h3 className="font-bold text-xl mb-2 font-playfair">Luxury Box</h3>
+                    <p className="text-orange font-bold text-3xl mb-3">$100</p>
+                    <p className="text-sm text-softBlack/70 mb-6">7 premium viral products</p>
                     <Button 
-                      className="w-full bg-orange hover:bg-orange/90 text-white rounded-xl"
+                      className="btn-primary w-full"
                       onClick={() => handleMysteryBoxPurchase("Luxury", 100)}
                     >
                       Get This Box
@@ -271,9 +294,10 @@ const Index = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-center justify-center gap-2 text-sm text-softBlack/70">
-                  <span>⭐</span>
+                <div className="flex items-center justify-center gap-3 text-softBlack/70 font-medium">
+                  <span className="text-xl">⭐</span>
                   <span>Over 10,000 mystery boxes sold with 95% satisfaction rate</span>
+                  <span className="text-xl">⭐</span>
                 </div>
               </div>
             </div>
@@ -289,41 +313,41 @@ const Index = () => {
       </main>
       <Footer />
       
-      {/* Discount Popup */}
+      {/* Enhanced Discount Popup */}
       {showDiscount && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 relative animate-scale-in">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="glass-effect rounded-3xl max-w-md w-full p-8 relative animate-bounce-in shadow-2xl border border-white/30">
             <button 
-              className="absolute top-4 right-4 text-softBlack/50 hover:text-softBlack"
+              className="absolute top-4 right-4 text-softBlack/50 hover:text-softBlack transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20"
               onClick={handleCloseDiscount}
             >
               ✕
             </button>
             
-            <div className="bg-orange/20 text-orange font-semibold text-sm px-3 py-1 rounded-full w-fit mx-auto mb-4">
-              New Visitor Offer
+            <div className="bg-gradient-to-r from-orange/20 to-mint/20 text-orange font-bold text-sm px-4 py-2 rounded-full w-fit mx-auto mb-6 shadow-lg">
+              🎉 New Visitor Offer
             </div>
             
-            <h3 className="text-2xl font-bold text-center mb-2">WAIT! Get 10% OFF</h3>
-            <p className="text-center text-softBlack/70 mb-6">
+            <h3 className="text-3xl font-bold text-center mb-3 font-playfair">WAIT! Get 10% OFF</h3>
+            <p className="text-center text-softBlack/70 mb-8 font-medium">
               Join thousands of TikTok shoppers and get a special discount on your first order!
             </p>
             
-            <div className="bg-gradient-to-r from-orange/20 to-mint/20 p-6 rounded-xl text-center mb-6">
-              <span className="text-4xl font-bold text-orange">10% OFF</span>
-              <p className="text-sm text-softBlack/70 mt-2">Use code: TIKTOK10</p>
+            <div className="bg-gradient-to-r from-orange/20 via-mint/20 to-orange/20 p-8 rounded-2xl text-center mb-8 shadow-inner">
+              <span className="text-5xl font-bold text-luxury block mb-2">10% OFF</span>
+              <p className="text-softBlack/70 font-semibold">Use code: <span className="text-orange font-bold">TIKTOK10</span></p>
             </div>
             
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-4">
               <button 
-                className="bg-orange text-white py-3 rounded-xl font-medium hover:bg-orange/90 transition-colors"
+                className="btn-primary w-full py-4 text-lg font-bold"
                 onClick={handleClaimDiscount}
               >
-                Claim My Discount
+                Claim My Discount 🎉
               </button>
               
               <button 
-                className="text-softBlack/70 py-2 text-sm"
+                className="text-softBlack/70 py-2 text-sm hover:text-softBlack transition-colors"
                 onClick={handleCloseDiscount}
               >
                 No thanks, I'll pay full price
