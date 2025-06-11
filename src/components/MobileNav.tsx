@@ -17,9 +17,9 @@ const MobileNav = () => {
     <>
       {showMoreMenu && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50" onClick={() => setShowMoreMenu(false)}>
-          <div className="absolute bottom-20 left-4 right-4 glass-effect rounded-3xl shadow-2xl p-6 animate-slide-in-up border border-white/20" onClick={e => e.stopPropagation()}>
-            <div className="w-12 h-1 bg-gradient-to-r from-orange to-mint rounded-full mx-auto mb-4"></div>
-            <h3 className="text-xl font-bold text-center mb-6 text-softBlack font-playfair">More Options</h3>
+          <div className="absolute bottom-20 left-4 right-4 bg-white rounded-3xl shadow-2xl p-6 animate-slide-in-up border border-gray-100" onClick={e => e.stopPropagation()}>
+            <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
+            <h3 className="text-lg font-bold text-center mb-6 text-softBlack">More Options</h3>
             
             <div className="grid grid-cols-3 gap-4 mb-6">
               <MenuButton icon={<Search className="h-6 w-6" />} label="Search" href="/search" onClick={() => setShowMoreMenu(false)} />
@@ -33,14 +33,14 @@ const MobileNav = () => {
             <div className="grid grid-cols-2 gap-3 text-sm">
               <Link 
                 to="/rewards" 
-                className="py-3 px-4 text-center rounded-xl bg-gradient-to-r from-orange/20 to-orange/10 text-orange font-semibold border border-orange/30 hover:from-orange/30 hover:to-orange/20 transition-all transform hover:scale-105 shadow-lg"
+                className="py-3 px-4 text-center rounded-xl bg-gradient-to-r from-orange/10 to-orange/5 text-orange font-semibold border border-orange/20 hover:from-orange/20 hover:to-orange/10 transition-all"
                 onClick={() => setShowMoreMenu(false)}
               >
                 🎉 Rewards
               </Link>
               <Link 
                 to="/contact" 
-                className="py-3 px-4 text-center rounded-xl glass-effect font-semibold text-softBlack hover:bg-white/40 transition-all transform hover:scale-105 shadow-lg"
+                className="py-3 px-4 text-center rounded-xl bg-gray-50 font-semibold text-softBlack hover:bg-gray-100 transition-colors"
                 onClick={() => setShowMoreMenu(false)}
               >
                 💬 Help
@@ -50,7 +50,7 @@ const MobileNav = () => {
         </div>
       )}
 
-      <div className="fixed bottom-0 left-0 right-0 glass-effect border-t border-white/30 z-40 md:hidden shadow-2xl">
+      <div className="fixed bottom-0 left-0 right-0 bg-white backdrop-blur-md border-t border-gray-200 z-40 md:hidden shadow-lg">
         <div className="grid grid-cols-6 py-2">
           <NavItem 
             icon={<Home className="h-5 w-5" />} 
@@ -116,20 +116,20 @@ const NavItem = ({ icon, label, href, isActive, badge, onClick, isCart }: NavIte
     <>
       <div className="relative">
         <div className={cn(
-          "transition-all duration-300",
-          isActive && "scale-110 transform"
+          "transition-all duration-200",
+          isActive && "scale-110"
         )}>
           {icon}
         </div>
         {badge && badge > 0 && (
-          <span className="absolute -top-1 -right-1 bg-gradient-to-r from-orange to-orange/90 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-bounce-in shadow-lg">
+          <span className="absolute -top-1 -right-1 bg-orange text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold animate-pulse">
             {badge}
           </span>
         )}
       </div>
       <span className={cn(
-        "text-xs mt-1 font-medium transition-all duration-300",
-        isActive && "scale-95 font-semibold"
+        "text-xs mt-1 font-medium transition-all duration-200",
+        isActive && "scale-95"
       )}>
         {label}
       </span>
@@ -137,12 +137,12 @@ const NavItem = ({ icon, label, href, isActive, badge, onClick, isCart }: NavIte
   );
   
   const classes = cn(
-    "flex flex-col items-center justify-center py-3 px-2 transition-all duration-300 relative group",
+    "flex flex-col items-center justify-center py-2 px-2 transition-all duration-200 relative",
     isActive 
       ? "text-orange" 
       : "text-softBlack/60 hover:text-softBlack/80",
-    isCart && "bg-gradient-to-t from-orange/10 to-transparent rounded-t-xl",
-    !isCart && isActive && "after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-2 after:h-2 after:bg-gradient-to-r after:from-orange after:to-mint after:rounded-full after:animate-pulse"
+    isCart && "bg-orange/5 rounded-t-xl",
+    !isCart && isActive && "after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-orange after:rounded-full"
   );
   
   if (onClick) {
@@ -170,11 +170,11 @@ interface MenuButtonProps {
 const MenuButton = ({ icon, label, href, onClick }: MenuButtonProps) => (
   <Link 
     to={href} 
-    className="flex flex-col items-center justify-center p-4 glass-effect rounded-xl hover:bg-white/40 hover:scale-105 transition-all duration-300 group shadow-lg"
+    className="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl hover:bg-gray-100 hover:scale-105 transition-all duration-200 group"
     onClick={onClick}
   >
-    <div className="text-softBlack group-hover:text-orange transition-colors duration-300">{icon}</div>
-    <span className="text-xs mt-2 text-softBlack/80 font-medium group-hover:text-softBlack transition-colors duration-300">{label}</span>
+    <div className="text-softBlack group-hover:text-orange transition-colors">{icon}</div>
+    <span className="text-xs mt-1 text-softBlack/80 font-medium group-hover:text-softBlack transition-colors">{label}</span>
   </Link>
 );
 
