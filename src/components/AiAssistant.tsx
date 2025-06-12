@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { X, MessageCircle, Send, ShoppingBag, Mic, MicOff, Volume2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -73,7 +73,7 @@ const AiAssistant = () => {
   ]);
 
   // Text-to-speech function
-  const speakText = (text: string) => {
+  const speakText = useCallback((text: string) => {
     if ('speechSynthesis' in window) {
       setIsSpeaking(true);
       const utterance = new SpeechSynthesisUtterance(text);
@@ -81,7 +81,6 @@ const AiAssistant = () => {
       utterance.pitch = 1.1;
       utterance.volume = 0.8;
       
-      // Try to use a more pleasant voice
       const voices = speechSynthesis.getVoices();
       const preferredVoice = voices.find(voice => 
         voice.name.includes('Google') || 
@@ -98,10 +97,10 @@ const AiAssistant = () => {
       
       speechSynthesis.speak(utterance);
     }
-  };
+  }, []);
 
   // Speech recognition function
-  const startListening = () => {
+  const startListening = useCallback(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
       const recognition = new SpeechRecognition();
@@ -144,13 +143,12 @@ const AiAssistant = () => {
         variant: "destructive"
       });
     }
-  };
+  }, [toast]);
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
     
-    // Add user message
     const userMessage: Message = {
       id: Date.now(),
       content: input,
@@ -160,7 +158,6 @@ const AiAssistant = () => {
     setMessages(prev => [...prev, userMessage]);
     setInput("");
     
-    // Determine AI response based on keywords
     setTimeout(() => {
       let response: Message;
       
@@ -181,91 +178,92 @@ const AiAssistant = () => {
       
       const newResponse = {...response, id: Date.now()};
       setMessages(prev => [...prev, newResponse]);
-      
-      // Speak the response
       speakText(newResponse.content);
     }, 500);
-  };
+  }, [input, speakText]);
 
   return (
     <>
-      {/* Chat bubble button - positioned further from cart */}
+      {/* Chat bubble button - positioned for better mobile experience */}
       <button 
         className={cn(
-          "fixed bottom-36 right-4 z-40 bg-gradient-to-r from-orange to-orange/90 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl",
+          "fixed bottom-36 right-16 z-40 bg-gradient-to-r from-orange to-orange/90 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl",
+          "md:bottom-32 md:right-4 md:p-4",
           isOpen && "rotate-90 bg-softBlack"
         )}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
-        {/* Voice indicator */}
+        {isOpen ? <X className="h-5 w-5 md:h-6 md:w-6" /> : <MessageCircle className="h-5 w-5 md:h-6 md:w-6" />}
         {(isListening || isSpeaking) && (
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
+          <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
         )}
       </button>
       
-      {/* Chat window */}
+      {/* Chat window - optimized for mobile */}
       <div className={cn(
-        "fixed bottom-52 right-4 w-80 md:w-96 bg-white rounded-xl shadow-2xl border border-gray-200 z-30 transition-all duration-300 overflow-hidden",
+        "fixed z-30 transition-all duration-300 overflow-hidden",
+        "bottom-52 right-2 left-2 max-w-none",
+        "md:bottom-52 md:right-4 md:left-auto md:w-80 md:max-w-96",
+        "bg-white rounded-xl shadow-2xl border border-gray-200",
         isOpen ? "opacity-100 transform translate-y-0" : "opacity-0 pointer-events-none transform translate-y-10"
       )}>
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange to-orange/90 text-white p-4 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-orange to-orange/90 text-white p-3 md:p-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <MessageCircle className="h-5 w-5" />
-            <span className="font-medium">AI Voice Assistant</span>
-            {isSpeaking && <Volume2 className="h-4 w-4 animate-pulse" />}
+            <MessageCircle className="h-4 w-4 md:h-5 md:w-5" />
+            <span className="font-medium text-sm md:text-base">AI Voice Assistant</span>
+            {isSpeaking && <Volume2 className="h-3 w-3 md:h-4 md:w-4 animate-pulse" />}
           </div>
           <button onClick={() => setIsOpen(false)}>
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4 md:h-5 md:w-5" />
           </button>
         </div>
         
         {/* Messages */}
-        <div className="h-96 overflow-y-auto p-4 flex flex-col gap-3">
+        <div className="h-72 md:h-96 overflow-y-auto p-3 md:p-4 flex flex-col gap-2 md:gap-3">
           {messages.map((message) => (
             <div 
               key={message.id} 
               className={cn(
-                "max-w-[80%] p-3 rounded-lg",
+                "max-w-[85%] p-2 md:p-3 rounded-lg text-sm",
                 message.sender === 'user' 
                   ? "bg-orange/10 ml-auto rounded-tr-none" 
                   : "bg-gray-100 mr-auto rounded-tl-none"
               )}
             >
-              <p className="text-sm">{message.content}</p>
+              <p className="text-xs md:text-sm">{message.content}</p>
               
               {message.includesProducts && (
-                <div className="mt-2 grid grid-cols-1 gap-2">
+                <div className="mt-2 grid grid-cols-1 gap-1 md:gap-2">
                   {demoProducts.map((product) => (
-                    <div key={product.id} className="flex items-center gap-2 bg-white p-2 rounded-lg shadow-sm">
+                    <div key={product.id} className="flex items-center gap-2 bg-white p-1.5 md:p-2 rounded-lg shadow-sm">
                       <img 
                         src={product.image} 
                         alt={product.name} 
-                        className="w-12 h-12 object-cover rounded-md"
+                        className="w-8 h-8 md:w-12 md:h-12 object-cover rounded-md"
+                        loading="lazy"
                       />
-                      <div className="flex-1">
-                        <h4 className="text-xs font-medium">{product.name}</h4>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-xs font-medium truncate">{product.name}</h4>
                         <p className="text-xs text-orange">{product.price}</p>
                       </div>
-                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                        <ShoppingBag className="h-4 w-4" />
+                      <Button size="sm" variant="ghost" className="h-6 w-6 md:h-8 md:w-8 p-0 flex-shrink-0">
+                        <ShoppingBag className="h-3 w-3 md:h-4 md:w-4" />
                       </Button>
                     </div>
                   ))}
                 </div>
               )}
               
-              {/* Speak button for AI messages */}
               {message.sender === 'ai' && (
                 <Button 
                   size="sm" 
                   variant="ghost" 
-                  className="mt-2 h-6 text-xs"
+                  className="mt-1 md:mt-2 h-5 md:h-6 text-xs"
                   onClick={() => speakText(message.content)}
                   disabled={isSpeaking}
                 >
-                  <Volume2 className="h-3 w-3 mr-1" />
+                  <Volume2 className="h-2 w-2 md:h-3 md:w-3 mr-1" />
                   {isSpeaking ? 'Speaking...' : 'Speak'}
                 </Button>
               )}
@@ -274,31 +272,31 @@ const AiAssistant = () => {
         </div>
         
         {/* Input */}
-        <form onSubmit={handleSendMessage} className="border-t p-3 flex gap-2">
+        <form onSubmit={handleSendMessage} className="border-t p-2 md:p-3 flex gap-1 md:gap-2">
           <input 
             type="text" 
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about trending products or use voice..."
-            className="flex-1 py-2 px-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange/50"
+            placeholder="Ask about trending products..."
+            className="flex-1 py-1.5 md:py-2 px-2 md:px-3 border rounded-lg text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-orange/50"
           />
           <Button 
             type="button"
             size="sm" 
             variant={isListening ? "destructive" : "ghost"}
-            className={cn("rounded-lg", isListening && "animate-pulse")}
+            className={cn("rounded-lg p-1.5 md:p-2", isListening && "animate-pulse")}
             onClick={startListening}
             disabled={isListening}
           >
-            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            {isListening ? <MicOff className="h-3 w-3 md:h-4 md:w-4" /> : <Mic className="h-3 w-3 md:h-4 md:w-4" />}
           </Button>
           <Button 
             type="submit" 
             size="sm" 
-            className="bg-orange hover:bg-orange/90 rounded-lg"
+            className="bg-orange hover:bg-orange/90 rounded-lg p-1.5 md:p-2"
             disabled={!input.trim()}
           >
-            <Send className="h-4 w-4" />
+            <Send className="h-3 w-3 md:h-4 md:w-4" />
           </Button>
         </form>
       </div>

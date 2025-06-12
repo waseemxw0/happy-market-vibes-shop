@@ -77,18 +77,18 @@ const GiftFinder = () => {
     <>
       <Button
         onClick={toggleOpen}
-        className="fixed right-6 bottom-40 md:bottom-32 z-50 bg-white text-softBlack shadow-lg px-4 py-2 rounded-full flex items-center gap-2 hover:bg-gray-100 hover:scale-105 transition-all duration-300"
+        className="fixed left-4 bottom-36 md:bottom-32 z-40 bg-white text-softBlack shadow-lg px-3 py-2 rounded-full flex items-center gap-2 hover:bg-gray-100 hover:scale-105 transition-all duration-300"
       >
         <Search className="h-4 w-4" />
-        <span>Gift Finder</span>
+        <span className="hidden sm:inline">Gift Finder</span>
       </Button>
       
       {isOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <Card className="w-full max-w-md max-h-[70vh] overflow-auto relative animate-scale-in">
+          <Card className="w-full max-w-md max-h-[80vh] overflow-auto relative animate-scale-in">
             <Button
               variant="ghost"
-              className="absolute top-2 right-2 text-softBlack/70 hover:text-softBlack"
+              className="absolute top-2 right-2 text-softBlack/70 hover:text-softBlack z-10"
               onClick={toggleOpen}
             >
               ✕
@@ -111,7 +111,7 @@ const GiftFinder = () => {
                         <Button
                           key={option}
                           variant="outline"
-                          className="border-gray-200 hover:bg-orange/10 hover:text-orange hover:border-orange"
+                          className="border-gray-200 hover:bg-orange/10 hover:text-orange hover:border-orange text-xs p-2 h-auto"
                           onClick={() => handleOptionSelect(option)}
                         >
                           {option}
@@ -123,7 +123,7 @@ const GiftFinder = () => {
                   <div className="flex justify-between items-center">
                     <Button
                       variant="ghost"
-                      className="text-softBlack/70"
+                      className="text-softBlack/70 text-sm"
                       onClick={resetFinder}
                       disabled={question === 0 && Object.keys(answers).length === 0}
                     >
@@ -155,11 +155,12 @@ const GiftFinder = () => {
                         <img 
                           src={gift.image} 
                           alt={gift.name} 
-                          className="h-16 w-16 rounded-lg object-cover"
+                          className="h-12 w-12 rounded-lg object-cover"
+                          loading="lazy"
                         />
                         <div className="flex-1">
-                          <h4 className="font-medium">{gift.name}</h4>
-                          <div className="flex justify-between items-center text-sm">
+                          <h4 className="font-medium text-sm">{gift.name}</h4>
+                          <div className="flex justify-between items-center text-xs">
                             <span className="text-orange font-semibold">{gift.price}</span>
                             <span className="text-green-600 bg-green-50 px-2 py-0.5 rounded-full text-xs">
                               {gift.match}
@@ -174,12 +175,13 @@ const GiftFinder = () => {
                     <Button
                       variant="outline"
                       onClick={resetFinder}
+                      className="text-sm"
                     >
                       Try Again
                     </Button>
                     
                     <Button
-                      className="bg-orange text-white hover:bg-orange/90"
+                      className="bg-orange text-white hover:bg-orange/90 text-sm"
                       onClick={toggleOpen}
                     >
                       View All
