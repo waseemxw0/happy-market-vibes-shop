@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -32,6 +33,7 @@ const NewArrivalsPage = lazy(() => import("./pages/NewArrivalsPage"));
 const AccountPage = lazy(() => import("./pages/AccountPage"));
 const OrdersPage = lazy(() => import("./pages/OrdersPage"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
+const ReturnsPage = lazy(() => import("./pages/ReturnsPage"));
 
 // Create loading fallback
 const PageLoading = () => (
@@ -83,6 +85,7 @@ const App = () => (
               <Route path="/account" element={<AccountPage />} />
               <Route path="/orders" element={<OrdersPage />} />
               <Route path="/search" element={<SearchPage />} />
+              <Route path="/returns" element={<ReturnsPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -1,8 +1,9 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { X, MessageCircle, Send, ShoppingBag } from "lucide-react";
+import { X, MessageCircle, Send, ShoppingBag, Mic, MicOff, Volume2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 interface Message {
   id: number;
@@ -55,7 +56,7 @@ const assistantResponses: { [key: string]: Message } = {
   },
   hello: {
     id: 1,
-    content: "Hi there! I'm the Trendora AI assistant. I can help you find viral TikTok products! Ask me about gifts, trending items, or products under $30.",
+    content: "Hi there! I'm the Trendora AI assistant with advanced voice capabilities. I can help you find viral TikTok products! Try asking me about gifts, trending items, or products under $30. You can also use voice commands!",
     sender: 'ai',
     includesProducts: false
   }
@@ -64,9 +65,86 @@ const assistantResponses: { [key: string]: Message } = {
 const AiAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
+  const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const { toast } = useToast();
   const [messages, setMessages] = useState<Message[]>([
     assistantResponses.hello
   ]);
+
+  // Text-to-speech function
+  const speakText = (text: string) => {
+    if ('speechSynthesis' in window) {
+      setIsSpeaking(true);
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.9;
+      utterance.pitch = 1.1;
+      utterance.volume = 0.8;
+      
+      // Try to use a more pleasant voice
+      const voices = speechSynthesis.getVoices();
+      const preferredVoice = voices.find(voice => 
+        voice.name.includes('Google') || 
+        voice.name.includes('Microsoft') ||
+        voice.name.includes('female') ||
+        voice.name.includes('Samantha')
+      );
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+      
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+      
+      speechSynthesis.speak(utterance);
+    }
+  };
+
+  // Speech recognition function
+  const startListening = () => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+      const recognition = new SpeechRecognition();
+      
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+      
+      setIsListening(true);
+      
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setInput(transcript);
+        setIsListening(false);
+        
+        toast({
+          title: "Voice recognized!",
+          description: `I heard: "${transcript}"`,
+        });
+      };
+      
+      recognition.onerror = () => {
+        setIsListening(false);
+        toast({
+          title: "Voice recognition error",
+          description: "Please try again or type your message",
+          variant: "destructive"
+        });
+      };
+      
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+      
+      recognition.start();
+    } else {
+      toast({
+        title: "Voice not supported",
+        description: "Your browser doesn't support voice recognition",
+        variant: "destructive"
+      });
+    }
+  };
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,39 +173,48 @@ const AiAssistant = () => {
       } else {
         response = {
           id: Date.now(),
-          content: "I'm here to help you find the perfect TikTok viral products! Ask me about gifts, trending items, or products under $30.",
+          content: "I'm here to help you find the perfect TikTok viral products! Ask me about gifts, trending items, or products under $30. You can also use voice commands!",
           sender: 'ai',
           includesProducts: true
         };
       }
       
-      setMessages(prev => [...prev, {...response, id: Date.now()}]);
+      const newResponse = {...response, id: Date.now()};
+      setMessages(prev => [...prev, newResponse]);
+      
+      // Speak the response
+      speakText(newResponse.content);
     }, 500);
   };
 
   return (
     <>
-      {/* Chat bubble button */}
+      {/* Chat bubble button - positioned further from cart */}
       <button 
         className={cn(
-          "fixed bottom-20 right-4 z-40 bg-orange text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110",
+          "fixed bottom-36 right-4 z-40 bg-gradient-to-r from-orange to-orange/90 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl",
           isOpen && "rotate-90 bg-softBlack"
         )}
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+        {/* Voice indicator */}
+        {(isListening || isSpeaking) && (
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
+        )}
       </button>
       
       {/* Chat window */}
       <div className={cn(
-        "fixed bottom-20 right-4 w-80 md:w-96 bg-white rounded-xl shadow-xl border border-gray-200 z-30 transition-all duration-300 overflow-hidden",
+        "fixed bottom-52 right-4 w-80 md:w-96 bg-white rounded-xl shadow-2xl border border-gray-200 z-30 transition-all duration-300 overflow-hidden",
         isOpen ? "opacity-100 transform translate-y-0" : "opacity-0 pointer-events-none transform translate-y-10"
       )}>
         {/* Header */}
         <div className="bg-gradient-to-r from-orange to-orange/90 text-white p-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <MessageCircle className="h-5 w-5" />
-            <span className="font-medium">Trendora Assistant</span>
+            <span className="font-medium">AI Voice Assistant</span>
+            {isSpeaking && <Volume2 className="h-4 w-4 animate-pulse" />}
           </div>
           <button onClick={() => setIsOpen(false)}>
             <X className="h-5 w-5" />
@@ -168,6 +255,20 @@ const AiAssistant = () => {
                   ))}
                 </div>
               )}
+              
+              {/* Speak button for AI messages */}
+              {message.sender === 'ai' && (
+                <Button 
+                  size="sm" 
+                  variant="ghost" 
+                  className="mt-2 h-6 text-xs"
+                  onClick={() => speakText(message.content)}
+                  disabled={isSpeaking}
+                >
+                  <Volume2 className="h-3 w-3 mr-1" />
+                  {isSpeaking ? 'Speaking...' : 'Speak'}
+                </Button>
+              )}
             </div>
           ))}
         </div>
@@ -178,13 +279,24 @@ const AiAssistant = () => {
             type="text" 
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about trending products..."
+            placeholder="Ask about trending products or use voice..."
             className="flex-1 py-2 px-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange/50"
           />
           <Button 
+            type="button"
+            size="sm" 
+            variant={isListening ? "destructive" : "ghost"}
+            className={cn("rounded-lg", isListening && "animate-pulse")}
+            onClick={startListening}
+            disabled={isListening}
+          >
+            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+          </Button>
+          <Button 
             type="submit" 
             size="sm" 
-            className="bg-orange hover:bg-orange/90"
+            className="bg-orange hover:bg-orange/90 rounded-lg"
+            disabled={!input.trim()}
           >
             <Send className="h-4 w-4" />
           </Button>

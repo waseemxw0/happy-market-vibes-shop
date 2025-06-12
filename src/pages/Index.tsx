@@ -41,22 +41,31 @@ const Index = () => {
   ];
   
   useEffect(() => {
-    // Show discount popup after 5 seconds
-    const timer = setTimeout(() => {
-      setShowDiscount(true);
-    }, 5000);
+    // Check if user has already seen/dismissed the discount popup
+    const hasSeenDiscount = localStorage.getItem('hasSeenDiscount');
     
-    return () => {
-      clearTimeout(timer);
-    };
+    if (!hasSeenDiscount) {
+      // Show discount popup after 5 seconds
+      const timer = setTimeout(() => {
+        setShowDiscount(true);
+      }, 5000);
+      
+      return () => {
+        clearTimeout(timer);
+      };
+    }
   }, []);
   
   const handleCloseDiscount = () => {
     setShowDiscount(false);
+    // Mark as seen so it doesn't show again
+    localStorage.setItem('hasSeenDiscount', 'true');
   };
   
   const handleClaimDiscount = () => {
     setShowDiscount(false);
+    // Mark as seen so it doesn't show again
+    localStorage.setItem('hasSeenDiscount', 'true');
     toast({
       title: "Discount Applied!",
       description: "10% off your first order",

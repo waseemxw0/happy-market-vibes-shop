@@ -16,8 +16,8 @@ const MobileNav = () => {
   return (
     <>
       {showMoreMenu && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50" onClick={() => setShowMoreMenu(false)}>
-          <div className="absolute bottom-20 left-4 right-4 bg-white rounded-3xl shadow-2xl p-6 animate-slide-in-up border border-gray-100" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 md:hidden" onClick={() => setShowMoreMenu(false)}>
+          <div className="absolute bottom-20 left-4 right-4 bg-white rounded-3xl shadow-2xl p-6 animate-slide-in-up border border-gray-100 max-h-[70vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
             <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
             <h3 className="text-lg font-bold text-center mb-6 text-softBlack">More Options</h3>
             
@@ -50,8 +50,8 @@ const MobileNav = () => {
         </div>
       )}
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white backdrop-blur-md border-t border-gray-200 z-40 md:hidden shadow-lg">
-        <div className="grid grid-cols-6 py-2">
+      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 z-40 md:hidden shadow-lg safe-area-pb">
+        <div className="grid grid-cols-6 py-2 px-2">
           <NavItem 
             icon={<Home className="h-5 w-5" />} 
             label="Home" 
@@ -122,8 +122,8 @@ const NavItem = ({ icon, label, href, isActive, badge, onClick, isCart }: NavIte
           {icon}
         </div>
         {badge && badge > 0 && (
-          <span className="absolute -top-1 -right-1 bg-orange text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold animate-pulse">
-            {badge}
+          <span className="absolute -top-1 -right-1 bg-orange text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold animate-pulse min-w-[16px]">
+            {badge > 99 ? '99+' : badge}
           </span>
         )}
       </div>
@@ -137,12 +137,12 @@ const NavItem = ({ icon, label, href, isActive, badge, onClick, isCart }: NavIte
   );
   
   const classes = cn(
-    "flex flex-col items-center justify-center py-2 px-2 transition-all duration-200 relative",
+    "flex flex-col items-center justify-center py-2 px-1 transition-all duration-200 relative min-h-[60px]",
     isActive 
       ? "text-orange" 
       : "text-softBlack/60 hover:text-softBlack/80",
-    isCart && "bg-orange/5 rounded-t-xl",
-    !isCart && isActive && "after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-orange after:rounded-full"
+    isCart && "bg-orange/5 rounded-t-xl mx-1",
+    !isCart && isActive && "after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-orange after:rounded-full"
   );
   
   if (onClick) {

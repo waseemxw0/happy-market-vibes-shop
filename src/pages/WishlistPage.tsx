@@ -7,29 +7,14 @@ import { Heart, Trash, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const WishlistPage = () => {
-  const [wishlistItems, setWishlistItems] = useState([
-    {
-      id: "1",
-      name: "Smart LED Ceiling Lamp",
-      price: "$79.99",
-      image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&auto=format&fit=crop",
-      inStock: true,
-    },
-    {
-      id: "2",
-      name: "Self-Cleaning Water Bottle",
-      price: "$34.99",
-      image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop",
-      inStock: true,
-    },
-    {
-      id: "3",
-      name: "Sunset Mood Light",
-      price: "$29.99",
-      image: "https://images.unsplash.com/photo-1617503752587-97d2103a96b9?w=500&auto=format&fit=crop",
-      inStock: false,
-    }
-  ]);
+  // Start with empty wishlist - items will be added when user actually adds them
+  const [wishlistItems, setWishlistItems] = useState<Array<{
+    id: string;
+    name: string;
+    price: string;
+    image: string;
+    inStock: boolean;
+  }>>([]);
 
   const removeItem = (id: string) => {
     setWishlistItems(wishlistItems.filter(item => item.id !== id));
