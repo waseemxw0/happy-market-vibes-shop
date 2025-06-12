@@ -1,18 +1,56 @@
 
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ShoppingBag, Clock, BellRing } from "lucide-react";
+import { ShoppingBag, Clock, BellRing, CheckCircle } from "lucide-react";
 import TrendingCountdown from "@/components/TrendingCountdown";
+import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/contexts/CartContext";
 
 const DropsPage = () => {
+  const { toast } = useToast();
+  const { addToCart } = useCart();
+  const [notifiedDrops, setNotifiedDrops] = useState<Set<number>>(new Set());
+  
   // Set next drop times (today, tomorrow, and day after)
   const getDropTime = (days: number) => {
     const date = new Date();
     date.setDate(date.getDate() + days);
     date.setHours(9, 0, 0, 0);
     return date;
+  };
+  
+  const handleNotifyMe = (dropId: number, dropName: string) => {
+    setNotifiedDrops(prev => new Set(prev).add(dropId));
+    
+    // Save to localStorage
+    const savedNotifications = JSON.parse(localStorage.getItem('dropNotifications') || '[]');
+    if (!savedNotifications.includes(dropId)) {
+      savedNotifications.push(dropId);
+      localStorage.setItem('dropNotifications', JSON.stringify(savedNotifications));
+    }
+    
+    toast({
+      title: "🔔 Notification Set!",
+      description: `We'll notify you when ${dropName} drops at 9AM EST!`,
+      className: "bg-gradient-to-r from-green-500 to-green-600 text-white border-none"
+    });
+  };
+
+  const handleAddToCart = (drop: any) => {
+    addToCart({
+      id: drop.id.toString(),
+      name: drop.name,
+      price: parseFloat(drop.price.replace('$', '')),
+      image: drop.image
+    });
+    
+    toast({
+      title: "✨ Added to Cart!",
+      description: `${drop.name} added successfully`,
+      className: "bg-gradient-to-r from-orange to-orange/90 text-white border-none"
+    });
   };
   
   const dropsData = [
@@ -82,70 +120,92 @@ const DropsPage = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {dropsData.map((drop) => (
-              <div 
-                key={drop.id} 
-                className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 flex flex-col transition-transform hover:shadow-xl"
-              >
-                <div className="relative">
-                  <img 
-                    src={drop.image} 
-                    alt={drop.name} 
-                    className="w-full h-56 object-cover"
-                  />
+            {dropsData.map((drop) => {
+              const isNotified = notifiedDrops.has(drop.id);
+              
+              return (
+                <div 
+                  key={drop.id} 
+                  className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 flex flex-col transition-all duration-300 hover:shadow-xl hover:scale-105"
+                >
+                  <div className="relative">
+                    <img 
+                      src={drop.image} 
+                      alt={drop.name} 
+                      className="w-full h-56 object-cover"
+                    />
+                    
+                    <div className="absolute top-4 right-4">
+                      {drop.status === "live" ? (
+                        <div className="bg-orange text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1">
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                          </span>
+                          LIVE NOW
+                        </div>
+                      ) : (
+                        <div className="bg-black/70 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                          UPCOMING
+                        </div>
+                      )}
+                    </div>
+                  </div>
                   
-                  <div className="absolute top-4 right-4">
+                  <div className="p-6 flex-grow flex flex-col">
+                    <h3 className="text-xl font-bold mb-2">{drop.name}</h3>
+                    <p className="text-softBlack/70 text-sm mb-4">{drop.description}</p>
+                    
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="text-orange text-xl font-bold">{drop.price}</span>
+                      <span className="line-through text-softBlack/50 text-sm">{drop.originalPrice}</span>
+                    </div>
+                    
                     {drop.status === "live" ? (
-                      <div className="bg-orange text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1">
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-                        </span>
-                        LIVE NOW
-                      </div>
+                      <Button 
+                        className="bg-orange hover:bg-orange/90 text-white rounded-xl py-6 w-full flex items-center gap-2 mt-auto transition-all duration-300 hover:scale-105"
+                        onClick={() => handleAddToCart(drop)}
+                      >
+                        <ShoppingBag className="h-5 w-5" />
+                        Add to Cart
+                      </Button>
                     ) : (
-                      <div className="bg-black/70 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full">
-                        UPCOMING
+                      <div className="mt-auto">
+                        <div className="flex items-center gap-2 bg-gray-50 p-3 rounded-xl mb-3">
+                          <Clock className="h-5 w-5 text-softBlack/70" />
+                          <div className="flex-1">
+                            <div className="text-xs text-softBlack/70 mb-1">Drops in:</div>
+                            <TrendingCountdown endTime={drop.dropTime} label="" />
+                          </div>
+                        </div>
+                        <Button 
+                          variant="outline" 
+                          className={`rounded-xl py-5 w-full flex items-center gap-2 transition-all duration-300 ${
+                            isNotified 
+                              ? 'border-green-300 text-green-700 bg-green-50 hover:bg-green-100' 
+                              : 'border-orange/30 text-orange hover:bg-orange/5'
+                          }`}
+                          onClick={() => handleNotifyMe(drop.id, drop.name)}
+                          disabled={isNotified}
+                        >
+                          {isNotified ? (
+                            <>
+                              <CheckCircle className="h-5 w-5" />
+                              Notifications On
+                            </>
+                          ) : (
+                            <>
+                              <BellRing className="h-5 w-5" />
+                              Notify Me
+                            </>
+                          )}
+                        </Button>
                       </div>
                     )}
                   </div>
                 </div>
-                
-                <div className="p-6 flex-grow flex flex-col">
-                  <h3 className="text-xl font-bold mb-2">{drop.name}</h3>
-                  <p className="text-softBlack/70 text-sm mb-4">{drop.description}</p>
-                  
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="text-orange text-xl font-bold">{drop.price}</span>
-                    <span className="line-through text-softBlack/50 text-sm">{drop.originalPrice}</span>
-                  </div>
-                  
-                  {drop.status === "live" ? (
-                    <Button className="bg-orange hover:bg-orange/90 text-white rounded-xl py-6 w-full flex items-center gap-2 mt-auto">
-                      <ShoppingBag className="h-5 w-5" />
-                      Add to Cart
-                    </Button>
-                  ) : (
-                    <div className="mt-auto">
-                      <div className="flex items-center gap-2 bg-gray-50 p-3 rounded-xl mb-3">
-                        <Clock className="h-5 w-5 text-softBlack/70" />
-                        <div className="flex-1">
-                          <div className="text-xs text-softBlack/70 mb-1">Drops in:</div>
-                          <TrendingCountdown endTime={drop.dropTime} label="" />
-                        </div>
-                      </div>
-                      <Button 
-                        variant="outline" 
-                        className="border-orange/30 text-orange hover:bg-orange/5 rounded-xl py-5 w-full flex items-center gap-2"
-                      >
-                        <BellRing className="h-5 w-5" />
-                        Notify Me
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </main>

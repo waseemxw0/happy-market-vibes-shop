@@ -1,4 +1,3 @@
-
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { TrendingUp, CheckCircle, Users, Star, Package, Clock, RotateCcw, ArrowRight } from "lucide-react";
 import Logo from "@/components/Logo";
 import AiAssistant from "@/components/AiAssistant";
+import { Link } from "react-router-dom";
 
 const About = () => {
   return (
@@ -246,13 +246,14 @@ const About = () => {
               <p className="text-softBlack/70 mb-8">
                 Join thousands of shoppers who trust Trendora to find the best TikTok products.
               </p>
-              <Button 
-                className="bg-orange hover:bg-orange/90 text-white rounded-xl px-8 py-6 text-lg"
-                onClick={() => window.location.href = '/'}
-              >
-                Shop Trending Products
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <Link to="/">
+                <Button 
+                  className="bg-orange hover:bg-orange/90 text-white rounded-xl px-8 py-6 text-lg transition-all duration-300 hover:scale-105"
+                >
+                  Shop Trending Products
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

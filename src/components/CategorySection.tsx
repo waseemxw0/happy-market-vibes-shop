@@ -55,11 +55,21 @@ const CategorySection = ({ title, subtitle, color, categoryKey, products }: Cate
     return undefined;
   };
   
-  // Derive category key from title if not provided
-  const derivedCategoryKey = categoryKey || title.toLowerCase().replace(/\s+/g, '-');
+  // Create proper category keys for routing
+  const categoryRoutes: { [key: string]: string } = {
+    "Eco Gadgets": "eco-gadgets",
+    "Glow-Up Essentials": "glow-up-essentials", 
+    "Viral Home": "viral-home",
+    "Smart Tools": "smart-tools",
+    "Wellness & Self-Care": "wellness-self-care",
+    "Gaming & Tech": "gaming-tech"
+  };
+  
+  // Get the proper route for this category
+  const categoryRoute = categoryKey || categoryRoutes[title] || title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   
   return (
-    <section className="py-14 md:py-20 relative">
+    <section className="py-14 md:py-20 relative" data-section="categories">
       {/* Background decoration with gradient */}
       <div 
         className="absolute inset-0 opacity-10 -z-10 overflow-hidden"
@@ -85,10 +95,10 @@ const CategorySection = ({ title, subtitle, color, categoryKey, products }: Cate
             </div>
             <p className="text-softBlack/70 max-w-xl">{subtitle}</p>
           </div>
-          <Link to={`/collection/${derivedCategoryKey}`}>
+          <Link to={`/collection/${categoryRoute}`}>
             <Button 
               variant="ghost" 
-              className="hidden md:flex items-center gap-1 mt-4 md:mt-0 group rounded-2xl hover:bg-opacity-10" 
+              className="hidden md:flex items-center gap-1 mt-4 md:mt-0 group rounded-2xl hover:bg-opacity-10 transition-all duration-300" 
               style={{ color, backgroundColor: `${color}10` }}
             >
               See All {title} Products 
@@ -110,10 +120,10 @@ const CategorySection = ({ title, subtitle, color, categoryKey, products }: Cate
         </div>
         
         <div className="mt-10 text-center md:hidden">
-          <Link to={`/collection/${derivedCategoryKey}`}>
+          <Link to={`/collection/${categoryRoute}`}>
             <Button 
               variant="outline" 
-              className="w-full flex items-center justify-center gap-1 group rounded-2xl" 
+              className="w-full flex items-center justify-center gap-1 group rounded-2xl transition-all duration-300 hover:scale-105" 
               style={{ color, borderColor: `${color}40` }}
             >
               See All {title} Products 

@@ -3,12 +3,22 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import TrendingCountdown from "./TrendingCountdown";
-import { Bell, ShoppingBag } from "lucide-react";
+import { Bell, ShoppingBag, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/contexts/CartContext";
 
 const DailyDrop = () => {
   const { toast } = useToast();
+  const { addToCart } = useCart();
   const [notified, setNotified] = useState(false);
+  
+  // Check if user is already notified from localStorage
+  useEffect(() => {
+    const isNotified = localStorage.getItem('dailyDropNotified');
+    if (isNotified === 'true') {
+      setNotified(true);
+    }
+  }, []);
   
   // Set next drop time to 9AM tomorrow
   const getNextDropTime = () => {
@@ -21,11 +31,30 @@ const DailyDrop = () => {
   const nextDropTime = getNextDropTime();
   
   const handleNotifyMe = () => {
+    // Save notification preference to localStorage
+    localStorage.setItem('dailyDropNotified', 'true');
+    localStorage.setItem('notificationEmail', 'user@example.com'); // In real app, get from user input
+    
     setNotified(true);
     toast({
-      title: "Notification Set!",
-      description: "We'll notify you when the next viral drop goes live!",
-      className: "bg-gradient-to-r from-orange to-orange/90 text-white"
+      title: "🔔 Notification Set!",
+      description: "We'll notify you when the next viral drop goes live at 9AM EST!",
+      className: "bg-gradient-to-r from-green-500 to-green-600 text-white border-none"
+    });
+  };
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: "self-cleaning-water-bottle",
+      name: "Self-Cleaning Water Bottle",
+      price: 34.99,
+      image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop"
+    });
+    
+    toast({
+      title: "✨ Added to Cart!",
+      description: "Self-Cleaning Water Bottle added successfully",
+      className: "bg-gradient-to-r from-orange to-orange/90 text-white border-none"
     });
   };
   
@@ -77,7 +106,10 @@ const DailyDrop = () => {
                 </div>
                 
                 <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                  <Button className="bg-orange hover:bg-orange/90 text-white rounded-xl py-6 flex-1 flex items-center gap-2">
+                  <Button 
+                    className="bg-orange hover:bg-orange/90 text-white rounded-xl py-6 flex-1 flex items-center gap-2"
+                    onClick={handleAddToCart}
+                  >
                     <ShoppingBag className="h-5 w-5" />
                     Add to Cart
                   </Button>
@@ -96,11 +128,24 @@ const DailyDrop = () => {
                   <Button 
                     onClick={handleNotifyMe} 
                     variant="ghost" 
-                    className={`rounded-xl text-sm ${notified ? 'bg-green-100 text-green-700' : 'bg-black/10 text-softBlack'}`}
+                    className={`rounded-xl text-sm transition-all duration-300 ${
+                      notified 
+                        ? 'bg-green-100 text-green-700 hover:bg-green-200' 
+                        : 'bg-black/10 text-softBlack hover:bg-black/20'
+                    }`}
                     disabled={notified}
                   >
-                    <Bell className="h-4 w-4 mr-2" />
-                    {notified ? 'Notification Set' : 'Notify Me'}
+                    {notified ? (
+                      <>
+                        <CheckCircle className="h-4 w-4 mr-2" />
+                        Notifications On
+                      </>
+                    ) : (
+                      <>
+                        <Bell className="h-4 w-4 mr-2" />
+                        Notify Me
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
