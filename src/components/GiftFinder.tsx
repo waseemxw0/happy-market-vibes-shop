@@ -77,10 +77,10 @@ const GiftFinder = () => {
     <>
       <Button
         onClick={toggleOpen}
-        className="fixed left-4 bottom-36 md:bottom-32 z-40 bg-white text-softBlack shadow-lg px-3 py-2 rounded-full flex items-center gap-2 hover:bg-gray-100 hover:scale-105 transition-all duration-300"
+        className="fixed left-4 bottom-32 z-40 bg-white text-softBlack shadow-lg px-3 py-2 rounded-full flex items-center gap-2 hover:bg-gray-100 hover:scale-105 transition-all duration-300 border border-gray-200"
       >
         <Search className="h-4 w-4" />
-        <span className="hidden sm:inline">Gift Finder</span>
+        <span className="hidden sm:inline text-sm">Gift Finder</span>
       </Button>
       
       {isOpen && (

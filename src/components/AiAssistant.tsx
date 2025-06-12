@@ -184,11 +184,11 @@ const AiAssistant = () => {
 
   return (
     <>
-      {/* Chat bubble button - positioned for better mobile experience */}
+      {/* Chat bubble button - improved positioning */}
       <button 
         className={cn(
-          "fixed bottom-36 right-16 z-40 bg-gradient-to-r from-orange to-orange/90 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl",
-          "md:bottom-32 md:right-4 md:p-4",
+          "fixed bottom-36 right-4 z-40 bg-gradient-to-r from-orange to-orange/90 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl",
+          "md:bottom-8 md:right-6 md:p-4",
           isOpen && "rotate-90 bg-softBlack"
         )}
         onClick={() => setIsOpen(!isOpen)}
@@ -199,56 +199,56 @@ const AiAssistant = () => {
         )}
       </button>
       
-      {/* Chat window - optimized for mobile */}
+      {/* Chat window - improved layout and positioning */}
       <div className={cn(
         "fixed z-30 transition-all duration-300 overflow-hidden",
-        "bottom-52 right-2 left-2 max-w-none",
-        "md:bottom-52 md:right-4 md:left-auto md:w-80 md:max-w-96",
-        "bg-white rounded-xl shadow-2xl border border-gray-200",
-        isOpen ? "opacity-100 transform translate-y-0" : "opacity-0 pointer-events-none transform translate-y-10"
+        "bottom-52 right-2 left-2 max-w-none max-h-[70vh]",
+        "md:bottom-24 md:right-6 md:left-auto md:w-96 md:max-w-md",
+        "bg-white rounded-2xl shadow-2xl border border-gray-200",
+        isOpen ? "opacity-100 transform translate-y-0 scale-100" : "opacity-0 pointer-events-none transform translate-y-8 scale-95"
       )}>
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange to-orange/90 text-white p-3 md:p-4 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-orange to-orange/90 text-white p-4 flex items-center justify-between rounded-t-2xl">
           <div className="flex items-center gap-2">
-            <MessageCircle className="h-4 w-4 md:h-5 md:w-5" />
-            <span className="font-medium text-sm md:text-base">AI Voice Assistant</span>
-            {isSpeaking && <Volume2 className="h-3 w-3 md:h-4 md:w-4 animate-pulse" />}
+            <MessageCircle className="h-5 w-5" />
+            <span className="font-medium">AI Voice Assistant</span>
+            {isSpeaking && <Volume2 className="h-4 w-4 animate-pulse" />}
           </div>
-          <button onClick={() => setIsOpen(false)}>
-            <X className="h-4 w-4 md:h-5 md:w-5" />
+          <button onClick={() => setIsOpen(false)} className="hover:bg-white/20 rounded-full p-1 transition-colors">
+            <X className="h-5 w-5" />
           </button>
         </div>
         
         {/* Messages */}
-        <div className="h-72 md:h-96 overflow-y-auto p-3 md:p-4 flex flex-col gap-2 md:gap-3">
+        <div className="h-80 overflow-y-auto p-4 flex flex-col gap-3 bg-gray-50/30">
           {messages.map((message) => (
             <div 
               key={message.id} 
               className={cn(
-                "max-w-[85%] p-2 md:p-3 rounded-lg text-sm",
+                "max-w-[85%] p-3 rounded-2xl text-sm animate-fade-in",
                 message.sender === 'user' 
-                  ? "bg-orange/10 ml-auto rounded-tr-none" 
-                  : "bg-gray-100 mr-auto rounded-tl-none"
+                  ? "bg-orange/10 ml-auto rounded-tr-md border border-orange/20" 
+                  : "bg-white mr-auto rounded-tl-md shadow-sm border border-gray-100"
               )}
             >
-              <p className="text-xs md:text-sm">{message.content}</p>
+              <p className="text-sm leading-relaxed">{message.content}</p>
               
               {message.includesProducts && (
-                <div className="mt-2 grid grid-cols-1 gap-1 md:gap-2">
+                <div className="mt-3 grid grid-cols-1 gap-2">
                   {demoProducts.map((product) => (
-                    <div key={product.id} className="flex items-center gap-2 bg-white p-1.5 md:p-2 rounded-lg shadow-sm">
+                    <div key={product.id} className="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
                       <img 
                         src={product.image} 
                         alt={product.name} 
-                        className="w-8 h-8 md:w-12 md:h-12 object-cover rounded-md"
+                        className="w-12 h-12 object-cover rounded-lg"
                         loading="lazy"
                       />
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-xs font-medium truncate">{product.name}</h4>
-                        <p className="text-xs text-orange">{product.price}</p>
+                        <h4 className="text-sm font-medium truncate">{product.name}</h4>
+                        <p className="text-sm text-orange font-semibold">{product.price}</p>
                       </div>
-                      <Button size="sm" variant="ghost" className="h-6 w-6 md:h-8 md:w-8 p-0 flex-shrink-0">
-                        <ShoppingBag className="h-3 w-3 md:h-4 md:w-4" />
+                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0 flex-shrink-0 hover:bg-orange/10">
+                        <ShoppingBag className="h-4 w-4" />
                       </Button>
                     </div>
                   ))}
@@ -259,11 +259,11 @@ const AiAssistant = () => {
                 <Button 
                   size="sm" 
                   variant="ghost" 
-                  className="mt-1 md:mt-2 h-5 md:h-6 text-xs"
+                  className="mt-2 h-6 text-xs hover:bg-orange/10"
                   onClick={() => speakText(message.content)}
                   disabled={isSpeaking}
                 >
-                  <Volume2 className="h-2 w-2 md:h-3 md:w-3 mr-1" />
+                  <Volume2 className="h-3 w-3 mr-1" />
                   {isSpeaking ? 'Speaking...' : 'Speak'}
                 </Button>
               )}
@@ -272,31 +272,31 @@ const AiAssistant = () => {
         </div>
         
         {/* Input */}
-        <form onSubmit={handleSendMessage} className="border-t p-2 md:p-3 flex gap-1 md:gap-2">
+        <form onSubmit={handleSendMessage} className="border-t p-3 flex gap-2 bg-white rounded-b-2xl">
           <input 
             type="text" 
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about trending products..."
-            className="flex-1 py-1.5 md:py-2 px-2 md:px-3 border rounded-lg text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-orange/50"
+            className="flex-1 py-2 px-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange/50 focus:border-transparent"
           />
           <Button 
             type="button"
             size="sm" 
             variant={isListening ? "destructive" : "ghost"}
-            className={cn("rounded-lg p-1.5 md:p-2", isListening && "animate-pulse")}
+            className={cn("rounded-xl p-2", isListening && "animate-pulse")}
             onClick={startListening}
             disabled={isListening}
           >
-            {isListening ? <MicOff className="h-3 w-3 md:h-4 md:w-4" /> : <Mic className="h-3 w-3 md:h-4 md:w-4" />}
+            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
           </Button>
           <Button 
             type="submit" 
             size="sm" 
-            className="bg-orange hover:bg-orange/90 rounded-lg p-1.5 md:p-2"
+            className="bg-orange hover:bg-orange/90 rounded-xl p-2"
             disabled={!input.trim()}
           >
-            <Send className="h-3 w-3 md:h-4 md:w-4" />
+            <Send className="h-4 w-4" />
           </Button>
         </form>
       </div>

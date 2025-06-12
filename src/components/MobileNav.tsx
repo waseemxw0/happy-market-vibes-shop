@@ -1,4 +1,3 @@
-
 import React, { memo } from "react";
 import { Home, Search, ShoppingBag, Heart, Calendar, TrendingUp, User, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -22,11 +21,8 @@ const MobileNav = memo(() => {
             <h3 className="text-lg font-bold text-center mb-4 md:mb-6 text-softBlack">More Options</h3>
             
             <div className="grid grid-cols-3 gap-3 mb-4 md:mb-6">
-              <MenuButton icon={<Search className="h-5 w-5" />} label="Search" href="/search" onClick={() => setShowMoreMenu(false)} />
               <MenuButton icon={<User className="h-5 w-5" />} label="Account" href="/account" onClick={() => setShowMoreMenu(false)} />
-              <MenuButton icon={<TikTokIcon size={20} />} label="Feed" href="/tiktok-feed" onClick={() => setShowMoreMenu(false)} />
               <MenuButton icon={<Calendar className="h-5 w-5" />} label="New" href="/new-arrivals" onClick={() => setShowMoreMenu(false)} />
-              <MenuButton icon={<Heart className="h-5 w-5" />} label="Saved" href="/wishlist" onClick={() => setShowMoreMenu(false)} />
               <MenuButton icon={<ShoppingBag className="h-5 w-5" />} label="Orders" href="/orders" onClick={() => setShowMoreMenu(false)} />
             </div>
             
@@ -51,7 +47,30 @@ const MobileNav = memo(() => {
       )}
 
       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 z-40 md:hidden shadow-lg safe-area-pb">
-        <div className="grid grid-cols-6 py-1.5 px-1">
+        <div className="grid grid-cols-7 py-1.5 px-1">
+          {/* Left side icons */}
+          <NavItem 
+            icon={<TikTokIcon size={16} />} 
+            label="Feed" 
+            href="/tiktok-feed"
+            isActive={path.includes("/tiktok-feed")}
+          />
+          
+          <NavItem 
+            icon={<Heart className="h-4 w-4" />} 
+            label="Wishlist" 
+            href="/wishlist"
+            isActive={path.includes("/wishlist")}
+          />
+          
+          <NavItem 
+            icon={<Search className="h-4 w-4" />} 
+            label="Search" 
+            href="/search"
+            isActive={path.includes("/search")}
+          />
+          
+          {/* Center icons */}
           <NavItem 
             icon={<Home className="h-4 w-4" />} 
             label="Home" 
@@ -66,20 +85,7 @@ const MobileNav = memo(() => {
             isActive={path.includes("/top10")}
           />
           
-          <NavItem 
-            icon={<Calendar className="h-4 w-4" />} 
-            label="Drops" 
-            href="/drops"
-            isActive={path.includes("/drops")}
-          />
-          
-          <NavItem 
-            icon={<Heart className="h-4 w-4" />} 
-            label="Wishlist" 
-            href="/wishlist"
-            isActive={path.includes("/wishlist")}
-          />
-          
+          {/* Right side icons */}
           <NavItem 
             icon={<Menu className="h-4 w-4" />} 
             label="More" 
