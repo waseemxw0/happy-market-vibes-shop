@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShoppingBag } from "lucide-react";
@@ -10,7 +9,7 @@ import OptimizedImage from "./OptimizedImage";
 
 const HeroSection = () => {
   const { scrollToElement } = useSmoothScroll();
-  const [heroRef, isInView] = useInView({ threshold: 0.2 });
+  const [heroRef, isInView] = useInView<HTMLDivElement>({ threshold: 0.2 });
   
   const handleShopTrending = () => {
     scrollToElement('[data-section="trending"]', 100);
