@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -77,24 +76,28 @@ const GiftFinder = () => {
     <>
       <Button
         onClick={toggleOpen}
-        className="fixed left-4 bottom-32 z-40 bg-white text-softBlack shadow-lg px-3 py-2 rounded-full flex items-center gap-2 hover:bg-gray-100 hover:scale-105 transition-all duration-300 border border-gray-200"
+        className="fixed left-5 bottom-40 z-50 bg-white text-softBlack shadow-xl px-4 py-2 rounded-full flex items-center gap-2 hover:bg-orange/10 hover:scale-105 transition-all duration-300 border border-orange/30"
+        aria-label="Open AI Gift Finder"
+        style={{ minWidth: 44, minHeight: 44 }}
       >
         <Search className="h-4 w-4" />
         <span className="hidden sm:inline text-sm">Gift Finder</span>
       </Button>
-      
+
       {isOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <Card className="w-full max-w-md max-h-[80vh] overflow-auto relative animate-scale-in">
+          <Card className="w-full max-w-xs sm:max-w-md max-h-[80vh] overflow-auto relative animate-scale-in shadow-2xl border-orange/20 rounded-3xl">
+            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-orange to-mint rounded-t-3xl"></div>
             <Button
               variant="ghost"
-              className="absolute top-2 right-2 text-softBlack/70 hover:text-softBlack z-10"
+              className="absolute top-3 right-3 text-softBlack/70 hover:text-softBlack z-10"
               onClick={toggleOpen}
+              aria-label="Close Gift Finder"
+              style={{ minWidth: 32, minHeight: 32 }}
             >
               ✕
             </Button>
-            
-            <CardContent className="pt-8 pb-6">
+            <CardContent className="pt-10 pb-6">
               {!showResults ? (
                 <>
                   <div className="text-center mb-6">
@@ -196,5 +199,4 @@ const GiftFinder = () => {
     </>
   );
 };
-
 export default GiftFinder;

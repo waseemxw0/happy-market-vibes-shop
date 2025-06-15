@@ -49,57 +49,61 @@ const MobileNav = memo(() => {
       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 z-40 md:hidden shadow-lg safe-area-pb">
         <div className="grid grid-cols-7 py-1.5 px-1">
           {/* Left side icons */}
-          <NavItem 
-            icon={<TikTokIcon size={16} />} 
-            label="Feed" 
+          <NavItem
+            icon={<TikTokIcon size={16} />}
+            label="Feed"
             href="/tiktok-feed"
             isActive={path.includes("/tiktok-feed")}
+            ariaLabel="Go to TikTok viral feed"
           />
-          
-          <NavItem 
-            icon={<Heart className="h-4 w-4" />} 
-            label="Wishlist" 
+          <NavItem
+            icon={<Heart className="h-4 w-4" />}
+            label="Wishlist"
             href="/wishlist"
             isActive={path.includes("/wishlist")}
+            ariaLabel="Go to Wishlist"
           />
-          
-          <NavItem 
-            icon={<Search className="h-4 w-4" />} 
-            label="Search" 
+          <NavItem
+            icon={<Search className="h-4 w-4" />}
+            label="Search"
             href="/search"
             isActive={path.includes("/search")}
+            ariaLabel="Search"
           />
-          
+
           {/* Center icons */}
-          <NavItem 
-            icon={<Home className="h-4 w-4" />} 
-            label="Home" 
-            href="/" 
+          <NavItem
+            icon={<Home className="h-4 w-4" />}
+            label="Home"
+            href="/"
             isActive={path === "/"}
+            ariaLabel="Go to Home"
           />
-          
-          <NavItem 
-            icon={<TrendingUp className="h-4 w-4" />} 
-            label="Trending" 
+
+          <NavItem
+            icon={<TrendingUp className="h-4 w-4" />}
+            label="Trending"
             href="/top10"
             isActive={path.includes("/top10")}
+            ariaLabel="Go to Trending"
           />
-          
+
           {/* Right side icons */}
-          <NavItem 
-            icon={<Menu className="h-4 w-4" />} 
-            label="More" 
+          <NavItem
+            icon={<Menu className="h-4 w-4" />}
+            label="More"
             onClick={() => setShowMoreMenu(!showMoreMenu)}
             isActive={showMoreMenu}
+            ariaLabel="Show more options"
           />
-          
-          <NavItem 
-            icon={<ShoppingBag className="h-4 w-4" />} 
-            label="Cart" 
+          <NavItem
+            icon={<ShoppingBag className="h-4 w-4" />}
+            label="Cart"
             href="/cart"
             isActive={path.includes("/cart")}
             badge={getTotalItems()}
             isCart={true}
+            ariaLabel="Go to Cart"
           />
         </div>
       </div>
@@ -117,12 +121,13 @@ interface NavItemProps {
   badge?: number;
   onClick?: () => void;
   isCart?: boolean;
+  ariaLabel?: string;
 }
 
-const NavItem = memo(({ icon, label, href, isActive, badge, onClick, isCart }: NavItemProps) => {
+const NavItem = memo(({ icon, label, href, isActive, badge, onClick, isCart, ariaLabel }: NavItemProps) => {
   const content = (
-    <>
-      <div className="relative">
+    <div className="flex flex-col items-center">
+      <div className="relative" style={{ minHeight: 44, minWidth: 44 }}>
         <div className={cn(
           "transition-all duration-200",
           isActive && "scale-110"
@@ -141,30 +146,51 @@ const NavItem = memo(({ icon, label, href, isActive, badge, onClick, isCart }: N
       )}>
         {label}
       </span>
-    </>
+    </div>
   );
-  
-  const classes = cn(
-    "flex flex-col items-center justify-center py-1.5 px-0.5 transition-all duration-200 relative min-h-[56px]",
-    isActive 
-      ? "text-orange" 
-      : "text-softBlack/60 hover:text-softBlack/80",
-    isCart && "bg-orange/5 rounded-t-xl mx-0.5",
-    !isCart && isActive && "after:absolute after:bottom-0.5 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-orange after:rounded-full"
-  );
-  
-  if (onClick) {
-    return (
-      <button onClick={onClick} className={classes}>
-        {content}
-      </button>
-    );
-  }
-  
-  return (
-    <Link to={href || "#"} className={classes}>
+
+  // Tooltip for accessibility
+  const buttonOrLink = onClick ? (
+    <button
+      onClick={onClick}
+      className={cn(
+        "flex flex-col items-center justify-center py-1.5 px-0.5 transition-all duration-200 relative min-h-[56px] w-full focus:outline-none focus:ring-2 focus:ring-orange/40",
+        isActive
+          ? "text-orange"
+          : "text-softBlack/60 hover:text-softBlack/80",
+        isCart && "bg-orange/5 rounded-t-xl mx-0.5",
+        !isCart && isActive && "after:absolute after:bottom-0.5 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-orange after:rounded-full"
+      )}
+      aria-label={ariaLabel || label}
+      tabIndex={0}
+      style={{ minHeight: 44, minWidth: 44 }}
+    >
+      {content}
+    </button>
+  ) : (
+    <Link
+      to={href || "#"}
+      className={cn(
+        "flex flex-col items-center justify-center py-1.5 px-0.5 transition-all duration-200 relative min-h-[56px] w-full focus:outline-none focus:ring-2 focus:ring-orange/40",
+        isActive
+          ? "text-orange"
+          : "text-softBlack/60 hover:text-softBlack/80",
+        isCart && "bg-orange/5 rounded-t-xl mx-0.5",
+        !isCart && isActive && "after:absolute after:bottom-0.5 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-orange after:rounded-full"
+      )}
+      aria-label={ariaLabel || label}
+      tabIndex={0}
+      style={{ minHeight: 44, minWidth: 44 }}
+    >
       {content}
     </Link>
+  );
+
+  // Tooltip hover, also a11y for focus
+  return (
+    <div title={label} className="flex-1">
+      {buttonOrLink}
+    </div>
   );
 });
 
