@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { X, MessageCircle, Send, ShoppingBag, Mic, MicOff, Volume2 } from "lucide-react";
@@ -70,15 +71,6 @@ const AiAssistant = () => {
   const [messages, setMessages] = useState<Message[]>([
     assistantResponses.hello
   ]);
-  const chatInputRef = useRef<HTMLInputElement | null>(null);
-
-  React.useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => {
-        chatInputRef.current?.focus();
-      }, 100);
-    }
-  }, [isOpen]);
 
   // Text-to-speech function
   const speakText = useCallback((text: string) => {
@@ -192,55 +184,43 @@ const AiAssistant = () => {
 
   return (
     <>
-      {/* Chat bubble button */}
-      <button
-        aria-label={isOpen ? "Close AI chat" : "Open AI chat"}
+      {/* Chat bubble button - improved positioning */}
+      <button 
         className={cn(
-          "fixed bottom-24 right-6 z-50 bg-gradient-to-r from-orange to-orange/90 text-white rounded-full p-4 shadow-xl transition-all duration-300 hover:scale-110 focus:ring-2 focus:ring-orange/40",
+          "fixed bottom-36 right-4 z-40 bg-gradient-to-r from-orange to-orange/90 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl",
+          "md:bottom-8 md:right-6 md:p-4",
           isOpen && "rotate-90 bg-softBlack"
         )}
-        style={{ minWidth: 56, minHeight: 56 }}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+        {isOpen ? <X className="h-5 w-5 md:h-6 md:w-6" /> : <MessageCircle className="h-5 w-5 md:h-6 md:w-6" />}
         {(isListening || isSpeaking) && (
           <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
         )}
       </button>
-
-      {/* Chat window */}
-      <div
-        className={cn(
-          "fixed z-40 transition-all duration-300 overflow-hidden",
-          "bottom-36 right-2 left-2 max-w-[500px] mx-auto",
-          "sm:bottom-36 sm:right-8 sm:left-auto sm:w-full sm:max-w-md",
-          "bg-white rounded-3xl shadow-2xl border border-gray-200",
-          "animate-scale-in",
-          isOpen ? "opacity-100 translate-y-0 scale-100 pointer-events-auto" : "opacity-0 translate-y-12 scale-95 pointer-events-none"
-        )}
-        role="dialog"
-        aria-modal="true"
-        tabIndex={-1}
-        style={{ minWidth: 320, maxWidth: "95vw" }}
-      >
+      
+      {/* Chat window - improved layout and positioning */}
+      <div className={cn(
+        "fixed z-30 transition-all duration-300 overflow-hidden",
+        "bottom-52 right-2 left-2 max-w-none max-h-[70vh]",
+        "md:bottom-24 md:right-6 md:left-auto md:w-96 md:max-w-md",
+        "bg-white rounded-2xl shadow-2xl border border-gray-200",
+        isOpen ? "opacity-100 transform translate-y-0 scale-100" : "opacity-0 pointer-events-none transform translate-y-8 scale-95"
+      )}>
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange to-orange/90 text-white p-4 flex items-center justify-between rounded-t-3xl">
+        <div className="bg-gradient-to-r from-orange to-orange/90 text-white p-4 flex items-center justify-between rounded-t-2xl">
           <div className="flex items-center gap-2">
             <MessageCircle className="h-5 w-5" />
             <span className="font-medium">AI Voice Assistant</span>
             {isSpeaking && <Volume2 className="h-4 w-4 animate-pulse" />}
           </div>
-          <button
-            aria-label="Close chat"
-            onClick={() => setIsOpen(false)}
-            className="hover:bg-white/20 rounded-full p-1.5 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange"
-            style={{ minWidth: 32, minHeight: 32 }}
-          >
+          <button onClick={() => setIsOpen(false)} className="hover:bg-white/20 rounded-full p-1 transition-colors">
             <X className="h-5 w-5" />
           </button>
         </div>
+        
         {/* Messages */}
-        <div className="h-80 overflow-y-auto p-4 flex flex-col gap-3 bg-gray-50/30 scrollbar-thin">
+        <div className="h-80 overflow-y-auto p-4 flex flex-col gap-3 bg-gray-50/30">
           {messages.map((message) => (
             <div 
               key={message.id} 
@@ -290,29 +270,19 @@ const AiAssistant = () => {
             </div>
           ))}
         </div>
+        
         {/* Input */}
-        <form
-          onSubmit={handleSendMessage}
-          className="border-t p-3 flex gap-2 bg-white rounded-b-3xl"
-        >
-          <input
-            ref={chatInputRef}
-            type="text"
+        <form onSubmit={handleSendMessage} className="border-t p-3 flex gap-2 bg-white rounded-b-2xl">
+          <input 
+            type="text" 
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about trending products..."
             className="flex-1 py-2 px-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange/50 focus:border-transparent"
-            aria-label="Message AI assistant"
-            onKeyDown={e => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                // let submit handle
-              }
-            }}
           />
-          <Button
+          <Button 
             type="button"
-            aria-label={isListening ? "Listening..." : "Start voice input"}
-            size="sm"
+            size="sm" 
             variant={isListening ? "destructive" : "ghost"}
             className={cn("rounded-xl p-2", isListening && "animate-pulse")}
             onClick={startListening}
@@ -320,10 +290,9 @@ const AiAssistant = () => {
           >
             {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
           </Button>
-          <Button
-            type="submit"
-            aria-label="Send message"
-            size="sm"
+          <Button 
+            type="submit" 
+            size="sm" 
             className="bg-orange hover:bg-orange/90 rounded-xl p-2"
             disabled={!input.trim()}
           >
